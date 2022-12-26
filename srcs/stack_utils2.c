@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_main.c                                          :+:      :+:    :+:   */
+/*   stack_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:10:40 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/20 12:29:01 by ntan-wan         ###   ########.fr       */
-/*                                                                           */
+/*   Created: 2022/12/25 14:42:14 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/12/25 14:42:52 by ntan-wan         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "stack.h"
 
-int	main(int ac, char **av, char **envp)
+void	stack_free(t_stack **stack)
 {
-	ms_signals_handler();
-	util_clear_screen();
-	return (EXIT_SUCCESS);
+	free((*stack)->arr);
+	free(*stack);
+	*stack = NULL;
 }

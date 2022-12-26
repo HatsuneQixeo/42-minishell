@@ -12,6 +12,9 @@ ifeq ($(MODE), debug)
 	CFLAGS += -fsanitize=address
 endif
 
+LIBFT_DIR = libft/
+LIBFT_LIB = libft.a
+
 HEADER_DIR =  includes/
 SRCS_DIR = srcs/
 SRCS = $(shell find srcs/*.c)
@@ -35,7 +38,8 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@echo "$(GREEN)Compiling : $< $(COLOR_OFF)"
 
 $(NAME) : $(OBJS_PREFIXED)
-	@$(CC) $(OBJS_PREFIXED) $(REQUIRED_LIB) -o $(NAME)
+	@make bonus -C $(LIBFT_DIR)
+	@$(CC) $(OBJS_PREFIXED) $(REQUIRED_LIB) $(LIBFT_DIR)$(LIBFT_LIB) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
 bonus : all
@@ -45,9 +49,13 @@ clean :
 	@echo "$(RED)Removed : obj files ($(NAME))$(COLOR_OFF)"
 
 fclean : clean
+	@make fclean -C $(LIBFT_DIR)
 	@rm -rf $(NAME)
 	@echo "$(RED)Removed : $(NAME)$(COLOR_OFF)"
 
 re : fclean all
+
+kill :
+	@killall -9 $(NAME)
 
 .PHONY : clean fclean all re

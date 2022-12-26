@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_main.c                                          :+:      :+:    :+:   */
+/*   ms_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:10:40 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/20 12:29:01 by ntan-wan         ###   ########.fr       */
-/*                                                                           */
+/*   Created: 2022/12/20 12:29:31 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/12/26 17:05:48 by ntan-wan         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	ms_signals_handler(void)
 {
-	ms_signals_handler();
-	util_clear_screen();
-	return (EXIT_SUCCESS);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }
