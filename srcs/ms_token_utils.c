@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 17:31:41 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 15:43:30 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/26 18:22:30 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,14 @@ t_token	*token_init(char *token_start, char *token_end)
 	return (new_token);
 }
 
-// void	token_value_print(void *token)
-// {
-// 	t_token	*t;
-
-// 	t = (t_token *)token;
-// 	printf("%s\n", t->value);
-// }
+// void	set_token_type
 
 void	token_add(t_list **head, t_token *token)
 {
 	ft_lstadd_back(head, ft_lstnew(token));
 }
 
-void	ms_tokenize(char *input)
+t_list	*ms_tokenize(char *input)
 {
 	int		i;
 	t_list	*tokens;
@@ -68,4 +62,25 @@ void	ms_tokenize(char *input)
 		}
 		input++;
 	}
+	return (tokens);
+}
+
+void	ms_tokens_free(t_list **tokens)
+{
+	ft_lstclear(tokens, free);
+}
+
+/* ------------------------------------------------------------------ */
+
+void	ms_token_value_print(void *tokens)
+{
+	t_token	*t;
+	
+	t = (t_token *)tokens;
+	printf("%s\n", t->value);
+}
+
+void	ms_token_list_value_print(t_list *tokens)
+{
+	ft_lstiter(tokens, ms_token_value_print);
 }

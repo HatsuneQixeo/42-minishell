@@ -6,12 +6,16 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:55:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:07:08 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/26 18:22:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*void    lexer(char *input)
+# include "minishell.h"
+
+void    ms_lexer(char *input)
 {
-	char	**tokens;
+	t_list	*tokens;	
+
+	tokens = ms_tokenize(input);
 	
-}*/
+}

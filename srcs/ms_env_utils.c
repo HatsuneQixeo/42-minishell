@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:56:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:04:59 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/26 17:54:27 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_env_var_value(t_env *env, char *var_name)
 	return (NULL);
 }
 
-t_env	*ms_init_env(char **envp)
+t_env	*ms_env_init(char **envp)
 {
 	t_env	*env;
 

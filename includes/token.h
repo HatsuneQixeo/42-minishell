@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 17:31:06 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:41:09 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/26 18:21:47 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-void	ms_tokenize(char *input);
+t_list	*ms_tokenize(char *input);
+void	ms_tokens_free(t_list **tokens);
+void	ms_token_value_print(void *tokens);
+void	ms_token_list_value_print(t_list *tokens);
 #endif

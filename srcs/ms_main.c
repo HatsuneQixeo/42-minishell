@@ -14,7 +14,11 @@
 
 int	main(int ac, char **av, char **envp)
 {
+	t_env	*env;
+
+	env = ms_env_init(envp);
 	ms_signals_handler();
 	util_clear_screen();
+	ms_routine_run();
 	return (EXIT_SUCCESS);
 }

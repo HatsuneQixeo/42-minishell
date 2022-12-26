@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:18:39 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:08:22 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/26 18:16:09 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ms_routine_run(void)
 		if (input)
 		{
 			add_history(input);
-			ms_tokenize(input);
+			ms_lexer(input);
 		}
 		free(input);
 	}
