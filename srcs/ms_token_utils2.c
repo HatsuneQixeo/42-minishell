@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 15:43:15 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/02 13:38:03 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/02 15:08:40 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,17 @@ void	*ft_realloc(void *ptr, size_t new_size)
 		return (malloc(new_size));
 	else if (!new_size)
 		return (free(ptr), NULL);
-	char **c_ptr;
+	unsigned char	**c_ptr;
+	int i;
 
-	c_ptr = (char **)ptr;
-	int i = -1;
-	while (c_ptr[++i]);
-		printf("size %d\n", i);
+	c_ptr = (unsigned char **)ptr;
+	i = -1;
+	while (c_ptr[++i])
+	{
+		printf("value %d\n", c_ptr[i]);
+		printf("size %d\n", i + 1);
+	}
+	printf("size %d\n", i + 1);
 	// size_t size = sizeof(c_ptr) / sizeof(c_ptr[0]);
 	// if (c_ptr)
 		// printf("%ld\n", size);
@@ -144,6 +149,7 @@ int	get_tokens_count(char *input)
 	while (token)
 	{
 		count++;
+		free(token);
 		token = ms_strtok(NULL, " ");
 	}
 	// printf("%d\n", count);
@@ -157,16 +163,20 @@ char	**tokens_array_create(char *input)
 	char	*token;
 	char	**tokens_arr;
 
-	count = get_tokens_count(input);
-	tokens_arr = NULL;
-	tokens_arr = malloc(sizeof(count + 1) * sizeof(char *));
-	tokens_arr[count] = "";
-	token = ms_strtok(input, " ");
 	i = -1;
+	// count = 0;
+	count = get_tokens_count(input);
+	// token = "";
+	// printf("count %d\n", count);
+	// tokens_arr = NULL;
+	tokens_arr = malloc((count + 1) * sizeof(char *));
+	tokens_arr[count] = 0;
+	token = ms_strtok(input, " ");
 	// count = 0;
 	while (token)
 	{
 		// printf("%s\n", token);
+		// tokens_arr[++i] = "";
 		tokens_arr[++i] = token;
 		// printf("%s\n", tokens_arr[i]);
 		// tokens_arr = ft_realloc(tokens_arr, count * sizeof(char *), ++count * sizeof(char *));

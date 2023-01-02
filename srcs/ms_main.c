@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // char	*ms_tokenize(char *str, char *delimiter);
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+void	*ft_realloc(void *ptr, size_t new_size);
 char	**tokens_array_create(char *input);
 char	**tokens_array_create2(char *input);
 char	*ms_strtok(char *str, char *delimiter);
@@ -50,22 +50,50 @@ int	main(int ac, char **av, char **envp)
 
 	str = "hello world my name is wang";
 	char **arr;
-	arr = NULL;
+	// arr = NULL;
 	// arr = tokens_array_create(str);
-	arr = tokens_array_create2(str);
+	arr = tokens_array_create(str);
 	int i;
 
-	// i = -1;
-	// while (arr[++i]) {
-		// printf("%s\n", arr[i]);
-	// }
 	i = -1;
+	// while (arr[++i]) {
+	// 	printf("%s\n", arr[i]);
+	// }
+	// i = -1;
 	// // while (++i < 2)
 	while (arr[++i])
 	{
-		free(arr[i]);
+		// free(arr[i]);
+		printf("%d\n", i);
+		printf("%s\n", arr[i]);
 	}
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
 	free(arr);
+
+	// int *arr;
+
+	// arr = malloc(sizeof(int) * 4);
+
+	// arr[0] = 0;
+	// arr[1] = 1;
+	// arr[2] = 2;
+	// arr[3] = 3;
+
+	// // ft_realloc(arr, 5 * sizeof(int));
+
+	// int	*c_ptr;
+	// int i;
+
+	// c_ptr = arr;
+	// i = -1;
+	// while (c_ptr[++i])
+	// {
+	// 	printf("value %d\n", c_ptr[i]);
+	// 	// printf("size %d\n", i + 1);
+	// }
+	// printf("size %d\n", i + 1);
 
 	// char	**str;
 
