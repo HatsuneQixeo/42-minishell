@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 17:11:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 18:09:12 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/31 18:30:38 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ void	ms_signals_handler(void);
 /* routine */
 void	ms_routine_run(void);
 
-/* utils */
-void	util_clear_screen(void);
-char	**util_str_arr_dup(char **arr);
-
 /* env_utils */
 t_env	*ms_env_init(char **envp);
 void	env_free(t_env **environment);
@@ -52,4 +48,10 @@ bool	is_balanced_parens(char *str);
 
 /* lexer */
 void    ms_lexer(char *input);
+
+/* utils */
+void	util_clear_screen(void);
+char	**util_str_arr_dup(char **arr);
+// char *my_strtok(char *str, const char *delim);
+// char	*ms_tokenize(char *str, char *delimiter);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 17:31:41 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 18:22:30 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2022/12/31 18:40:25 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	token_add(t_list **head, t_token *token)
 	ft_lstadd_back(head, ft_lstnew(token));
 }
 
-t_list	*ms_tokenize(char *input)
+/*t_list	*ms_tokenize(char *input)
 {
 	int		i;
 	t_list	*tokens;
@@ -63,7 +63,7 @@ t_list	*ms_tokenize(char *input)
 		input++;
 	}
 	return (tokens);
-}
+}*/
 
 void	ms_tokens_free(t_list **tokens)
 {
