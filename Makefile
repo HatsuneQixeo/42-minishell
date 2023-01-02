@@ -17,10 +17,11 @@ LIBFT_LIB = libft.a
 
 HEADER_DIR =  includes/
 SRCS_DIR = srcs/
-SRCS = $(shell find srcs/*.c)
+SUBDIR = $(shell find srcs -type d)
+SRCS = $(wildcard *.c $(foreach fd, $(SUBDIR), $(fd)/*.c))
+NODIR_SRC = $(notdir $(SRCS))
 OBJS_DIR = objs/
-OBJS = $(notdir $(SRCS:.c=.o))
-OBJS_PREFIXED = $(addprefix $(OBJS_DIR), $(OBJS))
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:c=o))
 
 #text_color
 COLOR_OFF =\033[0m
@@ -32,25 +33,21 @@ MAGNETA =\033[95m
 
 all : $(NAME)
 
-$(OBJS_DIR)%.o : $(SRCS_DIR)%.c
-	@mkdir -p $(OBJS_DIR)
-	@$(CC) -c $< -o $@ -I$(HEADER_DIR)
-	@echo "$(GREEN)Compiling : $< $(COLOR_OFF)"
+$(OBJS_DIR)%.o : %.c
+	@mkdir -p $(@D)
+	@$(CC) -o $@  -c $< -I$(HEADER_DIR)
 
-$(NAME) : $(OBJS_PREFIXED)
+$(NAME) : $(OBJS)
 	@make bonus -C $(LIBFT_DIR)
-	@$(CC) $(OBJS_PREFIXED) $(REQUIRED_LIB) $(LIBFT_DIR)$(LIBFT_LIB) -o $(NAME)
+	@$(CC) $(SRCS) -I$(HEADER_DIR) $(REQUIRED_LIB) $(LIBFT_DIR)$(LIBFT_LIB) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
 bonus : all
 
-clean :
-	@rm -rf $(OBJS_DIR)
-	@echo "$(RED)Removed : obj files ($(NAME))$(COLOR_OFF)"
-
 fclean : clean
 	@make fclean -C $(LIBFT_DIR)
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) $(OBJS_DIR)
+	@echo "$(RED)Removed : obj files ($(NAME))$(COLOR_OFF)"
 	@echo "$(RED)Removed : $(NAME)$(COLOR_OFF)"
 
 re : fclean all
