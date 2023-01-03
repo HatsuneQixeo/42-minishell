@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 08:09:24 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/03 14:08:27 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:27:15 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define NODE_H
 
 # include <stdlib.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef enum e_node_type
 {

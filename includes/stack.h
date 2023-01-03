@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 09:33:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:40:52 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:27:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
-
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef struct s_stack
 {

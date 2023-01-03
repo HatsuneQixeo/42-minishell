@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/03 15:07:45 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:27:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define TOKEN_H
 
 # include <stdbool.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 char	*ms_strtok(char *str, char *delimiter);
 char	**ms_tokens_arr_create(char *input);
