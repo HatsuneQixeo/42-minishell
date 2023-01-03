@@ -16,7 +16,7 @@ endif
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT_DIR = libft2/
+LIBFT_DIR = libft/
 LIBFT_LIB = $(addprefix $(LIBFT_DIR), libft.a)
 
 HEADER_DIR =  $(shell find . -name "includes" -type d)
