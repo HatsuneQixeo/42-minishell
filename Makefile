@@ -1,28 +1,6 @@
 NAME = minishell
 UNAME = $(shell uname)
 
-ifeq ($(UNAME), Linux)
-	REQUIRED_LIB = -lreadline -lncurses
-endif
-
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-MODE = none
-ifeq ($(MODE), debug)
-	CFLAGS += -fsanitize=address
-endif
-
-LIBFT_DIR = libft/
-LIBFT_LIB = libft.a
-
-HEADER_DIR =  includes/
-SRCS_DIR = srcs/
-SUBDIR = $(shell find srcs -type d)
-SRCS = $(wildcard *.c $(foreach fd, $(SUBDIR), $(fd)/*.c))
-NODIR_SRC = $(notdir $(SRCS))
-OBJS_DIR = objs/
-OBJS = $(addprefix $(OBJS_DIR), $(SRCS:c=o))
-
 #text_color
 COLOR_OFF =\033[0m
 RED =\033[0;31m
@@ -31,22 +9,43 @@ YELLOW =\033[0;33m
 CYAN =\033[1;36m
 MAGNETA =\033[95m 
 
+ifeq ($(UNAME), Linux)
+	EXTRA_LIBS = -lreadline -lncurses
+endif
+
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+
+LIBFT_DIR = libft2/
+LIBFT_LIB = $(addprefix $(LIBFT_DIR), libft.a)
+
+HEADER_DIR =  $(shell find . -name "includes" -type d)
+HEADER = $(addprefix "-I", $(HEADER_DIR))
+
+DIRS = $(shell find srcs -type d)
+SRCS = $(wildcard $(foreach fd, $(DIRS), $(fd)/*.c))
+OBJS_DIR = objs/
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:c=o))
+
 all : $(NAME)
+
+$(LIBFT_LIB) :
+	@make bonus -C $(LIBFT_DIR)
 
 $(OBJS_DIR)%.o : %.c
 	@mkdir -p $(@D)
-	@$(CC) -o $@  -c $< -I$(HEADER_DIR)
+	@printf "$(MAGNETA)Compiling: $<$(COLOR_OFF)\n"
+	@$(CC) -o $@  -c $< $(HEADER)
 
-$(NAME) : $(OBJS)
-	@make bonus -C $(LIBFT_DIR)
-	@$(CC) $(SRCS) -I$(HEADER_DIR) $(REQUIRED_LIB) $(LIBFT_DIR)$(LIBFT_LIB) -o $(NAME)
+$(NAME) : $(LIBFT_LIB) $(OBJS)
+	@$(CC) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
 bonus : all
 
-fclean : clean
+fclean :
 	@make fclean -C $(LIBFT_DIR)
-	@rm -rf $(NAME) $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR) $(NAME)
 	@echo "$(RED)Removed : obj files ($(NAME))$(COLOR_OFF)"
 	@echo "$(RED)Removed : $(NAME)$(COLOR_OFF)"
 
