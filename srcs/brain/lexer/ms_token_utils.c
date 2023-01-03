@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_token_utils2.c                                  :+:      :+:    :+:   */
+/*   ms_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 15:43:15 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/02 15:23:19 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:07:26 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
 
 static bool	is_delimiter(char c, char *delimiter)
 {
@@ -75,17 +75,17 @@ static int	get_tokens_count(char *input)
 	char	*token;
 
 	count = 0;
-	token = ms_strtok(input, " ");
+	token = ms_strtok(input, " \t\r\v\f\n");
 	while (token)
 	{
 		count++;
 		free(token);
-		token = ms_strtok(NULL, " ");
+		token = ms_strtok(NULL, " \t\r\v\f\n");
 	}
 	return (count);
 }
 
-char	**tokens_array_create(char *input)
+char	**ms_tokens_arr_create(char *input)
 {	
 	int		i;
 	int		count;
@@ -94,13 +94,28 @@ char	**tokens_array_create(char *input)
 
 	count = get_tokens_count(input);
 	tokens_arr = malloc((count + 1) * sizeof(char *));
-	token = ms_strtok(input, " ");
+	token = ms_strtok(input, " \t\r\v\f\n");
 	i = -1;
 	while (token)
 	{
 		tokens_arr[++i] = token;
-		token = ms_strtok(NULL, " ");
+		token = ms_strtok(NULL, " \t\r\v\f\n");
 	}
 	tokens_arr[count] = 0;
 	return (tokens_arr);
+}
+
+void	ms_tokens_arr_free(char ***tokens_arr)
+{
+	int		i;
+	char	**arr;
+
+	arr = *tokens_arr;
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
+	*tokens_arr = NULL;
 }

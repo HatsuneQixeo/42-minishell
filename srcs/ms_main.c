@@ -12,29 +12,13 @@
 
 #include "minishell.h"
 
-// char	*ms_tokenize(char *str, char *delimiter);
-// void	*ft_realloc(void *ptr, size_t new_size);
-char	**tokens_array_create(char *input);
-// char	**tokens_array_create2(char *input);
-char	*ms_strtok(char *str, char *delimiter);
-
 int	main(int ac, char **av, char **envp)
 {
-	int i;
-	char *str;
+	t_env	*env;
 
-	char **arr;
-	str = "hello world     my name is wang";
-	arr = tokens_array_create(str);
-
-	i = -1;
-	while (arr[++i])
-		printf("%s\n", arr[i]);
-	i = -1;
-	while (arr[++i])
-		free(arr[i]);
-	free(arr);
+	env = ms_env_init(envp);
+	util_clear_screen();
+	ms_signals_handler();
+	ms_routine_run();
 	return (EXIT_SUCCESS);
-	
 }
-

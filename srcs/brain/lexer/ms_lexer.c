@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:55:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/31 18:30:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:14:51 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,11 @@
 
 void    ms_lexer(char *input)
 {
-	// ms_tokenize(input);
+	char	**tokens_arr;
+
+	tokens_arr = ms_tokens_arr_create(input);
+	int i = -1;
+	while (tokens_arr[++i])
+		printf("%s\n", tokens_arr[i]);
+	// ms_tokens_arr_free(&tokens_arr);
 }

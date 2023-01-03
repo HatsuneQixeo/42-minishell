@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 17:11:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/31 18:30:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:10:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # include "../libft/libft.h"
 # include "stack.h"
+# include "node.h"
 # include "token.h"
 
 typedef struct s_env
