@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 17:11:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 00:47:15 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:09:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@
 
 # include "stack.h"
 # include "node.h"
+
 # include "token.h"
+# include "other_utils.h"
+
+# include "lexer.h"
+# include "parser.h"
+# include "executor.h"
 
 typedef struct s_env
 {
@@ -46,12 +52,4 @@ void	ms_env_free(t_env **environment);
 
 /* parens_check */
 bool	is_balanced_parens(char *str);
-
-/* lexer */
-void    ms_lexer(char *input);
-
-/* other utils */
-void	util_clear_screen(void);
-char	**util_str_arr_dup(char **arr);
-void	*util_realloc(void *ptr, size_t old_size, size_t new_size);
 #endif

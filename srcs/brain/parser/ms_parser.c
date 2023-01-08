@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:16:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 01:10:44 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:03:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	@brief	Store tokens in Abstract Syntax Tree.
 	@retval	parent nodes.
  */
-t_node	*parse_token_to_node(char **tokens_arr)
+t_node	*ms_parser(char **tokens_arr)
 {
 	int		i;
 	t_node	*cmd;

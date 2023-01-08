@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 22:31:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 01:15:24 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:15:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,36 @@ int	execute_cmd(char **argv)
 	return (0);
 }
 
-int	do_cmd(t_node *node)
+int	ms_executor(t_node *node)
 {
-	char		**argv;
+	char	**argv;
+	pid_t	pid;	
 
 	if (!node)
 		return (1);
+	pid = 0;
 	argv = ms_node_to_argv(node);
-	int i;
-	i = -1;
-
-	while (argv[++i])
-		printf("%s\n", argv[i]);
-	i = -1;
-	while (argv[++i])
+	pid = fork();
+	if (pid == 0)
+		execute_cmd(argv);
+	else if (pid < 0)
 	{
-		free(argv[i]);
+		printf("ms_executor: failed to fork command\n");
+		return (1);
 	}
-	free(argv);
+	waitpid(pid, NULL, 0);
+	return (0);
 }
 
-void	free_cmd()
+void	ms_cmds_free(char ***argv)
 {
-	
+	int		i;
+	char	**av;
+
+	i = -1;
+	av = *argv;
+	while (av[++i])
+		free(av[i]);
+	free(av);
+	*argv = NULL;
 }

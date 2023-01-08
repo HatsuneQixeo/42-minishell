@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/08 23:33:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:03:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 # include "node.h"
 
-t_node	*parse_token_to_node(char **tokens_arr);
+t_node	*ms_parser(char **tokens_arr);
 #endif

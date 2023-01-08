@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:18:39 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/03 15:10:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:13:28 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	ms_routine_run(void)
 {
 	char	*input;
+	char	**tokens_arr;
+	t_node	*cmds;
 
 	while (true)
 	{
@@ -22,7 +24,9 @@ void	ms_routine_run(void)
 		if (input)
 		{
 			add_history(input);
-			ms_lexer(input);
+			tokens_arr = ms_lexer(input);
+			cmds = ms_parser(tokens_arr);
+			ms_executor(cmds);
 		}
 		free(input);
 	}
