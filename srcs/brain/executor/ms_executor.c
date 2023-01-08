@@ -1,36 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser.c                                        :+:      :+:    :+:   */
+/*   ms_executor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:16:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 01:10:44 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/03 22:31:59 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 01:15:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "executor.h"
 
-/* 
-	@brief	Store tokens in Abstract Syntax Tree.
-	@retval	parent nodes.
- */
-t_node	*parse_token_to_node(char **tokens_arr)
+int	execute_cmd(char **argv)
 {
-	int		i;
-	t_node	*cmd;
-	t_node	*word;
+	char	*path;
 
-	if (!tokens_arr)
-		return (NULL);
+	path = ms_path_search(argv[0]);
+	if (!path)
+		return (1);
+	execv(path, argv);
+	free(path);
+	return (0);
+}
+
+int	do_cmd(t_node *node)
+{
+	char		**argv;
+
+	if (!node)
+		return (1);
+	argv = ms_node_to_argv(node);
+	int i;
 	i = -1;
-	cmd = ms_node_init(NODE_COMMAND);
-	while (tokens_arr[++i])
+
+	while (argv[++i])
+		printf("%s\n", argv[i]);
+	i = -1;
+	while (argv[++i])
 	{
-		word = ms_node_init(NODE_VAR);
-		ms_set_node_val_str(word, tokens_arr[i]);
-		ms_node_child_add(cmd, word);
+		free(argv[i]);
 	}
-	return (cmd);
+	free(argv);
+}
+
+void	free_cmd()
+{
+	
 }

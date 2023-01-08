@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/31 15:43:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 00:56:01 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "other_utils.h"
 
 void	util_clear_screen(void)
 {
@@ -42,4 +42,26 @@ char	**util_str_arr_dup(char **arr)
 	while (arr[++i])
 		copy[i] = ft_strdup(arr[i]);
 	return (copy);
+}
+
+void	*util_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+	size_t	copy_size;
+
+	if (!ptr)
+		return (malloc(new_size));
+	copy_size = 0;
+	new_ptr = malloc(new_size);
+	if (ptr && new_ptr)
+	{
+		if (old_size && old_size < new_size)
+			copy_size = old_size;
+		else
+			copy_size = new_size;
+		ft_memcpy(new_ptr, ptr, copy_size);
+	}
+	if (new_ptr || !new_size)
+		free(ptr);
+	return (new_ptr);
 }

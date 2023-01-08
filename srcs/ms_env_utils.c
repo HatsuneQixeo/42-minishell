@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:56:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/26 17:54:27 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/03 22:08:53 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /* 
 	eg: "PWD=/home/ntan-wan/minishell"
@@ -62,7 +62,7 @@ t_env	*ms_env_init(char **envp)
 	return (env);
 }
 
-void	env_free(t_env **environment)
+void	ms_env_free(t_env **environment)
 {
 	int		i;
 	t_env	*env;

@@ -6,13 +6,13 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 09:41:50 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/03 14:09:20 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 01:10:44 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "node.h"
 
-t_node	*node_init(t_node_type type)
+t_node	*ms_node_init(t_node_type type)
 {
 	t_node	*new_node;
 
@@ -24,7 +24,7 @@ t_node	*node_init(t_node_type type)
 	return (new_node);
 }
 
-void	add_child_node(t_node *parent, t_node *child)
+void	ms_node_child_add(t_node *parent, t_node *child)
 {
 	t_node	*sibling;
 
@@ -43,7 +43,7 @@ void	add_child_node(t_node *parent, t_node *child)
 	parent->childs_count++;
 }
 
-void	set_node_val_str(t_node *node, char *val)
+void	ms_set_node_val_str(t_node *node, char *val)
 {
 	char	*val2;
 
@@ -63,7 +63,30 @@ void	set_node_val_str(t_node *node, char *val)
 	}
 }
 
-void	free_node_tree(t_node *node)
+char	**ms_node_to_argv(t_node *node)
+{
+	int		count;
+	size_t	size;
+	t_node	*child;
+	char	**argv;
+
+	if (!node)
+		return (NULL);
+	count = 1;
+	size = sizeof(char *);
+	argv = NULL;
+	child = node->first_child;
+	while (child)
+	{
+		argv = util_realloc(argv, count * size, (++count + 1) * size);
+		argv[count - 2] = ft_strdup(child->val.str);
+		argv[count - 1] = 0;
+		child = child->next_sibling;
+	}
+	return (argv);
+}
+
+void	ms_node_tree_free(t_node *node)
 {
 	t_node	*child;
 	t_node	*next;
@@ -75,7 +98,7 @@ void	free_node_tree(t_node *node)
 	while (child)
 	{
 		next = child->next_sibling;
-		free_node_tree(child);
+		ms_node_tree_free(child);
 		child = next;
 	}
 	if (node->val_type == VAL_STR)

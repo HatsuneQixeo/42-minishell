@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/08 23:33:33 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/03 22:30:54 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 01:17:15 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
 
 # include "node.h"
 
-t_node	*parse_token_to_node(char **tokens_arr);
+/* token_utils */
+char	*ms_strtok(char *str, char *delimiter);
+
+/* path_utils */
+char	*ms_path_search(char *cmd);
 #endif

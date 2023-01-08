@@ -7,7 +7,7 @@ RED =\033[0;31m
 GREEN =\033[0;32m
 YELLOW =\033[0;33m
 CYAN =\033[1;36m
-MAGNETA =\033[95m 
+MAGNETA =\033[95m
 
 ifeq ($(UNAME), Linux)
 	EXTRA_LIBS = -lreadline -lncurses
@@ -41,8 +41,6 @@ $(NAME) : $(LIBFT_LIB) $(OBJS)
 	@$(CC) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
-bonus : all
-
 fclean :
 	@make fclean -C $(LIBFT_DIR)
 	@rm -rf $(OBJS_DIR) $(NAME)
@@ -53,5 +51,8 @@ re : fclean all
 
 kill :
 	@killall -9 $(NAME)
+
+valgrind :
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 .PHONY : clean fclean all re

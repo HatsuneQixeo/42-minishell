@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   other_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/08 23:33:33 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 00:57:23 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef OTHER_UTILS_H
+# define OTHER_UTILS_H
 
-# include "node.h"
+# include <unistd.h>
+# include <stdlib.h>
 
-t_node	*parse_token_to_node(char **tokens_arr);
+# include "libft.h"
+
+void	util_clear_screen(void);
+int		util_str_arr_len(char **arr);
+char	**util_str_arr_dup(char **arr);
+void	*util_realloc(void *ptr, size_t old_size, size_t new_size);
 #endif
