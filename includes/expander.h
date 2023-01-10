@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer.c                                         :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 16:55:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:20:43 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/09 10:19:26 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 10:20:09 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-char	**ms_lexer(char *input)
-{
-	char	**tokens_arr;
-
-	tokens_arr = ms_tokens_arr_create(input);
-	return (tokens_arr);
-}
+#endif
