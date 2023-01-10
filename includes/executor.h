@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 22:30:54 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:15:57 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:20:05 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ char	*ms_strtok(char *str, char *delimiter);
 /* path_utils */
 char	*ms_path_search(char *cmd);
 
-int     ms_executor(t_node *node);
+int		ms_executor(t_node *node);
 void	ms_cmds_free(char ***argv);
 #endif

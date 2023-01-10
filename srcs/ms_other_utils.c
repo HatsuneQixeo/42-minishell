@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 00:56:01 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/09 03:29:34 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,19 @@ void	*util_realloc(void *ptr, size_t old_size, size_t new_size)
 	if (new_ptr || !new_size)
 		free(ptr);
 	return (new_ptr);
+}
+
+void	util_str_arr_free(char ***array)
+{
+	int		i;
+	char	**arr;
+
+	if (!arr)
+		return ;
+	i = -1;
+	arr = *array;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
+	*array = NULL;
 }
