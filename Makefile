@@ -9,21 +9,20 @@ YELLOW =\033[0;33m
 CYAN =\033[1;36m
 MAGNETA =\033[95m
 
-ifeq ($(UNAME), Linux)
-	EXTRA_LIBS = -lreadline -lncurses
-endif
+EXTRA_LIBS = -lreadline -lncurses
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
 LIBFT_DIR = libft/
 LIBFT_LIB = $(addprefix $(LIBFT_DIR), libft.a)
 
-HEADER_DIR =  $(shell find . -name "includes" -type d)
+HEADER_DIR = $(call rwildcard,./,includes)
 HEADER = $(addprefix "-I", $(HEADER_DIR))
 
-DIRS = $(shell find srcs -type d)
-SRCS = $(wildcard $(foreach fd, $(DIRS), $(fd)/*.c))
+SRCS = $(call rwildcard,srcs/,*.c)
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:c=o))
 
