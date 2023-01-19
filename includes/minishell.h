@@ -25,31 +25,28 @@
 # include "stack.h"
 # include "node.h"
 
-# include "token.h"
-# include "other_utils.h"
+# include "shell_utils.h"
 
-# include "lexer.h"
-# include "parser.h"
 # include "executor.h"
+# include "pipex.h"
 
-typedef struct s_env
+typedef struct
 {
+	char	*input_raw;
+	char	*input_expanded;
+	char	**prg_argv;
 	char	**envp;
-	char	**vars;
-	char	*pwd;
-	char	*oldpwd;
-}	t_env;
+}			t_data;
 
+
+u_char	g_last_exitstatus;
 /* signals */
 void	ms_signals_handler(void);
 
 /* routine */
-void	ms_routine_run(void);
+void	ms_input(char **envp);
+char	*expander_node(char **src);
 
 /* env_utils */
-t_env	*ms_env_init(char **envp);
-void	ms_env_free(t_env **environment);
 
-/* parens_check */
-bool	is_balanced_parens(char *str);
 #endif

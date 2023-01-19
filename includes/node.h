@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include "libft.h"
-# include "other_utils.h"
+# include "shell_utils.h"
 
 typedef enum e_node_type
 {

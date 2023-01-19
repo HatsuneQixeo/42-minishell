@@ -2,52 +2,59 @@ NAME = minishell
 UNAME = $(shell uname)
 
 #text_color
-COLOR_OFF =\033[0m
-RED =\033[0;31m
-GREEN =\033[0;32m
-YELLOW =\033[0;33m
-CYAN =\033[1;36m
-MAGNETA =\033[95m
+DEFAULT		:=	\033[0m
+RED			:=	\033[0;31m
+GREEN		:=	\033[0;32m
+YELLOW		:=	\033[0;33m
+CYAN		:=	\033[1;36m
+MAGENTA 	:=	\033[95m
 
-ifeq ($(UNAME), Linux)
-	EXTRA_LIBS = -lreadline -lncurses
-endif
+EXTRA_LIBS	:=	-lreadline -lncurses
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
 
-LIBFT_DIR = libft/
-LIBFT_LIB = $(addprefix $(LIBFT_DIR), libft.a)
+CC			:=	gcc
+# CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-Wall -Werror
+# CFLAGS		+=	-fsanitize=address -g3
+LIBFT_DIR	:=	libft/
+LIBFT		:=	${LIBFT_DIR}libft.a
+LIBFT_INCLUDE	:=	${LIBFT_DIR}include/
+LIBFT_MAKE	:=	make -C ${LIBFT_DIR}
 
-HEADER_DIR =  $(shell find . -name "includes" -type d)
-HEADER = $(addprefix "-I", $(HEADER_DIR))
+HEADER_DIR	:=	includes/
+HEADER		:=	$(wildcard ${INCLUDE}*)
 
-DIRS = $(shell find srcs -type d)
-SRCS = $(wildcard $(foreach fd, $(DIRS), $(fd)/*.c))
-OBJS_DIR = objs/
-OBJS = $(addprefix $(OBJS_DIR), $(SRCS:c=o))
+SRC_DIR		:=	srcs
+DIRS 		:=	$(shell find ${SRC_DIR} -type d)
+SRCS		:=	$(wildcard $(foreach fd, $(DIRS), $(fd)/*.c))
+OBJS_DIR	:=	objs/
+OBJS		:=	$(addprefix $(OBJS_DIR), $(SRCS:c=o))
 
-all : $(NAME)
+all : ${NAME}
 
-$(LIBFT_LIB) :
-	@make bonus -C $(LIBFT_DIR)
+${OBJS_DIR} :
+	mkdir $@
 
-$(OBJS_DIR)%.o : %.c
+$(OBJS_DIR)%.o : %.c $(HEADER)
 	@mkdir -p $(@D)
-	@printf "$(MAGNETA)Compiling: $<$(COLOR_OFF)\n"
-	@$(CC) -o $@  -c $< $(HEADER)
+	@# printf "$(MAGENTA)Compiling: $<$(DEFAULT)\n"
+	@$(CC) ${CFLAGS} -I${HEADER_DIR} -I${LIBFT_INCLUDE} -c $< -o $@
 
-$(NAME) : $(LIBFT_LIB) $(OBJS)
-	@$(CC) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
-	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
+$(NAME) : $(OBJS)
+	@${LIBFT_MAKE}
+	$(CC) ${CFLAGS} $(OBJS) -I${HEADER_DIR} $(LIBFT) $(EXTRA_LIBS) -o $(NAME)
+	@#echo "$(CYAN)$(NAME) done !$(DEFAULT)"
+
+san :
+	$(CC) ${CFLAGS} $(SRCS) -I${HEADER_DIR} -I${LIBFT_INCLUDE} $(LIBFT) $(EXTRA_LIBS) -o $(NAME) -fsanitize=address -g3
 
 fclean :
 	@make fclean -C $(LIBFT_DIR)
 	@rm -rf $(OBJS_DIR) $(NAME)
-	@echo "$(RED)Removed : obj files ($(NAME))$(COLOR_OFF)"
-	@echo "$(RED)Removed : $(NAME)$(COLOR_OFF)"
+	@echo "$(RED)Removed : obj files ($(NAME))$(DEFAULT)"
+	@echo "$(RED)Removed : $(NAME)$(DEFAULT)"
 
-re : fclean all
+re : fclean ${OBJS_DIR} all
 
 kill :
 	@killall -9 $(NAME)

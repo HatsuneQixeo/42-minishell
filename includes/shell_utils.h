@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer.c                                         :+:      :+:    :+:   */
+/*   shell_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 16:55:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:20:43 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 03:27:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#ifndef SHELL_UTILS_H
+# define SHELL_UTILS_H
 
-char	**ms_lexer(char *input)
-{
-	char	**tokens_arr;
+# include <unistd.h>
+# include <stdlib.h>
 
-	tokens_arr = ms_tokens_arr_create(input);
-	return (tokens_arr);
-}
+# include "libft.h"
+
+int		ft_isnameletter(int c);
+void	ft_clear_screen(void);
+size_t	shell_varname_len(const char *input);
+void	shell_backslash(char *str);
+void	ms_pathaccess(char **executable);
+#endif
