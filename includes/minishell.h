@@ -22,13 +22,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "stack.h"
-# include "node.h"
-
 # include "shell_utils.h"
-
-# include "executor.h"
 # include "pipex.h"
+
+# define MINISHELL	"🐚 $ "
 
 typedef struct
 {
@@ -45,7 +42,6 @@ void	ms_signals_handler(void);
 
 /* routine */
 void	ms_input(char **envp);
-char	*expander_node(char **src);
 
 /* env_utils */
 

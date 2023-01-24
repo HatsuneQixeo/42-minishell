@@ -1,0 +1,64 @@
+Valid:
+	# All of this will result in empty stdout, because the '>' operator truncated the outfile
+	# Removing the given argument will fix it
+	# NOTE: It seem to not be as consistent in bash than in zsh for some reason (maybe optimization problem?)
+	{
+		<minib"cat">minicopya|cat minicopya
+		cat < minib > minicopya | cat minicopya
+		cat > minicopya < minib | cat minicopya
+	}
+	echo $MIKU > mikufile | cat > mikumikufile // Will pipe into both the file and the pipe, interestingly
+	# Heredoc is prioritized, given that the error message appears after heredoc
+	{
+		cat << a < b
+	}
+	# The last given argument will always overwrites the previous arguments
+	{
+		# a is created but nothing is inside, the argument after it (aa) seem to replaced a instead
+		cat > a > aa
+		# Same goes for append, a is still empty
+		cat > a >> aa
+		cat >> a >> aa
+	}
+	# Hey triple arrow straight up pipe the argument into the stdin that's so cool!
+	{
+		cat <<< $MIKU
+	}
+
+Invalid:
+	# Missing argument for the operator
+	{
+		# aa is not truncated, interesting
+		cat > >> 
+		cat > aa >>
+		cat > >> a
+		cat <
+		cat <<
+		# Interestingly, because heredoc is prioritized, the error message actually appears after it
+		cat << a <
+		# Nvm, this upright error now
+		cat < << a
+	}
+	# Reversed order actually works because the file is created first
+	{
+		cat < nonexist > nonexist
+		(valid)(cat > nonexist < nonexist)
+	}
+
+
+# Will prompt for input
+"var="=$MIKU && (echo $var) || (echo $$ is still here) ||
+# a will not be evaluated
+"var="=$MIKU && (echo $var) || (echo $$ is still here) || a
+# Quite literally
+"var="=$MIKU && (echo $var) || (echo $$ is still here) || a > b
+
+
+
+
+
+
+
+
+
+

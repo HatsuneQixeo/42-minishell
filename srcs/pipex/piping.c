@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 #include "pipex.h"
 
-static void	ft_execve(const char *cmd, char **envp)
+void	ms_execve(const char *cmd, char **envp);
+
+void	ft_execve(const char *cmd, char **envp)
 {
 	char	**command;
 
@@ -27,6 +29,7 @@ int	ft_exec(const char *cmd, char **envp)
 	return (ft_exec_fd(cmd, envp, 0, 1));
 }
 
+/// @note This function does not allow concurrent action 
 int	ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out)
 {
 	pid_t	child;
@@ -40,7 +43,7 @@ int	ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out)
 	{
 		ft_dup3(fd_in, STDIN_FILENO);
 		ft_dup3(fd_out, STDOUT_FILENO);
-		ft_execve(cmd, envp);
+		ms_execve(cmd, envp);
 	}
 	else
 		waitpid(child, &status, 0);

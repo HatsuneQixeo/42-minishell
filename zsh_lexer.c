@@ -1,6 +1,38 @@
 #include "minishell.h"
 
+/*
+** This Lexer behaves the same way as the lexer in zsh
+** , In a sense that every variable is getting expanded during parsing
+** (after parsing might be a bit too much trouble than I want to deal with)
+** (Although this itself is quite troublesome in it's own way)
+**
+** Let's say var="ho hi"
+** So ec$var will be evaluated as "echo hi"
+** Unlike the behavior in bash which will expand the value first and parse after
+** which will result in "echo" "hi"
+** , because the space in "ho hi" is not strung together
+** Bash will behaves the same to ec"$var" however
+** , because the space is strung in this case
+*/
+
 char	*lexer_quote(char **src);
+
+// 
+
+/// @brief 
+/// Moves the ptr pointer to the end of the {varname}
+/// , and src pointer in front of it by 1
+/// @param src The address of the pointer to the 
+/// @param ptr The address of the pointer to the '$' character
+/// @return A linked list with the previous element and the variable
+char	*ms_env(char **src, char **ptr)
+{
+	char	*var;
+
+	var = ft_strcombine(ft_substr(*src, 0, *ptr - *src), expander_node(ptr));
+	*src = *ptr + 1;
+	return (var);
+};
 
 static char	*lexer_buffer(char **src)
 {
@@ -59,8 +91,7 @@ static char	**lexer_core(char *src)
 		if (*src == '\0')
 			break ;
 	}
-	ft_lstiter(lst, lstiter_showstr);
-	// ft_strrelease_fd(ft_strmodify(ft_lsttoa(lst), "Lst: ", ft_strrjoin), 1);
+	// ft_lstiter(lst, lstiter_showstr);
 	return (ft_lsttoaa_clear(&lst));
 }
 

@@ -18,5 +18,4 @@ int	main(int ac, char **av, char **envp)
 	ms_signals_handler();
 	ms_input(envp);
 	system("leaks -q minishell");
-	return (EXIT_SUCCESS);
 }

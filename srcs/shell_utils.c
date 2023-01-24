@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell_utils.h"
+#include "minishell.h"
 
 int	ft_isnameletter(int c)
 {

@@ -19,14 +19,5 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include "node.h"
 
-/* token_utils */
-char	*ms_strtok(char *str, char *delimiter);
-
-/* path_utils */
-char	*ms_path_search(char *cmd);
-
-int		ms_executor(t_node *node);
-void	ms_cmds_free(char ***argv);
 #endif

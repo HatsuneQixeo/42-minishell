@@ -20,7 +20,6 @@
 
 int		ft_isnameletter(int c);
 void	ft_clear_screen(void);
-size_t	shell_varname_len(const char *input);
 void	shell_backslash(char *str);
 void	ms_pathaccess(char **executable);
 #endif

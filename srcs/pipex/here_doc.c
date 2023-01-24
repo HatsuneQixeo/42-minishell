@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#define HEREDOC	".here_doc.txt"
+#define HEREDOC	".here_doc.txt.tmp"
 
 static char	*heredoc_prompt(int pipec)
 {
@@ -26,7 +26,7 @@ static char	*right_here_right_now(int argc, char *limiter)
 	char	*input;
 	size_t	len_limiter;
 
-	history = 0;
+	history = NULL;
 	len_limiter = ft_strlen(limiter);
 	while (1)
 	{
