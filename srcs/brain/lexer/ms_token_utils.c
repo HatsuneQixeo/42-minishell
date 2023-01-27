@@ -6,11 +6,12 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 15:43:15 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:28:58 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:29:08 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
+#define DELIMITER " \t\r\v\f\n"
 
 static bool	is_delimiter(char c, char *delimiter)
 {
@@ -75,12 +76,12 @@ static int	get_tokens_count(char *input)
 	char	*token;
 
 	count = 0;
-	token = ms_strtok(input, " \t\r\v\f\n");
+	token = ms_strtok(input, DELIMITER);
 	while (token)
 	{
 		count++;
 		free(token);
-		token = ms_strtok(NULL, " \t\r\v\f\n");
+		token = ms_strtok(NULL, DELIMITER);
 	}
 	return (count);
 }
@@ -94,12 +95,12 @@ char	**ms_tokens_arr_create(char *input)
 
 	count = get_tokens_count(input);
 	tokens_arr = malloc((count + 1) * sizeof(char *));
-	token = ms_strtok(input, " \t\r\v\f\n");
+	token = ms_strtok(input, DELIMITER);
 	i = -1;
 	while (token)
 	{
 		tokens_arr[++i] = token;
-		token = ms_strtok(NULL, " \t\r\v\f\n");
+		token = ms_strtok(NULL, DELIMITER);
 	}
 	tokens_arr[count] = 0;
 	return (tokens_arr);

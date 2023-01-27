@@ -18,7 +18,7 @@
 // char	**ms_tokens_arr_create(char *input);
 // int	execute_cmd(char **tokens_arr);
 int	ms_executor(t_node *node);
-// #include <linux/limits.h>
+
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -27,7 +27,9 @@ int	main(int ac, char **av, char **envp)
 	util_clear_screen();
 	ms_signals_handler();
 	ms_routine_run();
-	
+
+	//
+	ms_env_free(&env);
 	// char *path;
 
 	// path = ms_path_search("echo");

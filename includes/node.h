@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 08:09:24 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:19:37 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/27 11:40:58 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 # include "libft.h"
 # include "other_utils.h"
 
+/* Types of the Abstract Syntax Tree nodes */
 typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_VAR
 }	t_node_type;
 
+/* Types of values that can store in a given node structure. */
 typedef enum e_val_type
 {
 	VAL_SINT = 1,
@@ -35,6 +37,7 @@ typedef enum e_val_type
 	VAL_STR
 }	t_val_type;
 
+/* Value that we can store in a given node structure. */
 typedef union u_symval
 {
 	char				c;
