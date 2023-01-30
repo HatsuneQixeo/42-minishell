@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-// char	*get_env_var_value(t_env *env, char *var_name);
-// char    *ms_path_search(char *cmd);
-// t_node	*ms_parser(char **tokens_arr);
-// char	**ms_tokens_arr_create(char *input);
-// int	execute_cmd(char **tokens_arr);
-// int	ms_executor(t_node *node);
-// t_list	*ms_tokenize(char *input);
-// void	lst_print(void *token);
-// t_list	*ms_tokenize(char *input);
-// void	token_list_free(t_list	**token_list);
-
-#include <stdio.h>
-
 void	lst_print(void *token)
 {
 	t_token	*t;
@@ -59,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 
 	// 2.
 	// char *input;
-	// input = " !a>>>hello ---nsdsd .-n. test.txt hello..tex | >> < << . -l";
+	// input = " !a>>>hello ---nsdsd .-n. test.txt  \" hello..tex | >> < << . -l";
 	// t_list	*arr = ms_tokenize(input);
 	// ft_lstiter(arr, lst_print);
 	// token_list_free(&arr);

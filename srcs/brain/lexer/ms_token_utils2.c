@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:04:28 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/30 17:29:26 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:58:39 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ t_token_type	token_type_get(char *token_value)
 	int								i;
 	int								token_len;
 	const t_token_type_key_value	special_token_types[] = {
-	{"<", TOKEN_REDIR_IN},
-	{">", TOKEN_REDIR_OUT},
-	{"<<", TOKEN_HEREDOC},
-	{">>", TOKEN_APPEND},
-	{"|", TOKEN_PIPE},
-	{"||", TOKEN_OR},
+	{"<", TOKEN_REDIR_IN}, {">", TOKEN_REDIR_OUT},
+	{"<<", TOKEN_HEREDOC}, {">>", TOKEN_APPEND},
+	{"|", TOKEN_PIPE}, {"||", TOKEN_OR},
 	{"&&", TOKEN_AND},
 	};
 

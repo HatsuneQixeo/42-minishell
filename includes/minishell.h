@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 17:11:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:09:59 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/30 18:04:01 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "stack.h"
-# include "node.h"
-
-# include "token.h"
-# include "other_utils.h"
-
 # include "lexer.h"
 # include "parser.h"
 # include "executor.h"
+
+# include "stack.h"
+# include "node.h"
+
+# include "other_utils.h"
 
 typedef struct s_env
 {
