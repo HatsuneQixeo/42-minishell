@@ -18,10 +18,20 @@
 // char	**ms_tokens_arr_create(char *input);
 // int	execute_cmd(char **tokens_arr);
 // int	ms_executor(t_node *node);
-t_token	**ms_tokens_arr_create2(char *input);
-void	ms_tokens_arr_free2(t_token ***tokens_arr);
-t_list	*ms_tokenize(char *input);
-void	lst_print(void *token);
+// t_list	*ms_tokenize(char *input);
+// void	lst_print(void *token);
+// t_list	*ms_tokenize(char *input);
+// void	token_list_free(t_list	**token_list);
+
+#include <stdio.h>
+
+void	lst_print(void *token)
+{
+	t_token	*t;
+
+	t = (t_token *)token;
+	printf("value = (%s), type = %d\n", t->value, t->type);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -48,12 +58,12 @@ int	main(int ac, char **av, char **envp)
 	// ms_tokens_arr_free2(&arr);
 
 	// 2.
-	char *input;
-	
-	// input = "echo hello>>    cd .    test.txt";
-	input = "    	echo test>>     .txt         |   <>   << test>>a.txt      	 		a";
-	t_list	*arr = ms_tokenize(input);
-	ft_lstiter(arr, lst_print);
+	// char *input;
+	// input = " !a>>>hello ---nsdsd .-n. test.txt hello..tex | >> < << . -l";
+	// t_list	*arr = ms_tokenize(input);
+	// ft_lstiter(arr, lst_print);
+	// token_list_free(&arr);
+
 	// ms_tokens_arr_free2(&arr);
 	
 	// char *path;

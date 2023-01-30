@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/27 15:21:14 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:33:18 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,23 @@
 
 typedef enum
 {
-	TOKEN_COMMAND,
-	TOKEN_ARGUMENT,
-	TOKEN_PIPE,
+	TOKEN_UNKNOWN,
+	TOKEN_WORD,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
-	TOKEN_SPECIAL_CHAR,
-	TOKEN_UNKNOWN,
-}	t_token_type;
+	TOKEN_PIPE,
+	TOKEN_OR,
+	TOKEN_AND,
+	TOKEN_OPTION,
+} t_token_type;
+
+typedef struct	s_token_type_key_value
+{
+	char			*key;
+	t_token_type	value;
+}	t_token_type_key_value;
 
 typedef struct	s_token
 {
@@ -35,7 +42,13 @@ typedef struct	s_token
 	t_token_type	type;
 }	t_token;
 
+t_list			*ms_tokenize(char *input);
+t_token			*token_init(char *token_value);
+t_token_type	token_type_get(char *token_value);
+char			*token_value_get(char *token_start, char *token_end);
+void			token_free(void *token);
+void			token_list_free(t_list	**token_list);
+
+
 char	*ms_strtok(char *str, char *delimiter);
-char	**ms_tokens_arr_create(char *input);
-void	ms_tokens_arr_free(char ***tokens_arr);
 #endif
