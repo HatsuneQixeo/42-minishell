@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:16:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:20:31 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:45:29 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,21 @@ t_node	*ms_parser(char **tokens_arr)
 		ms_node_child_add(cmd, word);
 	}
 	return (cmd);
+}
+
+/* version 2 */
+
+
+/* 
+	@brief	Build Abstract Syntax Tree(AST).
+	@note	Store user input in AST.
+ */
+void	build_ast(t_btree *root, t_list *token_list)
+{
+	t_token	*token;	
+	
+	while (token_list && !is_separator())
+	{
+		token = token_list->content;
+	}
 }

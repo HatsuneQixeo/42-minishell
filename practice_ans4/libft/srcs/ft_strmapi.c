@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/11 15:28:21 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/07/11 15:29:21 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	unsigned int	i;
+	char			*rtn;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	i = 0;
+	if (!s || (!s && !f))
+		return (ft_strdup(""));
+	else if (!f)
+		return (ft_strdup(s));
+	rtn = ft_strdup(s);
+	if (!rtn)
+		return (NULL);
+	while (s[i])
+	{
+		rtn[i] = (*f)(i, s[i]);
+		i++;
+	}
+	return (rtn);
+}

@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/11 15:23:26 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/07/11 15:25:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	size_t	i;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	i = 0;
+	if (dstsize > 0)
+	{
+		while (src[i] && i < (dstsize - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	while (src[i])
+		i++;
+	return (i);
+}

@@ -1,27 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/11 14:48:28 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/07/11 14:50:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+void	*ft_memmove(void *dst, const void *src, size_t n)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	char	*d;
+	char	*s;
+	int		i;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	d = (char *)dst;
+	s = (char *)src;
+	if (dst == src)
+		return (dst);
+	else if (s < d)
+	{
+		i = (int)n - 1;
+		while (i >= 0)
+		{
+			*(d + i) = *(s + i);
+			i--;
+		}
+		return (dst);
+	}
+	else
+	{
+		i = -1;
+		while (++i < (int)n)
+			*d++ = *s++;
+		return (dst);
+	}	
+}

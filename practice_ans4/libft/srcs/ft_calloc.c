@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/11 13:13:27 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/09/23 20:53:28 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
+#include <stdint.h>
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+void	*ft_calloc(size_t count, size_t size)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	void	*rtn;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	if (count == SIZE_MAX || size == SIZE_MAX)
+		return (NULL);
+	rtn = malloc(count * size);
+	if (!rtn)
+		return (NULL);
+	ft_bzero(rtn, count * size);
+	return (rtn);
+}

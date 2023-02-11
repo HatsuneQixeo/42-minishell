@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/11 15:32:16 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/07/11 15:32:17 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+int	ft_strncmp(const char *str1, const char *str2, size_t n)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	size_t	i;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (*str1 && *str2 && *str1 == *str2 && i < n - 1)
+	{
+		str1++;
+		str2++;
+		i++;
+	}
+	return ((unsigned char)*str1 - (unsigned char)*str2);
+}

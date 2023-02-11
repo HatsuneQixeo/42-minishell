@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   absolute.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/24 17:53:23 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/08/09 21:10:01 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "../includes/ft_printf.h"
+#include "../includes/libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+unsigned int	absolute(int num)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	unsigned int	unsi_num;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	unsi_num = num;
+	if (num < 0)
+	{
+		unsi_num = -unsi_num;
+		return (unsi_num);
+	}
+	else
+		return (unsi_num);
+}

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   print_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/19 14:54:25 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/08/09 21:13:55 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "../includes/ft_printf.h"
+#include "../includes/libft.h"
 
-# include "node.h"
-# include "libft.h"
+/*
+	This function is used in print_percent and print_ptr to
+	print spaces.
+*/
 
-typedef struct  s_btree
+void	print_space(t_fmt *fmt, int space_count)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	char	space;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	space = ' ';
+	if (fmt->zero && !fmt->ptr)
+		space = '0';
+	while (space_count-- > 0)
+		ft_putchar_fd(space, 1);
+}

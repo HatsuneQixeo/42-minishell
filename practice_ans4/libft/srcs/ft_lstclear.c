@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/09 13:23:27 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/07/09 13:24:12 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+	t_list	*t;
+	t_list	*tmp;
 
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	t = *lst;
+	while (t)
+	{
+		tmp = t->next;
+		ft_lstdelone(t, del);
+		t = tmp;
+	}
+	*lst = NULL;
+}

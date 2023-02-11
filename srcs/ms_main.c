@@ -51,26 +51,5 @@ int	main(int ac, char **av, char **envp)
 	// ft_lstiter(arr, lst_print);
 	// token_list_free(&arr);
 
-	// ms_tokens_arr_free2(&arr);
-	
-	// char *path;
-
-	// path = ms_path_search("echo");
-	// printf("%s\n",path);
-	// free(path);
-
-	// char *str;
-	// char **tokens_arr;
-	// str = "brother from another mother hheheeh dsf sff";
-	// tokens_arr = ms_tokens_arr_create(str);
-	// t_node *node;
-	// node = ms_parser(tokens_arr);
-	// // printf("%s\n", node->first_child->val.str);
-	// ms_executor(node);
-	// ms_tokens_arr_free(&tokens_arr);
-	// ms_node_tree_free(node);
-
-	// printf("ARG_MAX: %ld\n", sysconf(_SC_ARG_MAX));
-	// printf("ARG_MAX: %d\n", ARG_MAX);
 	return (EXIT_SUCCESS);
 }

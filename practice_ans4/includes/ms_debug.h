@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ms_debug.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/02/08 18:04:10 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/02/11 14:34:07 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef MS_DEBUG_H
+# define MS_DEBUG_H
 
-# include "node.h"
-# include "libft.h"
+# include <stdio.h>
 
-typedef struct  s_btree
-{
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
+# include "ms_token.h"
 
-t_node	*ms_parser(char **tokens_arr);
+void    debug_token_content_print(void *content);
+void	debug_token_list_content_print(t_double_list *list);
 #endif

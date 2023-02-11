@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   print_prefix_unsi.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/31 12:19:48 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 11:20:39 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/07/24 21:37:30 by ntan-wan          #+#    #+#             */
+/*   Updated: 2022/08/09 21:12:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "../includes/ft_printf.h"
+#include "../includes/libft.h"
 
-# include "node.h"
-# include "libft.h"
-
-typedef struct  s_btree
+void	print_prefix_unsi(t_fmt *fmt, char *unsi_num_c)
 {
-	void	*content;
-	struct	s_btree	*left;
-	struct	s_btree	*right;
-}			t_btree;
-
-t_node	*ms_parser(char **tokens_arr);
-#endif
+	if (fmt->space)
+		ft_putchar_fd(' ', 1);
+	else if (fmt->plus)
+		ft_putchar_fd('+', 1);
+	while (fmt->pad-- > 0)
+		ft_putchar_fd('0', 1);
+	ft_putstr_fd(unsi_num_c, 1);
+}
