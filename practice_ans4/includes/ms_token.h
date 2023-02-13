@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:05:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/12 00:03:41 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:15:43 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum  e_token_type
 	TOKEN_VARIABLE,
 	TOKEN_ESCAPE,
 	TOKEN_SPACE,
+	TOKEN_OPTION,
 }   t_token_type;
 
 typedef struct  s_grammar
@@ -64,4 +65,6 @@ bool		ms_token_is_operator(t_token *token);
 bool		ms_token_is_separator(t_token *token);
 void		ms_token_list_concat_same_type(t_double_list **head);
 t_token		*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type);
+
+void	ms_token_free2(void *token, void (*del)(void *));
 #endif

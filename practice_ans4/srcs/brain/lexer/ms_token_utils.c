@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:03:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/11 23:42:44 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:13:56 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,15 @@ void	ms_token_free(void	*token)
 
 	t = token;
 	free(t->value);
+	free(t);
+}
+
+void	ms_token_free2(void *token, void (*del)(void *))
+{
+	t_token	*t;
+
+	t = token;
+	del(t->value);
 	free(t);
 }
 

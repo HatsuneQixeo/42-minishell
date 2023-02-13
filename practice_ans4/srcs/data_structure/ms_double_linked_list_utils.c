@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:03:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/11 14:36:45 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/12 10:24:16 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	double_lstadd_back(t_double_list **lst, t_double_list *new)
 {
 	t_double_list	*last;
 	
-	if (*lst)		
+	if (!new)
+		return ;
+	else if (*lst)
 	{
 		last = double_lstlast(*lst);
 		last->next = new;
@@ -79,4 +81,17 @@ void	double_lstiter(t_double_list *lst, void (*f)(void *))
 		f(lst->content);
 		lst = lst->next;
 	}
+}
+
+int	double_lstsize(t_double_list *lst)
+{
+	int	size;
+
+	size = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return (size);
 }
