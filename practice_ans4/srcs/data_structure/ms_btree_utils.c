@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:41:57 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 13:35:23 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:22:36 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,21 @@ void    btree_node_add(t_node **parent, t_node *node)
 		btree_node_add(&(*parent)->right, node);
 }
 
+void	btree_free(t_node **node, void (*del)(void *))
+{
+	t_node	*n;
 
+	n = *node;
+	if (!n || !del)
+		return ;
+	del((*node)->content);
+	if (n->left)
+		btree_free(&n->left, del);
+	if (n->right)
+		btree_free(&n->right, del);
+	free(n);
+	*node = NULL;
+}
 
 // void	btree_of_cmds_create(t_list *token_list)
 // {

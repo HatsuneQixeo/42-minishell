@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:41:28 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 13:34:56 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:21:51 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@ typedef struct	s_node
 
 t_node *btree_node_init(void *content);
 void    btree_node_add(t_node **parent, t_node *node);
+void	btree_free(t_node **node, void (*del)(void *));
 #endif

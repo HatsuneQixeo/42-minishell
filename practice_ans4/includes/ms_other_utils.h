@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ms_other_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:17:22 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/02/13 21:40:13 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/02/13 22:09:40 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MS_OTHER_UTILS_H
+# define MS_OTHER_UTILS_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <stdlib.h>
 
-# include "ms_token.h"
+# include "libft.h"
+# include "ms_double_linked_list.h"
+
+void	util_del_arr_str(void *arr_str);
+char	**util_list_to_arr_str(t_double_list *literal_list);
 #endif

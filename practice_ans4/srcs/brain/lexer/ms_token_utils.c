@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:03:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 13:13:56 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:01:05 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ms_token_free(void	*token)
 	free(t);
 }
 
-void	ms_token_free2(void *token, void (*del)(void *))
+void	ms_token_free_del(void *token, void (*del)(void *))
 {
 	t_token	*t;
 
