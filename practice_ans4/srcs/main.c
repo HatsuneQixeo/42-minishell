@@ -6,16 +6,13 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:48:08 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:23:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ms_btree.h"
-
-void	ast_create(t_node **root, t_double_list *token_list);
-void	ast_free(t_node **root);
-void	btree_free(t_node **node, void (*del)(void *));
+#include "ms_ast.h"
 
 int main()
 {
