@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
+void	ms_perror(const char *name);
 
 void	ft_errexit(int exitstatus, const char *errorname)
 {
@@ -28,7 +29,7 @@ void	ft_pipeinit(int *pipex)
 //Closes the original fd, essentially function as replacing the fd
 void	ft_dup3(int fd, int fd_new)
 {
-	if (fd == fd_new)
+	if (fd == fd_new || fd == -1 || fd_new == -1)
 		return ;
 	if (dup2(fd, fd_new) == -1)
 	{
@@ -39,12 +40,20 @@ void	ft_dup3(int fd, int fd_new)
 		ft_dprintf(2, "close error (fd: %d)\n", fd);
 }
 
-int	ft_getfd(const char *path, int option, int creat_permission)
+int	ft_getfd(const char *path, int option, ...)
 {
-	int	fd;
+	int		fd;
+	va_list	args;
 
-	fd = open(path, option, creat_permission);
+	if (option & O_CREAT)
+	{
+		va_start(args, option);
+		fd = open(path, option, va_arg(args, int));
+	}
+	else
+		fd = open(path, option);
 	if (fd == -1)
-		ft_errexit(EXIT_FAILURE, path);
+		ms_perror(path);
+	va_end(args);
 	return (fd);
 }

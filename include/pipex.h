@@ -17,6 +17,7 @@
 
 # define READ_END	0
 # define WRITE_END	1
+# define HEREDOC	".here_doc.txt.tmp"
 // here_doc
 void	pipex_here_doc(int argc, char **argv, char **envp);
 // Utils
@@ -31,6 +32,6 @@ int		ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out);
 void	pipex_core(int argc, char **argv, char **envp, int out_option);
 
 // Path and envp
-char	*ft_findenvp(char **envp, const char *varname);
+char	*ft_getenv(char **envp, const char *varname);
 void	ft_pathaccess(char **envp, char **command);
 #endif

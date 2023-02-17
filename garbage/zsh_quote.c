@@ -22,7 +22,7 @@ static char	*lexer_doublequote(char **src)
 	if (*ptr_src == '\"')
 	{
 		*src = ptr_src;
-		return (ft_lsttoa_clear(&lst));
+		return (ft_lsttostr_clear(&lst));
 	}
 	ft_dprintf(2, "Missing closing quote (%c) in (%s)\n", '\"', (*src)[-1]);
 	ft_lstclear(&lst, free);

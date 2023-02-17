@@ -67,7 +67,7 @@ static char	*lexer_buffer(char **src)
 	}
 	ft_lstadd_back(&buffer, ft_lstnew(ft_substr(*src, 0, ptr - *src)));
 	*src = ptr;
-	return (ft_lsttoa_clear(&buffer));
+	return (ft_lsttostr_clear(&buffer));
 }
 
 static char	**lexer_core(char *src)

@@ -12,10 +12,18 @@
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	leaks(void)
 {
-	ft_clear_screen();
+	char	buffer[39];
+
+	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
+	system(buffer);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	ft_cleanterminal();
 	ms_signals_handler();
 	ms_input(envp);
-	system("leaks -q minishell");
+	leaks();
 }

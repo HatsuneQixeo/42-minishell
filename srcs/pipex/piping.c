@@ -11,12 +11,17 @@
 /* ************************************************************************** */
 #include "pipex.h"
 
-void	ms_execve(const char *cmd, char **envp);
-
+/**
+ * @brief Exclude argv from absolute path
+ * 
+ * @param cmd 
+ * @param envp 
+ */
 void	ft_execve(const char *cmd, char **envp)
 {
 	char	**command;
 
+	// Turn into argv
 	command = ft_split(cmd, ' ');
 	ft_pathaccess(envp, command);
 	execve(*command, command, envp);
@@ -43,7 +48,7 @@ int	ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out)
 	{
 		ft_dup3(fd_in, STDIN_FILENO);
 		ft_dup3(fd_out, STDOUT_FILENO);
-		ms_execve(cmd, envp);
+		ft_execve(cmd, envp);
 	}
 	else
 		waitpid(child, &status, 0);

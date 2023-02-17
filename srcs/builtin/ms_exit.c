@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ms_exit(int argc, char **argv, t_data *data)
+int	ctrl_(int argc, char **argv, t_data *data)
 {
 	if (argc == 1)
 		exit(0);

@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_utils.h                                      :+:      :+:    :+:   */
+/*   ms_other_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:27:24 by ntan-wan         ###   ########.fr       */
+/*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 03:29:34 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_UTILS_H
-# define SHELL_UTILS_H
+#include "minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+int	ft_isquote(int c)
+{
+	return (c == '\'' || c == '\"');
+}
 
-# include "libft.h"
+int	ft_isnameletter(int c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
 
-int		ft_isnameletter(int c);
-void	ft_clear_screen(void);
-void	shell_backslash(char *str);
-void	ms_pathaccess(char **executable);
-#endif
+void	ft_cleanterminal(void)
+{
+	ft_printf("\e[1;1H\e[2J");
+}
+
+void	ms_perror(const char *name)
+{
+	ft_dprintf(2, MINISHELL": ");
+	perror(name);
+}

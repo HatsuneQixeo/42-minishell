@@ -8,7 +8,7 @@
  */
 static int	isvalid_identifier(const char *str)
 {
-	if (!ft_isalpha(*str))
+	if (!ft_isalpha(*str) && *str != '_')
 		return (0);
 	while (ft_isnameletter(*str))
 		str++;
@@ -36,6 +36,7 @@ static void	export(t_list **lst_buffer, char **envp, const char *arg)
 }
 
 // Let's say MIKU=Hatsune Miku, why does export $MIKU=$MIKU result in Miku=Hatsune but IKU=$MIKU result in IKU=Hatsune Miku in bash
+/* Export empty argument in bash */
 int	ms_export(int argc, char **argv, t_data *data)
 {
 	t_list	*lst_buffer;
@@ -54,6 +55,6 @@ int	ms_export(int argc, char **argv, t_data *data)
 			export(&lst_buffer, data->envp, *argv);
 	}
 	if (lst_buffer != NULL)
-		data->envp = ft_strlistcombine(data->envp, ft_lsttoaa_clear(&lst_buffer));
+		data->envp = ft_strlistcombine(data->envp, (char **)ft_lsttoaa_clear(&lst_buffer));
 	return (retval);
 }

@@ -1,0 +1,57 @@
+
+metacharacter
+A character that, when unquoted, separates words. A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’.
+
+token
+A sequence of characters considered a single unit by the shell. It is either a word or an operator.
+
+3.2.4 Lists of Commands
+A list is a sequence of one or more pipelines separated by one of the operators ‘;’, ‘&’, ‘&&’, or ‘||’, and optionally terminated by one of ‘;’, ‘&’, or a newline.
+Of these list operators, ‘&&’ and ‘||’ have equal precedence, followed by ‘;’ and ‘&’, which have equal precedence.
+
+
+
+
+echo miku >> a | aa b && (eaa || aa) | echo "Hatsune Miku is cute"
+(echo Hatsune && echo Miku) | cat && echo is && (echo very && echo cute || echo still the cutest);
+Bash script example of this expression with my logic of implementation:
+{
+	any ()
+	{
+		return 0
+	}
+	success ()
+	{
+		return [ $? -eq 0 ]
+	}
+	failure ()
+	{
+		return [ $? -ne 0 ]
+	}
+	if any
+	then
+		echo Hatsune
+		if success
+		then
+			echo miku
+		fi
+	fi
+	pipe to cat
+	if success
+	then
+		echo is
+	fi
+	if success
+	then
+		echo very
+		if success
+		then
+			echo cute
+		fi
+		if failure
+		then
+			echo still the cutest
+		fi
+	fi
+	;
+}

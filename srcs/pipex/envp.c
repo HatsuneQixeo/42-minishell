@@ -11,39 +11,40 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-char	*ft_findenvp(char **envp, const char *varname)
+char	*ft_getenv(char **envp, const char *varname)
 {
-	char	*var_find;
+	char	*var_joined;
 	size_t	len_varname;
 
-	var_find = ft_strjoin(varname, "=");
-	len_varname = ft_strlen(var_find);
-	while (*envp != NULL && ft_strncmp(*envp, var_find, len_varname))
+	var_joined = ft_strjoin(varname, "=");
+	len_varname = ft_strlen(var_joined);
+	while (*envp != NULL && ft_strncmp(*envp, var_joined, len_varname))
 		envp++;
-	free(var_find);
-	if (*envp != NULL)
+	free(var_joined);
+	if (*envp == NULL)
+		return (NULL);
+	else
 		return ((*envp) + len_varname);
-	return (NULL);
 }
 
-void	ft_pathaccess(char **envp, char **command)
+void	ft_pathaccess(char **envp, char **executable)
 {
 	char	*joined;
 	char	**path;
 	size_t	y;
 
 	y = 0;
-	path = ft_split(ft_findenvp(envp, "PATH"), ':');
+	path = ft_split(ft_getenv(envp, "PATH"), ':');
 	while (path[y] != NULL)
 	{
-		joined = ft_strinsert(path[y++], "/", *command);
-		if (!access(joined, F_OK | X_OK))
+		joined = ft_strinsert(path[y++], "/", *executable);
+		if (access(joined, F_OK | X_OK) != -1)
 		{
-			ft_strlistclear(path);
-			free(*command);
-			*command = joined;
-			return ;
+			free(*executable);
+			*executable = joined;
+			break ;
 		}
 		free(joined);
-	} 
+	}
+	ft_strlistclear(path);
 }
