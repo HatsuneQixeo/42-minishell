@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 09:28:27 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 14:22:38 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,6 @@
 // 	}
 // }
 
-void	rm_token_value(t_token *token)
-{
-	if (!token)
-		return ;
-	if (token->value)
-	{
-		ft_bzero(token->value, 1);
-		token->type = TOKEN_LITERAL;
-	}
-}
-
 void	handle_backslash(t_double_list *backslash)
 {
 	t_token	*next_token;
@@ -72,16 +61,21 @@ void	handle_backslash(t_double_list *backslash)
 	rm_token_value(backslash->content);
 }
 
-void	set_following_token_to_expand(t_double_list *list)
+void	list_token_type_set(t_double_list *list, t_token_type set_type)
 {
+	t_token_type	init_type;
 	t_token_type	type;
+
+	if (!list)
+		return ;
+	init_type = token_type_get(list->content);
 	while (list)
 	{
 		type = token_type_get(list->content);
-		if (type == TOKEN_SPACE)
+		if (type != init_type)
 			break ;
 		else
-			token_type_set(list->content, TOKEN_EXPAND);
+			token_type_set(list->content, set_type);
 		list = list->next;
 	}
 }
@@ -89,26 +83,24 @@ void	set_following_token_to_expand(t_double_list *list)
 void	handle_variable(t_double_list *variable)
 {
 	t_double_list	*next;
-	t_token			*next_token;
+	char			*token_value;
 	
 	next = variable->next;
-	if (!next || token_type_get(next->content) == TOKEN_SPACE)	
+	if (next && token_type_get(next->content) == TOKEN_LITERAL)
 	{
-		token_type_set(variable->content, TOKEN_LITERAL);
-		return ;
+		token_value = token_value_get(next->content);
+		if (!ft_strncmp(token_value, "?", 1))
+			token_type_set(next->content, TOKEN_EXPAND);
+		else
+			list_token_type_set(next, TOKEN_EXPAND);
+		rm_token_value(variable->content);
 	}
-	else if (!ft_strncmp((char *)token_value_get(next->content), "?", 1))
-		token_type_set(next->content, TOKEN_EXPAND);
-	else if (ft_isalpha(*((char *)token_value_get(next->content))))
-		set_following_token_to_expand(next);
-	rm_token_value(variable->content);
+	else
+		token_type_set(variable->content, TOKEN_LITERAL);
 }
 
 void	handle_quote(t_double_list *quote, bool *in_quote)
 {
-	t_token_type	quote_type;
-
-	quote_type = token_type_get(quote->content);
 	*in_quote = !*in_quote;
 	rm_token_value(quote->content);
 }
@@ -132,7 +124,7 @@ void	ms_parser2(t_double_list *list)
 			handle_backslash(list);
 		else if (!in_single_quote && type == TOKEN_VARIABLE)
 			handle_variable(list);
-		else if (type != TOKEN_LITERAL && type != TOKEN_EXPAND)
+		else if (in_single_quote || in_double_quote && type != TOKEN_EXPAND)
 			token_type_set(list->content, TOKEN_LITERAL);
 		list = list->next;
 	}

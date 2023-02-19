@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:05:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 02:54:41 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 09:31:01 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ t_token		*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type)
 void	ms_token_free_del(void *token, void (*del)(void *));
 void	tokenlist_head_concat_same_type(t_double_list **head, t_token_type type);
 void	*token_value_get(t_token *token);
+void	rm_token_value(t_token *token);
 #endif
