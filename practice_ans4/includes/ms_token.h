@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:05:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:01:05 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:54:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef enum  e_token_type
 	TOKEN_QUOTE_DOUBLE,
 	TOKEN_LITERAL,
 	TOKEN_VARIABLE,
-	TOKEN_ESCAPE,
+	TOKEN_EXPAND,
+	TOKEN_BACKSLASH,
 	TOKEN_SPACE,
 	TOKEN_OPTION,
 }   t_token_type;
@@ -52,19 +53,22 @@ typedef struct  s_token
 }				t_token;
 
 /* token_utils */
-t_token_type	ms_token_type_set(char c);
+t_token_type	ms_token_type_identify(char c);
 t_double_list	*ms_tokenizer(char *input);
 void			ms_token_free(void	*token);
 t_token_type	token_type_get(t_token *token);
 void			ms_token_list_free(t_double_list **token_list);
+void			token_type_set(t_token *token, t_token_type type);
 t_token			*ms_token_create(void *value, t_token_type type);
 
 /* token_utils2 */
 bool		ms_token_is_space(char c);
 bool		ms_token_is_operator(t_token *token);
 bool		ms_token_is_separator(t_token *token);
-void		ms_token_list_concat_same_type(t_double_list **head);
+void		tokenlist_concat_same_type(t_double_list **head);
 t_token		*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type);
 
 void	ms_token_free_del(void *token, void (*del)(void *));
+void	tokenlist_head_concat_same_type(t_double_list **head, t_token_type type);
+void	*token_value_get(t_token *token);
 #endif

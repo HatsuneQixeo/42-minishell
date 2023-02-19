@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:10:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/12 00:02:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/16 09:51:05 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,29 @@ t_token	*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type)
 	return (ms_token_create(value, type));
 }
 
-void	ms_token_list_concat_same_type(t_double_list **head)
+void	tokenlist_head_concat_same_type(t_double_list **head, t_token_type type)
+{
+	t_token			*token;
+	t_token			*next_token;
+	t_double_list	*next_list;
+
+	while (*head && (*head)->next)
+	{
+		next_list = (*head)->next;
+		token = (*head)->content;
+		next_token = next_list->content;
+		if (token->type != type || next_token->type != type)
+			return ;
+		token = concat_2_tokens(token, next_token, type);
+		next_list->content = token;
+		next_list->prev = NULL;
+		ms_token_free(next_token);
+		double_lstdelone(*head, ms_token_free);
+		*head = next_list;
+	}
+}
+
+void	tokenlist_concat_same_type(t_double_list **head)
 {
 	t_double_list	*curr;
 	t_double_list	*next;

@@ -6,11 +6,19 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:44:25 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:06:03 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_other_utils.h"
+
+void	util_clear_screen(void)
+{
+	const char	*clear_screen;
+
+	clear_screen = "\e[1;1H\e[2J";
+	write(1, clear_screen, 10);
+}
 
 void	util_del_arr_str(void *arr_str)
 {

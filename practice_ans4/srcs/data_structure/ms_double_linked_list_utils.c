@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:03:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/12 10:24:16 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:51:18 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,17 @@ void	double_lstadd_back(t_double_list **lst, t_double_list *new)
 
 void	double_lstdelone(t_double_list *lst, void (*del)(void *))
 {
+	t_double_list	*prev;
+	t_double_list	*next;
+
 	if (!lst || !del)
 		return ;
+	prev = lst->prev;
+	next = lst->next;
+	if (prev)
+		prev->next = next;
+	if (next)
+		next->prev = prev;
 	del(lst->content);
 	free(lst);
 }
@@ -62,6 +71,8 @@ void	double_lstclear(t_double_list **lst, void (*del)(void *))
 	t_double_list	*list;
 	t_double_list	*next;	
 
+	if (!*lst || !del)
+		return ;
 	list = *lst;
 	while (list)
 	{

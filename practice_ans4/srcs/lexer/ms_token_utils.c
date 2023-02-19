@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:03:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:01:05 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:53:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_grammar	*ms_token_grammar_get(void)
 	{'\r', TOKEN_SPACE},
 	{'\t', TOKEN_SPACE},
 	{'\v', TOKEN_SPACE},
-	{'\\', TOKEN_ESCAPE},
+	{'\\', TOKEN_BACKSLASH},
 	{'$', TOKEN_VARIABLE},
 	{'|', TOKEN_PIPELINE},
 	};
@@ -35,7 +35,7 @@ t_grammar	*ms_token_grammar_get(void)
 	return (grammar);
 }
 
-t_token_type	ms_token_type_set(char c)
+t_token_type	ms_token_type_identify(char c)
 {
 	t_grammar	*grammar;
 
@@ -49,9 +49,19 @@ t_token_type	ms_token_type_set(char c)
 	return (TOKEN_LITERAL);
 }
 
+void	token_type_set(t_token *token, t_token_type type)
+{
+	token->type = type;
+}
+
 t_token_type	token_type_get(t_token *token)
 {
 	return (token->type);
+}
+
+void	*token_value_get(t_token *token)
+{
+	return (token->value);
 }
 
 t_token	*ms_token_create(void *value, t_token_type type)
@@ -80,13 +90,11 @@ t_double_list	*ms_tokenizer(char *input)
 		buf[0] = *input;
 		buf[1] = '\0';
 		value = ft_strdup(buf);
-		type = ms_token_type_set(buf[0]);
+		type = ms_token_type_identify(buf[0]);
 		token = ms_token_create(value, type);
 		double_lstadd_back(&token_list, double_lstnew(token));
 		input++;
 	}
-	//
-	// debug_token_list_content_print(token_list);
 	return (token_list);
 }
 

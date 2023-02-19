@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:17:22 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/14 07:28:57 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,6 @@
 # include <readline/history.h>
 
 # include "ms_token.h"
+#include "ms_btree.h"
+#include "ms_ast.h"
 #endif
