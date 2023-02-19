@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 09:23:30 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 09:28:27 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,54 +103,6 @@ void	handle_variable(t_double_list *variable)
 		set_following_token_to_expand(next);
 	rm_token_value(variable->content);
 }
-
-void	handle_quote2(t_double_list *quote, t_token_type quote_type)
-{
-	t_double_list	*next;
-	t_token_type	type;
-	bool			in_single_quote;
-
-	in_single_quote = false;
-	if (quote_type == TOKEN_QUOTE_SINGLE)
-		in_single_quote = true;
-	rm_token_value(quote->content);
-	next = quote->next;
-	while (next)
-	{
-		type = token_type_get(next->content);
-		if (type == quote_type)
-			break ;
-		else if (!in_single_quote && type == TOKEN_BACKSLASH)
-			handle_backslash(next);
-		else if (!in_single_quote && type == TOKEN_VARIABLE)
-			handle_variable(next);
-		else if (type != TOKEN_EXPAND && type != TOKEN_LITERAL)
-			token_type_set(next->content, TOKEN_LITERAL);
-		next = next->next;
-	}
-	if (next != NULL)
-		rm_token_value(next->content);
-}
-
-void	ms_parser(t_double_list **token_list)
-{
-	t_token_type	type;
-	t_double_list	*list;
-	
-	list = *token_list;
-	while (list)
-	{
-		type = token_type_get(list->content);
-		if (type == TOKEN_BACKSLASH)
-			handle_backslash(list);
-		else if (type == TOKEN_QUOTE_SINGLE || type == TOKEN_QUOTE_DOUBLE)
-			handle_quote2(list, type);
-		else if (type == TOKEN_VARIABLE)
-			handle_variable(list);
-		list = list->next;
-	}
-}
-
 
 void	handle_quote(t_double_list *quote, bool *in_quote)
 {
