@@ -33,7 +33,7 @@ const char	*lstiter_tokenname(const char *newname)
 void	lstiter_showtoken(int i, void *content)
 {
 	const t_token	*token = content;
-	char			*str_type;
+	const char		*str_type;
 
 	if (isoperator_rdrt(token->type))
 		str_type = "Redirect";
@@ -43,5 +43,5 @@ void	lstiter_showtoken(int i, void *content)
 		str_type = "Subshell";
 	else
 		str_type = "Default";
-	ft_printf("%s[%d]: %s{%b}\n", lstiter_tokenname(NULL), i, str_type, token->value);
+	ft_printf("%s[%2d]: %-8s: %b\n", lstiter_tokenname(NULL), i, str_type, token->value);
 }

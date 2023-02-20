@@ -47,6 +47,24 @@ typedef struct s_token
 }			t_token;
 
 typedef const t_token	t_tokenlist[];
+typedef int	(*t_ftexe)(char **envp, t_list *lst, int fd_in, int fd_out);
+
+typedef struct s_control
+{
+	t_ftexitstatus	condition;
+	/**
+	 * @brief Question:
+	 * What should this ptr point to
+	 * ex: Like a lst of arguments, like lst_exe
+	 * ex: or a subshell, how should I act is this is subsh
+	 * What if this is a function take takes in a linked list?
+	 * That solves it?
+	 */
+	t_ftexe			ft_exe;
+	t_list			*lst_exe;
+	/* (cat) < infile? This count as a cmd block no? */
+	t_list			*rdrt_token;
+}			t_ctrl;
 
 typedef struct s_data
 {
@@ -78,7 +96,9 @@ const char	*lstiter_tokenname(const char *newname);
 void	lstiter_showtoken(int i, void *content);
 
 /* Control Structure*/
-void	lstiter_showctrl(int i, void *content);
+const char	*ctrl_name(t_ftexitstatus condition);
+void	show_ctrl(t_list *lst_ctrl);
+// void	lstiter_showctrl(int i, void *content);
 void	del_ctrl(void *content);
 t_list	*ms_control_structure(const char *input_raw);
 t_list	*ms_control_token(const char *input_raw);
@@ -100,7 +120,6 @@ char	*ms_expander(char **envp, const char *command_line);
 /* env_utils */
 
 /* Exe */
-typedef int	(*t_ftexe)(char **envp, t_list *lst, int fd_in, int fd_out);
 
 /* Currently only serves as an idenfitier */
 int	exe_argv(char **envp, t_list *lst_argv, int fd_in, int fd_out);

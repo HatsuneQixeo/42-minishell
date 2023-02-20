@@ -12,41 +12,29 @@
 
 #include "minishell.h"
 
-typedef struct s_control
+t_list	*ft_lstextract_front(t_list **lst)
 {
-	t_ftexitstatus	condition;
-	/**
-	 * @brief Question:
-	 * What should this ptr point to
-	 * ex: Like a lst of arguments, like cmdchunk
-	 * ex: or a subshell, how should I act is this is subsh
-	 * What if this is a function take takes in a linked list?
-	 * That solves it?
-	 */
-	t_ftexe			ft_exe;
-	t_list			*cmdchunk;
-	/* (cat) < infile? This count as a cmd block no? */
-	t_list			*rdrt_token;
-}			t_ctrl;
+	t_list	*node;
 
-void	lstiter_showctrl(int i, void *content)
+	if (*lst == NULL)
+		return (NULL);
+	node = *lst;
+	(*lst) = (*lst)->next;
+	node->next = NULL;
+	return (node);
+}
+
+static t_ftexitstatus	ctrl_value(const t_token *token)
 {
-	t_ctrl		*process;
-	const char	*name_condition;
-
-	process = content;
-	if (process->condition == ctrl_any)
-		name_condition = "ctrl_any";
-	else if (process->condition == ctrl_success)
-		name_condition = "ctrl_success";
-	else if (process->condition == ctrl_failure)
-		name_condition = "ctrl_failure";
+	if (!ft_strcmp(token->value, "&&"))
+		return (ctrl_success);
+	else if (!ft_strcmp(token->value, "||"))
+		return (ctrl_failure);
+	else if (!ft_strcmp(token->value, "|"))
+		return (ctrl_any);
 	else
-		name_condition = "undefined function";
-	ft_printf("process{%d}: %s\n", i, name_condition);
-	// if (process->ft_exe == exe_argc)
-	ft_lstiter(process->cmdchunk, lstiter_showtoken);
-	ft_printf("\n");
+		ft_dprintf(2, "Unknown token in parser_ctrl: %s\n", token->value);
+	return (NULL);
 }
 
 void	del_ctrl(void *content)
@@ -55,189 +43,145 @@ void	del_ctrl(void *content)
 
 	process = content;
 	if (process->ft_exe == exe_argv)
-		ft_lstclear(&process->cmdchunk, del_token);
+		ft_lstclear(&process->lst_exe, del_token);
 	else if (process->ft_exe == exe_subsh)
-		ft_lstclear(&process->cmdchunk, del_ctrl);
+		ft_lstclear(&process->lst_exe, del_ctrl);
+	else if (process->ft_exe == NULL)
+	{
+		ft_dprintf(2, "del_ctrl receiving Undefined (null) ft_exe\n");
+		ft_lstclear(&process->lst_exe, del_token);
+	}
 	else
+	{
 		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n", process->ft_exe);
+		// exit(2);
+	}
 	free(process);
 }
 
-t_token	*lst_gettoken(t_list *node)
-{
-	if (node == NULL)
-		return (NULL);
-	else
-		return (node->content);
-}
-
-t_list	*ft_lstextract_front(t_list **lst)
-{
-	t_list	*node;
-
-	node = *lst;
-	(*lst) = (*lst)->next;
-	node->next = NULL;
-	return (node);
-}
-
-t_ftexe	ctrl_nesting(t_list **start, t_list *end, t_list **lst_main, t_list **lst_rdrt)
-{
-	t_list	*tmp;
-	t_ftexe	exeft;
-
-	/* Maybe, I can check the syntax in this loop */
-	/* if token->type == SUBSH_OPEN; ft_exe = */
-	exeft = exe_argv;
-	while ((*start)->next != end)
-	{
-		t_list	*node = ft_lstextract_front(start);
-		{
-			t_token	*token = node->content;
-
-			if (token->type == SUBSH_BEGIN)
-			{
-				exeft = exe_subsh;
-				/* Recursive call */
-			}
-			else if (token->type == DEFAULT)
-				ft_lstadd_back(lst_main, node);
-			else if (isoperator_rdrt(token->type))
-			{
-				ft_lstadd_back(lst_rdrt, node);
-				ft_lstadd_back(lst_rdrt, ft_lstextract_front(start));
-				if (!ft_strcmp(token->value, "<<"))
-				{
-					/* get heredoc */
-				}
-			}
-			else if (token->type == SUBSH_END)
-			{
-				return (exeft);
-			}
-		}
-	}
-	/* Need to deal with this somehow , maybe move this down before tmp */
-	if (end != NULL)
-	{
-		tmp = (*start)->next->next;
-		(*start)->next = NULL;
-		*start = tmp;
-	}
-	return (exeft);
-}
-
-t_ctrl	*ctrl_cmdchunk(t_list **start, t_list *end, t_ftexitstatus condition)
+static t_ctrl	*ctrl_new(t_ftexitstatus condition, t_ftexe exe)
 {
 	t_ctrl	*ctrl;
 
-	if (*start == end)
-		return (NULL);
 	ctrl = malloc(sizeof(t_ctrl));
 	if (ctrl == NULL)
 		return (NULL);
 	ctrl->condition = condition;
-	ctrl->cmdchunk = NULL;
+	ctrl->ft_exe = exe;
+	ctrl->lst_exe = NULL;
 	ctrl->rdrt_token = NULL;
-	ctrl->ft_exe = ctrl_nesting(start, end, &ctrl->cmdchunk, &ctrl->rdrt_token);
 	return (ctrl);
 }
 
-/**
- * @brief Parser
- * -> syntax check (might wanna heredoc here too?)
- * -> redirect
- * -> ctrl
- * -> cmdchunk
- * 
- * @param lst_token 
- * @return t_list* 
- */
+t_list	*parser_recursive(t_list **lst_token);
 
-/**
- * @brief 
- * 
- * @param lst_token 
- * @return t_list* A list of t_ctrl, which contains
- */
-t_list	*parser_ctrl(t_list **lst_token)
+static t_ctrl	*parser_recursive_node(t_list **lst_token, t_ftexitstatus *condition)
+{
+	t_ctrl	*ctrl;
+	t_list	*node_token;
+	t_token	*token;
+
+	ctrl = ctrl_new(*condition, exe_argv);
+	while (*lst_token != NULL)
+	{
+		node_token = ft_lstextract_front(lst_token);
+		token = node_token->content;
+		if (token->type == DEFAULT)
+			ft_lstadd_back(&ctrl->lst_exe, node_token);
+		else if (isoperator_ctrl(token->type))
+		{
+			*condition = ctrl_value(token);
+			ft_lstdelone(node_token, del_token);
+			break ;
+		}
+		else if (token->type == SUBSH_END)
+		{
+			ft_lstdelone(node_token, del_token);
+			*condition = NULL;
+			break ;
+		}
+		else if (isoperator_rdrt(token->type))
+		{
+			ft_lstadd_back(&ctrl->rdrt_token, node_token);
+			ft_lstadd_back(&ctrl->rdrt_token, ft_lstextract_front(lst_token));
+		}
+		else if (token->type == SUBSH_BEGIN)
+		{
+			ctrl->ft_exe = exe_subsh;
+			ft_lstdelone(node_token, del_token);
+			ft_lstadd_back(&ctrl->lst_exe, parser_recursive(lst_token));
+		}
+	}
+	return (ctrl);
+}
+
+t_list	*parser_recursive(t_list **lst_token)
 {
 	t_list			*lst_ctrl;
-	t_list			*it;
 	t_ftexitstatus	condition;
-	t_list			*node;
-	t_token			*token;
 
 	lst_ctrl = NULL;
-	it = *lst_token;
 	condition = ctrl_any;
-	while (it != NULL)
-	{
-		token = it->content;
-		if (token->type == SUBSH_END)
-			break ;
-		node = it;
-		it = it->next;
-		if (!isoperator_ctrl(token->type))
-			continue ;
-		ft_lstadd_back(&lst_ctrl, ft_lstnew(
-				ctrl_cmdchunk(lst_token, node, condition)));
-		if (!ft_strcmp(token->value, "&&"))
-			condition = ctrl_success;
-		else if (!ft_strcmp(token->value, "||"))
-			condition = ctrl_failure;
-		else if (!ft_strcmp(token->value, "|"))
-			condition = ctrl_any;
-		else
-			ft_dprintf(2, "Unknown token in parser_ctrl pass isoperator_ctrl: %s\n", token->value);
-		ft_lstdelone(node, del_token);
-	}
-	ft_lstadd_back(&lst_ctrl, ft_lstnew(
-			ctrl_cmdchunk(lst_token, it, condition)));
-	*lst_token = NULL;
-	ft_lstiter(lst_ctrl, lstiter_showctrl);
-	ft_lstclear(&lst_ctrl, del_ctrl);
+	while (*lst_token != NULL && condition != NULL)
+		ft_lstadd_back(&lst_ctrl, ft_lstnew(parser_recursive_node(lst_token, &condition)));
 	return (lst_ctrl);
 }
 
-const char	*ctrl_name(t_ftexitstatus condition)
-{
-	if (condition == ctrl_any)
-		return ("ctrl_any");
-	else if (condition == ctrl_success)
-		return ("ctrl_success");
-	else if (condition == ctrl_failure)
-		return ("ctrl_failure");
-	else
-		return ("undefined function");
-}
+/**
+ * @brief A successful prototype but is not qualified for norminette
+ * Same as the one above currently during (20/1/2023 11.37pm)
+ */
 
-void	show_ctrl_core(t_list *lst_ctrl, int padding)
-{
-	int	i;
+// t_list	*parser_recursive(t_list **lst_token);
 
-	i = 0;
-	while (lst_ctrl != NULL)
-	{
-		t_ctrl	*node = lst_ctrl->content;
+// static t_ctrl	*parser_recursive_node(t_list **lst_token, t_ftexitstatus *condition)
+// {
+// 	t_ctrl	*ctrl;
+// 	t_list	*node_token;
+// 	t_token	*token;
 
-		lst_ctrl = lst_ctrl->next;
-		ft_printf("ctrl[%d]: %s\n", i, ctrl_name(node->condition));
-		if (node->ft_exe == exe_argv)
-		{
-			ft_printf("padding: %d\n", padding);
-			ft_lstiter(node->cmdchunk, lstiter_showtoken);
-		}
-		else if (node->ft_exe == exe_subsh)
-			show_ctrl_core(node->cmdchunk, (padding + 4));
-		else
-			ft_printf("Show_ctrl: Unknown ft in ft_exe: %p\n", node->ft_exe);
-		i++;
-	}
-}
+// 	ctrl = ctrl_new(*condition, exe_argv);
+// 	while (*lst_token != NULL)
+// 	{
+// 		node_token = ft_lstextract_front(lst_token);
+// 		token = node_token->content;
+// 		if (token->type == DEFAULT)
+// 			ft_lstadd_back(&ctrl->lst_exe, node_token);
+// 		else if (isoperator_ctrl(token->type))
+// 		{
+// 			*condition = ctrl_value(token);
+// 			ft_lstdelone(node_token, del_token);
+// 			break ;
+// 		}
+// 		else if (token->type == SUBSH_END)
+// 		{
+// 			ft_lstdelone(node_token, del_token);
+// 			*condition = NULL;
+// 			break ;
+// 		}
+// 		else if (isoperator_rdrt(token->type))
+// 		{
+// 			ft_lstadd_back(&ctrl->rdrt_token, node_token);
+// 			ft_lstadd_back(&ctrl->rdrt_token, ft_lstextract_front(lst_token));
+// 		}
+// 		else if (token->type == SUBSH_BEGIN)
+// 		{
+// 			ctrl->ft_exe = exe_subsh;
+// 			ft_lstdelone(node_token, del_token);
+// 			ft_lstadd_back(&ctrl->lst_exe, parser_recursive(lst_token));
+// 		}
+// 	}
+// 	return (ctrl);
+// }
 
-void	show_ctrl(t_list *lst_ctrl)
-{
-	show_ctrl_core(lst_ctrl, 0);
-}
+// t_list	*parser_recursive(t_list **lst_token)
+// {
+// 	t_list			*lst_ctrl;
+// 	t_ftexitstatus	condition;
 
+// 	lst_ctrl = NULL;
+// 	condition = ctrl_any;
+// 	while (*lst_token != NULL && condition != NULL)
+// 		ft_lstadd_back(&lst_ctrl, ft_lstnew(parser_recursive_node(lst_token, &condition)));
+// 	return (lst_ctrl);
+// }

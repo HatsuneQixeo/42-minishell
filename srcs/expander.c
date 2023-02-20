@@ -55,25 +55,24 @@ char	*ft_substrenv(char **envp, const char **p_src)
  */
 char	*expander_node(char **envp, const char **p_src)
 {
-	char	*value;
+	const char	chr = (*p_src)[1];
 
-	if ((*p_src)[1] == '?')
+	if (chr == '?')
 	{
-		value = ft_itoa(g_lastexit);
 		(*p_src)++;
+		return (ft_itoa(g_lastexit));
 	}
-	else if ((*p_src)[1] == '\0')
-		value = ft_strdup("$");
-	else if (!ft_isnameletter((*p_src)[1]))
-		value = ft_strdup("");
-	else if (ft_isdigit((*p_src)[1]))
+	else if (chr == '\0')
+		return (ft_strdup("$"));
+	else if (!ft_isnameletter(chr))
+		return (ft_strdup(""));
+	else if (ft_isdigit(chr))
 	{
-		value = ft_strdup("");
 		(*p_src)++;
+		return (ft_strdup(""));
 	}
 	else
-		value = ft_substrenv(envp, p_src);
-	return (value);
+		return (ft_substrenv(envp, p_src));
 }
 
 static char	*parse_doublequote(char **envp, const char **p_it)

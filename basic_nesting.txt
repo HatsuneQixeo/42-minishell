@@ -1,0 +1,29 @@
+[0]: ??
+	0: Default : echo
+	1: Default : $MIKU
+
+[1]: &&
+	0: Subshell: (
+	1: Default : echo
+	2: Default : is
+
+[2]: &&
+	0: Default : echo
+	1: Default : cute
+	2: Subshell: )
+
+
+to something like
+
+[0]: ??
+	0: Default : echo
+	1: Default : $MIKU
+
+[1]: &&
+	[1.0]: ??
+		0: Default : echo
+		1: Default : is
+
+	[1.1]: &&
+		0: Default : echo
+		1: Default : cute
