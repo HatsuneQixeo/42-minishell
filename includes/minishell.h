@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 17:02:45 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/21 02:12:48 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,12 @@
 # include "ms_ast.h"
 
 # include "ms_parser.h"
+
+typedef struct s_env
+{
+        char    **envp;
+        char    **vars;
+        char    *pwd;
+        char    *oldpwd;
+}       t_env;
 #endif
