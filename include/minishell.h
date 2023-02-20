@@ -62,8 +62,9 @@ typedef struct s_control
 	 */
 	t_ftexe			ft_exe;
 	t_list			*lst_exe;
-	/* (cat) < infile? This count as a cmd block no? */
-	t_list			*rdrt_token;
+	/* (cat) < infile? This count as a cmd block no?
+		I need a external linked list for rdrt tokens */
+	t_list			*lst_rdrt;
 }			t_ctrl;
 
 typedef struct s_data
@@ -105,6 +106,8 @@ t_list	*ms_control_token(const char *input_raw);
 
 /* Parser */
 int		parser_syntax(t_list *lst_token);
+t_list	*parser_recursive(t_list **lst_token);
+
 
 /* Lexer */
 t_list	*ms_lexer(const char *input_raw);

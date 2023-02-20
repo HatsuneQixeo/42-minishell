@@ -33,7 +33,7 @@ static t_ftexitstatus	ctrl_value(const t_token *token)
 	else if (!ft_strcmp(token->value, "|"))
 		return (ctrl_any);
 	else
-		ft_dprintf(2, "Unknown token in parser_ctrl: %s\n", token->value);
+		ft_dprintf(2, "ctrl_value does not recognize: %s\n", token->value);
 	return (NULL);
 }
 
@@ -46,16 +46,9 @@ void	del_ctrl(void *content)
 		ft_lstclear(&process->lst_exe, del_token);
 	else if (process->ft_exe == exe_subsh)
 		ft_lstclear(&process->lst_exe, del_ctrl);
-	else if (process->ft_exe == NULL)
-	{
-		ft_dprintf(2, "del_ctrl receiving Undefined (null) ft_exe\n");
-		ft_lstclear(&process->lst_exe, del_token);
-	}
 	else
-	{
 		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n", process->ft_exe);
-		// exit(2);
-	}
+	ft_lstclear(&process->lst_rdrt, del_token);
 	free(process);
 }
 
@@ -69,11 +62,9 @@ static t_ctrl	*ctrl_new(t_ftexitstatus condition, t_ftexe exe)
 	ctrl->condition = condition;
 	ctrl->ft_exe = exe;
 	ctrl->lst_exe = NULL;
-	ctrl->rdrt_token = NULL;
+	ctrl->lst_rdrt = NULL;
 	return (ctrl);
 }
-
-t_list	*parser_recursive(t_list **lst_token);
 
 static t_ctrl	*parser_recursive_node(t_list **lst_token, t_ftexitstatus *condition)
 {
@@ -96,14 +87,14 @@ static t_ctrl	*parser_recursive_node(t_list **lst_token, t_ftexitstatus *conditi
 		}
 		else if (token->type == SUBSH_END)
 		{
-			ft_lstdelone(node_token, del_token);
 			*condition = NULL;
+			ft_lstdelone(node_token, del_token);
 			break ;
 		}
 		else if (isoperator_rdrt(token->type))
 		{
-			ft_lstadd_back(&ctrl->rdrt_token, node_token);
-			ft_lstadd_back(&ctrl->rdrt_token, ft_lstextract_front(lst_token));
+			ft_lstadd_back(&ctrl->lst_rdrt, node_token);
+			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstextract_front(lst_token));
 		}
 		else if (token->type == SUBSH_BEGIN)
 		{
@@ -161,8 +152,8 @@ t_list	*parser_recursive(t_list **lst_token)
 // 		}
 // 		else if (isoperator_rdrt(token->type))
 // 		{
-// 			ft_lstadd_back(&ctrl->rdrt_token, node_token);
-// 			ft_lstadd_back(&ctrl->rdrt_token, ft_lstextract_front(lst_token));
+// 			ft_lstadd_back(&ctrl->lst_rdrt, node_token);
+// 			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstextract_front(lst_token));
 // 		}
 // 		else if (token->type == SUBSH_BEGIN)
 // 		{

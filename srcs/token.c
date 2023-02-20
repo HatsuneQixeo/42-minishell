@@ -36,12 +36,12 @@ void	lstiter_showtoken(int i, void *content)
 	const char		*str_type;
 
 	if (isoperator_rdrt(token->type))
-		str_type = "Redirect";
+		str_type = CYAN"Redirect";
 	else if (isoperator_ctrl(token->type))
-		str_type = "Control";
+		str_type = YELLOW"Control";
 	else if (isoperator_subsh(token->type))
-		str_type = "Subshell";
+		str_type = MAGENTA"Subshell";
 	else
-		str_type = "Default";
-	ft_printf("%s[%2d]: %-8s: %b\n", lstiter_tokenname(NULL), i, str_type, token->value);
+		str_type = GREY"Default";
+	ft_printf("%s[%2d]: %-8s: %b\n"DEF, lstiter_tokenname(NULL), i, str_type, token->value);
 }

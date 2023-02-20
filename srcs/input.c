@@ -14,17 +14,15 @@
 
 int	ms_isbuiltin(const char *command_expanded, t_data *data);
 
-/**
- * @brief return (-!!ft_dprintf(2, MINISHELL": %s: %s\n", name, error));
- * @return int -1
- */
-int	ms_errorlog(const char *name, const char *error)
+void	debuglst_tmpname(t_list *lst, const char *(*itname)(const char *),
+			const char *tmpname, t_ftlstiter ft_dbg)
 {
-	return (-!!ft_dprintf(2, MINISHELL": %s: %s\n", name, error));
-}
+	const char	*name = itname(NULL);
 
-t_list	*parser_ctrl(t_list **lst_token);
-t_list	*parser_recursive(t_list **lst_token);
+	itname(tmpname);
+	ft_lstiter(lst, ft_dbg);
+	itname(name);
+}
 
 void	ms_procedure(t_data *data, const char *raw)
 {
@@ -37,8 +35,7 @@ void	ms_procedure(t_data *data, const char *raw)
 	t_list	*lst = ms_lexer(input);
 	free(input);
 
-	lstiter_tokenname("lexed");
-	ft_lstiter(lst, lstiter_showtoken);
+	debuglst_tmpname(lst, lstiter_tokenname, "lexed", lstiter_showtoken);
 	/* Return if syntax error */
 	if (parser_syntax(lst) == -1)
 	{
@@ -48,10 +45,9 @@ void	ms_procedure(t_data *data, const char *raw)
 	/**
 	 * @brief Parser
 	 * Build the syntax tree
-	 * 	Interpreter will handle file not found and ambiguous shenanigan
-	 * 		But syntax error still need to be checked
+	 * Interpreter will handle file not found and ambiguous shenanigan
+	 * 	But syntax error still need to be checked
 	 */
-	// t_list	*lst_ctrl = parser_ctrl(&lst);
 	t_list	*lst_ctrl = parser_recursive(&lst);
 
 	show_ctrl(lst_ctrl);
@@ -59,8 +55,7 @@ void	ms_procedure(t_data *data, const char *raw)
 	ft_lstclear(&lst_ctrl, del_ctrl);
 	if (lst != NULL)
 	{
-		lstiter_tokenname("leftover");
-		ft_lstiter(lst, lstiter_showtoken);
+		debuglst_tmpname(lst, lstiter_tokenname, "leftover", lstiter_showtoken);
 		ft_lstclear(&lst, del_token);
 	}
 	return ;
@@ -93,13 +88,14 @@ void	ms_input(char **src_envp)
 	char	*input;
 
 	data.envp = ft_strlistdup(src_envp);
-	input = readline(MINISHELL"$ ");
-	while (input != NULL)
+	while (1)
 	{
-		if (*input != '\0')
+		input = readline(MINISHELL"$ ");
+		if (input == NULL)
+			break ;
+		else if (*input != '\0')
 			ms_procedure(&data, input);
 		free(input);
-		input = readline(MINISHELL"$ ");
 	}
 	ft_strlistclear(data.envp);
 }
