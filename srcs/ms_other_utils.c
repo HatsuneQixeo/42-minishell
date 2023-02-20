@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:29:34 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/02/21 01:46:11 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "other_utils.h"
+#include "ms_other_utils.h"
 
 void	util_clear_screen(void)
 {
@@ -20,63 +20,34 @@ void	util_clear_screen(void)
 	write(1, clear_screen, 10);
 }
 
-int	util_str_arr_len(char **arr)
-{
-	int	len;
-
-	len = 0;
-	while (*arr++)
-		len++;
-	return (len);
-}
-
-char	**util_str_arr_dup(char **arr)
-{
-	int		i;
-	char	**copy;
-
-	if (!arr)
-		return (NULL);
-	copy = ft_calloc(util_str_arr_len(arr) + 1, sizeof(*copy));
-	i = -1;
-	while (arr[++i])
-		copy[i] = ft_strdup(arr[i]);
-	return (copy);
-}
-
-void	*util_realloc(void *ptr, size_t old_size, size_t new_size)
-{
-	void	*new_ptr;
-	size_t	copy_size;
-
-	if (!ptr)
-		return (malloc(new_size));
-	copy_size = 0;
-	new_ptr = malloc(new_size);
-	if (ptr && new_ptr)
-	{
-		if (old_size && old_size < new_size)
-			copy_size = old_size;
-		else
-			copy_size = new_size;
-		ft_memcpy(new_ptr, ptr, copy_size);
-	}
-	if (new_ptr || !new_size)
-		free(ptr);
-	return (new_ptr);
-}
-
-void	util_str_arr_free(char ***array)
+void	util_del_arr_str(void *arr_str)
 {
 	int		i;
 	char	**arr;
 
-	if (!arr)
-		return ;
 	i = -1;
-	arr = *array;
+	arr = arr_str;
 	while (arr[++i])
 		free(arr[i]);
 	free(arr);
-	*array = NULL;
+}
+
+char	**util_list_to_arr_str(t_double_list *literal_list)
+{
+	int		i;
+	char	**arr;
+	int		size_arr;
+
+	i = -1;
+	size_arr = double_lstsize(literal_list);
+	arr = malloc(sizeof(char *) * (size_arr + 1));
+	if (!arr)
+		return (NULL);
+	while (literal_list)
+	{
+		arr[++i] = ft_strdup(literal_list->content);
+		literal_list = literal_list->next;
+	}
+	arr[size_arr] = NULL;
+	return (arr);
 }
