@@ -6,13 +6,13 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:01:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/18 10:33:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:25:27 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_debug.h"
 
-void    debug_token_content_print(void *content)
+void	debug_token_content_print(void *content)
 {
 	t_token	*t;	
 

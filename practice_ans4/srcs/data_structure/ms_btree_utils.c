@@ -6,14 +6,14 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:41:57 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 15:43:31 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:32:06 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_btree.h"
 #include "ms_token.h"
 
-t_node *btree_node_init(void *content)
+t_node	*btree_node_init(void *content)
 {
 	t_node	*node;
 
@@ -27,10 +27,10 @@ t_node *btree_node_init(void *content)
 	return (node);
 }
 
-void    btree_node_add(t_node **parent, t_node *node)
+void	btree_node_add(t_node **parent, t_node *node)
 {
 	t_token	*token;
-	
+
 	token = node->content;
 	if (!(*parent))
 		*parent = node;
@@ -58,34 +58,3 @@ void	btree_free(t_node **node, void (*del)(void *))
 	free(n);
 	*node = NULL;
 }
-
-// void	btree_of_cmds_create(t_list *token_list)
-// {
-// 	t_node	*root;
-// 	t_list	*list;
-
-// 	list = token_list;
-// 	while (list)
-// 	{
-// 		root = NULL;
-// 		ast_create();
-// 		list = list->next;
-// 	}
-
-// }
-
-// void	ms_parser(t_list *token_list)
-// {
-// 	t_list	*list;
-// 	t_token	*token;
-
-// 	list = token_list;
-// 	while (list)
-// 	{
-// 		token = list->content;
-// 		//	
-// 		list = list->next;
-// 	}
-// 	// if (list)
-// 		// ms_parser(list);
-// }

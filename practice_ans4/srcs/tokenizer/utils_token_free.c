@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_debug.h                                         :+:      :+:    :+:   */
+/*   utils_token_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 18:04:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:27:48 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/02/21 00:32:32 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/02/21 00:55:40 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_DEBUG_H
-# define MS_DEBUG_H
+#include "ms_token.h"
 
-# include <stdio.h>
+void	token_free(void	*token)
+{
+	t_token	*t;
 
-# include "ms_btree.h"
-# include "ms_token.h"
-# include "ms_double_linked_list.h"
+	t = token;
+	free(t->value);
+	free(t);
+}
 
-void	debug_token_content_print(void *content);
-void	debug_ast_content_print(t_node *root, int depth);
-void	debug_token_list_content_print(t_double_list *list);
-#endif
+void	token_free_del(void *token, void (*del)(void *))
+{
+	t_token	*t;
+
+	t = token;
+	del(t->value);
+	free(t);
+}
+
+void	token_list_free(t_double_list **token_list)
+{
+	double_lstclear(token_list, token_free);
+}

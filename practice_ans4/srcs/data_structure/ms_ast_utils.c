@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:51:04 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/20 23:59:19 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:36:30 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ast_create(t_node **root, t_double_list *token_list)
 	{
 		token = token_list->content;
 		value = token->value;
-		if (ms_token_is_separator(token))
+		if (token_is_separator(token))
 			break ;
 		else if (token_is_operator(token))
 		{
