@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 15:43:15 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 15:01:18 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 22:39:18 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_list	*ms_tokenize(char *input)
 const t_token_type_grammar	*token_type_grammar_get(char c)
 {
 	const t_token_type_grammar	grammar[] = {
-	{"&", TOKEN_SEP_AND}, {"|", TOKEN_SEP_OR}, {";", TOKEN_SEP_SEIMICOLON},
+	{"&", AMPERSAND}, {"|", OR}, {";", TOKEN_SEP_SEIMICOLON},
 	{"<", TOKEN_REDIR_IN}, {">", TOKEN_REDIR_OUT}, {0,0},
 	};
 	

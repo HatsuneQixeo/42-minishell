@@ -6,47 +6,47 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:03:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 09:30:53 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:59:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_token.h"
 
-t_grammar	*ms_token_grammar_get(void)
+t_grammar	*token_grammar_get(void)
 {
 	static t_grammar	grammar[] = {
-	{'<', TOKEN_REDIR_LEFT},
-	{'>', TOKEN_REDIR_RIGHT},
-	{'&', TOKEN_SEP_AND},
-	{';', TOKEN_SEP_SEMICOLON},
-	{'\'', TOKEN_QUOTE_SINGLE},
-	{'\"', TOKEN_QUOTE_DOUBLE},
-	{' ', TOKEN_SPACE},
-	{'\f', TOKEN_SPACE},
-	{'\n', TOKEN_SPACE},
-	{'\r', TOKEN_SPACE},
-	{'\t', TOKEN_SPACE},
-	{'\v', TOKEN_SPACE},
-	{'\\', TOKEN_BACKSLASH},
-	{'$', TOKEN_VARIABLE},
-	{'|', TOKEN_PIPELINE},
+	{'<', REDIR_LEFT},
+	{'>', REDIR_RIGHT},
+	{'&', AMPERSAND},
+	{';', SEMICOLON},
+	{'\'', SINGLE_QUOTE},
+	{'\"', DOUBLE_QUOTE},
+	{' ', SPACES},
+	{'\f', SPACES},
+	{'\n', SPACES},
+	{'\r', SPACES},
+	{'\t', SPACES},
+	{'\v', SPACES},
+	{'\\', BACKSLASH},
+	{'$', VARIABLE},
+	{'|', PIPELINE},
 	};
 
 	return (grammar);
 }
 
-t_token_type	ms_token_type_identify(char c)
+t_token_type	token_type_identify(char c)
 {
 	t_grammar	*grammar;
 
-	grammar = ms_token_grammar_get();
+	grammar = token_grammar_get();
 	while ((*grammar).value)
 	{
 		if (c == (*grammar).value)
 			return ((*grammar).type);
 		grammar++;
 	}
-	return (TOKEN_LITERAL);
+	return (LITERAL);
 }
 
 void	token_type_set(t_token *token, t_token_type type)
@@ -64,7 +64,7 @@ void	*token_value_get(t_token *token)
 	return (token->value);
 }
 
-t_token	*ms_token_create(void *value, t_token_type type)
+t_token	*token_create(void *value, t_token_type type)
 {
 	t_token	*token;	
 
@@ -90,8 +90,8 @@ t_double_list	*ms_tokenizer(char *input)
 		buf[0] = *input;
 		buf[1] = '\0';
 		value = ft_strdup(buf);
-		type = ms_token_type_identify(buf[0]);
-		token = ms_token_create(value, type);
+		type = token_type_identify(buf[0]);
+		token = token_create(value, type);
 		double_lstadd_back(&token_list, double_lstnew(token));
 		input++;
 	}
@@ -104,12 +104,12 @@ void	rm_token_value(t_token *token)
 		return ;
 	if (token->value)
 	{
-		ft_bzero(token->value, 1);
-		token->type = TOKEN_LITERAL;
+		ft_bzero(token->value, ft_strlen(token->value));
+		token->type = LITERAL;
 	}
 }
 
-void	ms_token_free(void	*token)
+void	token_free(void	*token)
 {
 	t_token	*t;
 
@@ -118,7 +118,7 @@ void	ms_token_free(void	*token)
 	free(t);
 }
 
-void	ms_token_free_del(void *token, void (*del)(void *))
+void	token_free_del(void *token, void (*del)(void *))
 {
 	t_token	*t;
 
@@ -127,7 +127,7 @@ void	ms_token_free_del(void *token, void (*del)(void *))
 	free(t);
 }
 
-void	ms_token_list_free(t_double_list **token_list)
+void	token_list_free(t_double_list **token_list)
 {
-	double_lstclear(token_list, ms_token_free);
+	double_lstclear(token_list, token_free);
 }

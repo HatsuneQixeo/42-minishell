@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:41:57 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:22:36 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:43:31 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void    btree_node_add(t_node **parent, t_node *node)
 	token = node->content;
 	if (!(*parent))
 		*parent = node;
-	else if (ms_token_is_operator(token))
+	else if (token_is_operator(token))
 	{
 		node->left = *parent;
 		*parent = node;

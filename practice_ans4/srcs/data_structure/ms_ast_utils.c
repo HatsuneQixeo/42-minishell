@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_ast.c                                           :+:      :+:    :+:   */
+/*   ms_ast_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:51:04 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/13 22:20:43 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:59:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ast_add_token_literal(t_node **root, t_double_list *literal_list)
 	if (!literal_list)
 		return ;
 	arr_str = util_list_to_arr_str(literal_list);
-	ptr_token = (void *)ms_token_create(arr_str, TOKEN_LITERAL);
+	ptr_token = (void *)token_create(arr_str, LITERAL);
 	btree_node_add(root, btree_node_init(ptr_token));
 }
 
@@ -32,7 +32,7 @@ void	ast_add_token_operator(t_node **root, t_token *token)
 	if (!token)
 		return ;
 	arr_str = ft_split(token->value, '\0');
-	ptr_token = (void *)ms_token_create(arr_str, token->type);
+	ptr_token = (void *)token_create(arr_str, token->type);
 	btree_node_add(root, btree_node_init(ptr_token));
 }
 
@@ -49,13 +49,13 @@ void	ast_create(t_node **root, t_double_list *token_list)
 		value = token->value;
 		if (ms_token_is_separator(token))
 			break ;
-		else if (ms_token_is_operator(token))
+		else if (token_is_operator(token))
 		{
 			ast_add_token_literal(root, literal_list);
 			double_lstclear(&literal_list, free);
 			ast_add_token_operator(root, token);
 		}
-		else if (token->type != TOKEN_SPACE)
+		else if (token->type != SPACES)
 			double_lstadd_back(&literal_list, double_lstnew(ft_strdup(value)));
 		token_list = token_list->next;
 	}
@@ -68,7 +68,7 @@ void	ast_del_content_token(void *token)
 	t_token	*t;
 
 	t = token;
-	ms_token_free_del(token, util_del_arr_str);
+	token_free_del(token, util_del_arr_str);
 }
 
 void	ast_free(t_node **root)

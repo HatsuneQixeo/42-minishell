@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:58 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/08 15:02:46 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 22:42:06 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef enum
 	TOKEN_PIPE,
 	TOKEN_OR,
 	TOKEN_AND,
-	TOKEN_OPTION,
+	OPTION,
 } t_token_type;
 
 
@@ -58,11 +58,11 @@ char	*ms_strtok(char *str, char *delimiter);
 
 typedef enum e_token_type3
 {
-	TOKEN_LITERAL,
-	TOKEN_OPTION3,
-	TOKEN_PIPELINE,
-	TOKEN_SEP_AND,
-	TOKEN_SEP_OR,
+	LITERAL,
+	OPTION3,
+	PIPELINE,
+	AMPERSAND,
+	OR,
 	TOKEN_SEP_SEIMICOLON,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,

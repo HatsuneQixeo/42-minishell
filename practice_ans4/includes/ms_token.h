@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:05:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/19 09:31:01 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:59:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,24 @@
 
 typedef enum  e_token_type
 {
-	TOKEN_PIPELINE = 1,
-	TOKEN_SEP_AND,
-	TOKEN_SEP_OR,
-	TOKEN_SEP_SEMICOLON,
-	TOKEN_REDIR_LEFT,
-	TOKEN_REDIR_RIGHT,
-	TOKEN_REDIR_LEFT_DOUBLE,
-	TOKEN_REDIR_RIGHT_DOUBLE,
-	TOKEN_QUOTE_SINGLE,
-	TOKEN_QUOTE_DOUBLE,
-	TOKEN_LITERAL,
-	TOKEN_VARIABLE,
-	TOKEN_EXPAND,
-	TOKEN_BACKSLASH,
-	TOKEN_SPACE,
-	TOKEN_OPTION,
+	UNKNOWN,
+	PIPELINE,
+	OR,
+	AMPERSAND,
+	AND,
+	REDIR_LEFT,
+	REDIR_RIGHT,
+	REDIR_LEFT_DOUBLE,
+	REDIR_RIGHT_DOUBLE,
+	SEMICOLON,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+	LITERAL,
+	VARIABLE,
+	EXPAND,
+	BACKSLASH,
+	SPACES,
+	OPTION,
 }   t_token_type;
 
 typedef struct  s_grammar
@@ -53,23 +55,22 @@ typedef struct  s_token
 }				t_token;
 
 /* token_utils */
-t_token_type	ms_token_type_identify(char c);
+t_token_type	token_type_identify(char c);
 t_double_list	*ms_tokenizer(char *input);
-void			ms_token_free(void	*token);
+void			token_free(void	*token);
 t_token_type	token_type_get(t_token *token);
-void			ms_token_list_free(t_double_list **token_list);
+void			token_list_free(t_double_list **token_list);
 void			token_type_set(t_token *token, t_token_type type);
-t_token			*ms_token_create(void *value, t_token_type type);
+t_token			*token_create(void *value, t_token_type type);
 
 /* token_utils2 */
 bool		ms_token_is_space(char c);
-bool		ms_token_is_operator(t_token *token);
+bool		token_is_operator(t_token *token);
 bool		ms_token_is_separator(t_token *token);
-void		tokenlist_concat_same_type(t_double_list **head);
+void		parse_token_parse_token_concat_same_type(t_double_list *head);
 t_token		*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type);
 
-void	ms_token_free_del(void *token, void (*del)(void *));
-void	tokenlist_head_concat_same_type(t_double_list **head, t_token_type type);
+void	token_free_del(void *token, void (*del)(void *));
 void	*token_value_get(t_token *token);
 void	rm_token_value(t_token *token);
 #endif

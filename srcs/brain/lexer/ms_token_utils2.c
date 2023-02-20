@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:04:28 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/30 17:58:39 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/20 22:42:06 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token_type	token_type_get(char *token_value)
 	token_len = ft_strlen(token_value);
 	i = -1;
 	if (*token_value == '-')
-		return (TOKEN_OPTION);
+		return (OPTION);
 	else if (ft_isalpha(*token_value) || *token_value == '.')
 		return (TOKEN_WORD);
 	while (++i < sizeof(special_token_types) / sizeof(special_token_types[i]))
