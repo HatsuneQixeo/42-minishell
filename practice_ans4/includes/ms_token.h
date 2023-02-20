@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:05:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/20 23:59:19 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:10:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ t_token			*token_create(void *value, t_token_type type);
 bool		ms_token_is_space(char c);
 bool		token_is_operator(t_token *token);
 bool		ms_token_is_separator(t_token *token);
-void		parse_token_parse_token_concat_same_type(t_double_list *head);
 t_token		*concat_2_tokens(t_token *token_1, t_token *token_2, t_token_type type);
 
 void	token_free_del(void *token, void (*del)(void *));
 void	*token_value_get(t_token *token);
 void	rm_token_value(t_token *token);
+void	list_token_type_set(t_double_list *list, t_token_type set_type);
 #endif
