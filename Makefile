@@ -3,9 +3,9 @@ EXTRA_LIBS	:=	-lreadline -lncurses
 UNUSED_SET	:=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
 CC			:=	gcc
 # CFLAGS		:=	-Wall -Wextra -Werror
-CFLAGS		:=	-Wall -Werror -g3
+CFLAGS		:=	-Wall -Werror
 CFLAGS		+=	${UNUSED_SET}
-# CFLAGS		+=	-fsanitize=address
+# CFLAGS		+=	-fsanitize=address -g
 LIBFT_DIR	:=	libft/
 LIBFT		:=	${LIBFT_DIR}libft.a
 LIBFT_INCLUDE	:=	${LIBFT_DIR}include/
@@ -43,7 +43,7 @@ ${NAME} : ${OBJS}
 
 san : ${SRCS}
 	@${LIBFT_MAKE} && \
-	${CC} ${CFLAGS} -fsanitize=address -I${HEADER_DIR} -I${LIBFT_INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME}
+	${CC} ${CFLAGS} -fsanitize=address -g -I${HEADER_DIR} -I${LIBFT_INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME}
 
 clean:
 	@${LIBFT_MAKE} clean

@@ -17,12 +17,13 @@
 
 # define READ_END	0
 # define WRITE_END	1
-# define HEREDOC	".here_doc.txt.tmp"
+# define HEREDOCTXT	".here_doc.txt.tmp"
 // here_doc
+char	*heredoc(const char *limiter_src);
 void	pipex_here_doc(int argc, char **argv, char **envp);
 // Utils
 void	ft_pipeinit(int *pipex);
-void	ft_dup3(int fd, int fd_new);
+void	ft_dup3(int fd_attribute, int fd_value);
 int		ft_getfd(const char *path, int option, int creat_permission);
 void	ft_errexit(int exitstatus, const char *errorname);
 

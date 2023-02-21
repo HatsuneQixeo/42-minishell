@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-int	ms_isbuiltin(const char *command_expanded, t_data *data);
-
-void	debuglst_tmpname(t_list *lst, const char *(*itname)(const char *),
-			const char *tmpname, t_ftlstiter ft_dbg)
-{
-	const char	*name = itname(NULL);
-
-	itname(tmpname);
-	ft_lstiter(lst, ft_dbg);
-	itname(name);
-}
-
 void	ms_procedure(t_data *data, const char *raw)
 {
 	char	*input;
@@ -35,8 +23,6 @@ void	ms_procedure(t_data *data, const char *raw)
 	t_list	*lst = ms_lexer(input);
 	free(input);
 
-	debuglst_tmpname(lst, lstiter_tokenname, "lexed", lstiter_showtoken);
-	/* Return if syntax error */
 	if (parser_syntax(lst) == -1)
 	{
 		ft_lstclear(&lst, del_token);
@@ -48,15 +34,27 @@ void	ms_procedure(t_data *data, const char *raw)
 	 * Interpreter will handle file not found and ambiguous shenanigan
 	 * 	But syntax error still need to be checked
 	 */
-	t_list	*lst_ctrl = parser_recursive(&lst);
+	/**
+	 * @brief Heredoc
+	 * Let's do it here, before the syntax tree is built
+	 * I dunno, maybe I would need to split the syntax builder later or sooner?
+	 * Let's wait until then?
+	 * 
+	 */
+	t_list	*lst_ctrl = ms_parser(data->envp, &lst);
 
-	show_ctrl(lst_ctrl);
-	// parser_subshell(&lst_ctrl);
-	ft_lstclear(&lst_ctrl, del_ctrl);
+	// show_lstctrl(lst_ctrl);
 	if (lst != NULL)
 	{
 		debuglst_tmpname(lst, lstiter_tokenname, "leftover", lstiter_showtoken);
 		ft_lstclear(&lst, del_token);
+	}
+	ms_interpretor(data->envp, &lst_ctrl);
+	if (lst_ctrl != NULL)
+	{
+		ft_printf("LEFTOVER AFTER EXECUTION\n");
+		show_lstctrl(lst_ctrl);
+		ft_lstclear(&lst_ctrl, del_ctrl);
 	}
 	return ;
 	/**
@@ -65,21 +63,6 @@ void	ms_procedure(t_data *data, const char *raw)
 	 * if lexer is in intepretor, how can parser check for error?
 	 * 	takes in a list of tokens, set up | first? and then do the redirection ><
 	*/
-	/**
-	 * @brief Lexer also in interpretor
-	 * 	Turn the DEFAULT into argv?
-	 * 
-	 */
-	/**
-	 * @brief Expander in interpretor
-	 * Probably should do this in executor because of ambiguous redirect?
-	 * Ambiguous is a execution time error so
-	 * Need to expand the given argv first before parser
-	 * 	Because echo $MIKU > $MIKU would result in Hatsune Miku Miku in a Hatsune file
-	 * (Oh wait, Ambiguous redirect if the expanded variable contain space and not quoted)
-	 * Ambiguous also only happen in execution so
-	 * 
-	 */
 }
 
 void	ms_input(char **src_envp)

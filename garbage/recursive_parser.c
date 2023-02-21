@@ -76,7 +76,7 @@ t_list	*parser_ctrl(t_list **lst_token)
 
 	lst_ctrl = NULL;
 	it = *lst_token;
-	condition = ctrl_any;
+	condition = ctrl_continue;
 	while (it != NULL)
 	{
 		t_token	*token = it->content;
@@ -162,7 +162,7 @@ t_list	*parser_ctrl(t_list **lst_token)
 
 	lst_ctrl = NULL;
 	it = *lst_token;
-	condition = ctrl_any;
+	condition = ctrl_continue;
 	ft_printf("parser_ctrl receiving: \n");
 	ft_lstiter(*lst_token, lstiter_showtoken);
 	ft_printf("\n");

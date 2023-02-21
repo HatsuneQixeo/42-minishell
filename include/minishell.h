@@ -72,13 +72,14 @@ typedef struct s_data
 	char	**envp;
 }			t_data;
 
-/* signals */
-void	ms_signals_handler(void);
-
 /* Exit Status */
-int		ctrl_any(void);
+int		ctrl_continue(void);
+int		ctrl_wait(void); /* Semicolon, not part of the subject Not implemented just yet */
 int		ctrl_success(void);
 int		ctrl_failure(void);
+
+void	del_ctrl(void *content);
+t_ctrl	*ctrl_new(t_ftexitstatus condition, t_ftexe exe);
 
 /* Isoperator */
 int		isoperator_ctrl(enum e_tokentype type);
@@ -98,31 +99,29 @@ void	lstiter_showtoken(int i, void *content);
 
 /* Control Structure*/
 const char	*ctrl_name(t_ftexitstatus condition);
-void	show_ctrl(t_list *lst_ctrl);
+void	show_lstctrl(t_list *lst_ctrl);
 // void	lstiter_showctrl(int i, void *content);
 void	del_ctrl(void *content);
 t_list	*ms_control_structure(const char *input_raw);
 t_list	*ms_control_token(const char *input_raw);
 
 /* Parser */
+char	*parser_heredoc(char **envp, char *limiter);
 int		parser_syntax(t_list *lst_token);
-t_list	*parser_recursive(t_list **lst_token);
+t_list	*ms_parser(char **envp, t_list **lst_token);
 
 
 /* Lexer */
 t_list	*ms_lexer(const char *input_raw);
 
 /* Expand? */
-size_t	shell_varname_len(const char *src);
-char	*ms_substr_varname(const char *src);
-char	*ft_substrenv(char **envp, const char **p_src);
 char	*expander_node(char **envp, const char **p_src);
-t_list	*ms_expand_arg(char **envp, const char *arg);
-char	*ms_expander(char **envp, const char *command_line);
+t_list	*ms_expander(char **envp, const char *arg);
 
 /* env_utils */
 
 /* Exe */
+void	ms_interpretor(char **envp, t_list **lst_ctrl);
 
 /* Currently only serves as an idenfitier */
 int	exe_argv(char **envp, t_list *lst_argv, int fd_in, int fd_out);

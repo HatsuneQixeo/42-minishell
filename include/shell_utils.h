@@ -23,5 +23,6 @@ int		ft_isnameletter(int c);
 void	ft_cleanterminal(void);
 void	ms_perror(const char *name);
 char	closing_quote(const char *it);
+void	ms_waitall(void);
 
 #endif

@@ -26,18 +26,24 @@ void	ft_pipeinit(int *pipex)
 		ft_errexit(EXIT_FAILURE, "pipefailed");
 }
 
-//Closes the original fd, essentially function as replacing the fd
-void	ft_dup3(int fd, int fd_new)
+/**
+ * @brief Closes the original fd, essentially function as replacing the fd
+ * 
+ * @param fd The attribute of the file descriptor
+ * @param fd_value The value of the file descriptor
+ */
+void	ft_dup3(int fd_attribute, int fd_value)
 {
-	if (fd == fd_new || fd == -1 || fd_new == -1)
+	if (fd_attribute == fd_value || fd_attribute == -1 || fd_value == -1)
 		return ;
-	if (dup2(fd, fd_new) == -1)
+	if (dup2(fd_attribute, fd_value) == -1)
 	{
 		ft_dprintf(2, "zsh: %s: %s\n", strerror(errno), "dup2");
-		ft_dprintf(2, "fd: %d\nfd_new: %d\n", fd, fd_new);
+		ft_dprintf(2, "fd_attribute: %d\nfd_value: %d\n",
+				fd_attribute, fd_value);
 	}
-	if (close(fd) == -1)
-		ft_dprintf(2, "close error (fd: %d)\n", fd);
+	if (close(fd_attribute) == -1)
+		ft_dprintf(2, "close error (fd_attribute: %d)\n", fd_attribute);
 }
 
 int	ft_getfd(const char *path, int option, ...)

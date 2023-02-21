@@ -2,8 +2,8 @@
 
 const char	*ctrl_name(t_ftexitstatus condition)
 {
-	if (condition == ctrl_any)
-		return (GREY"?? ctrl_any");
+	if (condition == ctrl_continue)
+		return (GREY"?? ctrl_continue");
 	else if (condition == ctrl_success)
 		return (GREEN"&& ctrl_success");
 	else if (condition == ctrl_failure)
@@ -12,7 +12,7 @@ const char	*ctrl_name(t_ftexitstatus condition)
 		return ("undefined function");
 }
 
-static void	show_ctrl_showexe(t_list *lst_exe, int padding)
+static void	show_lstctrl_showexe(t_list *lst_exe, int padding)
 {
 	const char	*name = lstiter_tokenname(NULL);
 	char		*padded_name;
@@ -25,7 +25,7 @@ static void	show_ctrl_showexe(t_list *lst_exe, int padding)
 	ft_printf("\n");
 }
 
-static void	show_ctrl_core(t_list *lst_ctrl, int padding)
+static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 {
 	int			i;
 	// char		nesting_colour[8];
@@ -43,17 +43,18 @@ static void	show_ctrl_core(t_list *lst_ctrl, int padding)
 		// ft_printf("%s%*sctrl[%d]: %s\n"DEF, nesting_colour, padding * 4, "",
 		// 		i, ctrl_name(node->condition));
 		if (node->ft_exe == exe_argv) 
-			show_ctrl_showexe(node->lst_exe, padding);
+			show_lstctrl_showexe(node->lst_exe, padding);
 		else if (node->ft_exe == exe_subsh)
-			show_ctrl_core(node->lst_exe, padding + 1);
+			show_lstctrl_core(node->lst_exe, padding + 1);
 		else
-			ft_dprintf(2, "Show_ctrl: Unknown ft in ft_exe: %p\n", node->ft_exe);
-		show_ctrl_showexe(node->lst_rdrt, padding);
+			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n", node->ft_exe);
+		show_lstctrl_showexe(node->lst_rdrt, padding);
 		i++;
 	}
 }
 
-void	show_ctrl(t_list *lst_ctrl)
+void	show_lstctrl(t_list *lst_ctrl)
 {
-	show_ctrl_core(lst_ctrl, 0);
+	ft_printf("showing lst_ctrl\n");
+	show_lstctrl_core(lst_ctrl, 0);
 }

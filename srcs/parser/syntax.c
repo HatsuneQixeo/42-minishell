@@ -6,7 +6,7 @@ static int	valid_syntax(const t_token *token)
 	{00, 00, 00, -1, 00},
 	{00, -1, -1, -1, -1},
 	{00, 00, -1, 00, -1},
-	{00, 00, -1, 00, 00},
+	{00, 00, -1, 00, -1},
 	{-1, 00, 00, -1, 00}
 	};
 	static enum e_tokentype	prev_type = CTRL;

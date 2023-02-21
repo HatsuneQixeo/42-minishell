@@ -27,7 +27,7 @@
 // 	if (token->type != RDRT_HEREDOC)
 // 		rdrt_error(token, "heredoc");
 // 	else
-// 		return (rdrt_core(HEREDOC, STDIN_FILENO, O_RDONLY));
+// 		return (rdrt_core(HEREDOCTXT, STDIN_FILENO, O_RDONLY));
 // 	return (-1);
 // }
 

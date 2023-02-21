@@ -20,6 +20,12 @@ void	leaks(void)
 	system(buffer);
 }
 
+void	ms_signals_handler(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	ft_cleanterminal();
