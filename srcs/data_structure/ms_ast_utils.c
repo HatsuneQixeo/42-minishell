@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:51:04 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 00:36:30 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:28:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_ast.h"
+#include "minishell.h"
 
 void	ast_add_token_literal(t_node **root, t_double_list *literal_list)
 {
@@ -68,7 +68,7 @@ void	ast_del_content_token(void *token)
 	t_token	*t;
 
 	t = token;
-	token_free_del(token, util_del_arr_str);
+	token_free_del(token, util_arr_str_free);
 }
 
 void	ast_free(t_node **root)

@@ -6,13 +6,13 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:38:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:47:29 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_parser.h"
+#include "minishell.h"
 
-void	parse_token_concat_same_type(t_double_list *token_list)
+void	parse_token_type_same_concat(t_double_list *token_list)
 {
 	t_token	*token;
 	t_token	*next_token;
@@ -63,8 +63,6 @@ void	parse_token_list(t_double_list *token_list)
 	t_token			*token;
 	t_token_type	type;
 
-	if (!token_list)
-		return ;
 	while (token_list)
 	{
 		token = token_list->content;
@@ -75,7 +73,7 @@ void	parse_token_list(t_double_list *token_list)
 			handle_backslash(token_list);
 		else if (type == VARIABLE)
 			handle_variable(token_list);
-		parse_token_concat_same_type(token_list);
+		parse_token_type_same_concat(token_list);
 		parse_token_type_reassign(token_list);
 		token_list = token_list->next;
 	}
@@ -85,16 +83,14 @@ void	parse_token_list(t_double_list *token_list)
 // haven't handle syntax check.
 // haven't handle subshell.
 // haven't handle unclosed quote/and_or operator
+// haven't handle multiple redirection.
 // Plan to do syntax checking by checking the ast
-void	ms_parser(t_double_list *token_list)
+t_node	*ms_parser(t_double_list *token_list)
 {
 	t_node	*root;
 
 	root = NULL;
 	parse_token_list(token_list);
 	ast_create(&root, token_list);
-	//
-	debug_ast_content_print(root, 0);
-	//
-	ast_free(&root);
+	return (root);
 }

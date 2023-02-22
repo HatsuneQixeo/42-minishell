@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:10:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 00:55:29 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/23 00:04:35 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_token.h"
+#include "minishell.h"
 
 void	rm_token_value(t_token *token)
 {

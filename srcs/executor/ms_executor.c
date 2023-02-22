@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.h                                            :+:      :+:    :+:   */
+/*   ms_executor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/25 09:33:38 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/03 18:27:00 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/02/22 09:36:33 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/02/23 00:01:22 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STACK_H
-# define STACK_H
+#include "minishell.h"
 
-# include <stdlib.h>
-# include <stdbool.h>
-# include "libft.h"
-
-typedef struct s_stack
+void	execute_token_literal(t_token *token)
 {
-	int		top;
-	char	*arr;
-	int		max_size;
-}	t_stack;
+    char    *absolute_path;
 
-t_stack	*stack_create(int max);
-void	stack_pop(t_stack *stack);
-void	stack_free(t_stack **stack);
-bool	stack_is_full(t_stack *stack);
-bool	stack_is_empty(t_stack *stack);
-void	stack_push(t_stack *stack, char item);
-#endif
+    // absolute_path = absolute_path_find();
+}
+
+void	ms_executor(t_node *root)
+{
+	t_token_type	token_type;
+	
+	if (!root)
+		return ;
+    token_type = token_type_get(root->content);
+	if (token_type == LITERAL)
+		execute_token_literal(root->content);
+		
+}

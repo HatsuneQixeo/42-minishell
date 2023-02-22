@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:46:11 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:56:35 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_other_utils.h"
+#include "minishell.h"
 
 void	util_clear_screen(void)
 {
@@ -20,7 +20,7 @@ void	util_clear_screen(void)
 	write(1, clear_screen, 10);
 }
 
-void	util_del_arr_str(void *arr_str)
+void	util_arr_str_free(void *arr_str)
 {
 	int		i;
 	char	**arr;

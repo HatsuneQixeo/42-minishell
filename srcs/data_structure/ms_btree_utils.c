@@ -6,12 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:41:57 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:32:06 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:29:38 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_btree.h"
-#include "ms_token.h"
+#include "minishell.h"
 
 t_node	*btree_node_init(void *content)
 {
@@ -32,7 +31,7 @@ void	btree_node_add(t_node **parent, t_node *node)
 	t_token	*token;
 
 	token = node->content;
-	if (!(*parent))
+	if (!*parent)
 		*parent = node;
 	else if (token_is_operator(token))
 	{

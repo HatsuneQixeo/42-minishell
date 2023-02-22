@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:03:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:43:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:41:57 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_double_linked_list.h"
+#include "minishell.h"
 
 t_double_list	*double_lstnew(void *content)
 {

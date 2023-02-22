@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:37:05 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 00:55:21 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/23 00:04:08 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_token.h"
+#include "minishell.h"
 
 bool	token_is_space(char c)
 {

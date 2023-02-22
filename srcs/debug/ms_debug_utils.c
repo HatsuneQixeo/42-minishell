@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:01:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:25:27 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:33:11 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_debug.h"
+#include "minishell.h"
 
 void	debug_token_content_print(void *content)
 {
@@ -21,9 +21,17 @@ void	debug_token_content_print(void *content)
 	printf("type -> %d\n", t->type);
 }
 
-void	debug_token_list_content_print(t_double_list *list)
+void	debug_env_content_print(void *content)
 {
-	double_lstiter(list, debug_token_content_print);
+	char	*env_str;
+
+	env_str = content;
+	printf("%s\n", env_str);
+}
+
+void	debug_list_content_print(t_double_list *list, void (*f)(void *))
+{
+	double_lstiter(list, f);
 }
 
 void	debug_ast_content_print(t_node *root, int depth)

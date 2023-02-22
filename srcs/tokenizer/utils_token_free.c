@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:32:32 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 00:55:40 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/23 00:05:42 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_token.h"
+#include "minishell.h"
 
 void	token_free(void	*token)
 {

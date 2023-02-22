@@ -6,11 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 01:40:41 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/21 01:43:45 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/22 23:42:13 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_double_linked_list.h"
+#include "minishell.h"
 
 void	double_lstdelone(t_double_list *lst, void (*del)(void *))
 {
