@@ -1,8 +1,9 @@
-#include "minishell.h"
+#include "token.h"
+#include "ms_common.h"
 
 static const t_token	*tokentype(const char *it)
 {
-	static const t_tokenlist	operators = {
+	static const t_token	operators[] = {
 	{CTRL, "&&"},
 	{CTRL, "||"},
 	{CTRL, "|"},
@@ -14,7 +15,7 @@ static const t_token	*tokentype(const char *it)
 	{SUBSH_END, ")"},
 	{DEFAULT, ""}
 	};
-	int							i;
+	int						i;
 
 	i = 0;
 	/* strlen for every check is pretty inefficient,

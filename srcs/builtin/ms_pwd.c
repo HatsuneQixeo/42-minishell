@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ms_pwd(int argc, char **argv, t_data *data)
+int	ms_pwd(char **argv, t_data *data)
 {
 	char	cwd[PATH_MAX];
 
@@ -9,4 +9,5 @@ int	ms_pwd(int argc, char **argv, t_data *data)
 	else
 		return (!ft_putendl_fd(cwd, 1));
 	return (1);
+	(void)argv;
 }

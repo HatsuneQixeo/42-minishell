@@ -9,7 +9,7 @@ static int	echo_endl(const char *str)
 	return (*str != '\0');
 }
 
-int	ms_echo(int argc, char **argv, t_data *data)
+int	ms_echo(char **argv, t_data *data)
 {
 	int	nl;
 

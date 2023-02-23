@@ -37,10 +37,11 @@ static void	export(t_list **lst_buffer, char **envp, const char *arg)
 
 // Let's say MIKU=Hatsune Miku, why does export $MIKU=$MIKU result in Miku=Hatsune but IKU=$MIKU result in IKU=Hatsune Miku in bash
 /* Export empty argument in bash */
-int	ms_export(int argc, char **argv, t_data *data)
+int	ms_export(char **argv, t_data *data)
 {
-	t_list	*lst_buffer;
-	int		retval;
+	t_list		*lst_buffer;
+	const char	*prgname = argv[0];
+	int			retval;
 
 	lst_buffer = NULL;
 	retval = 0;
@@ -48,7 +49,7 @@ int	ms_export(int argc, char **argv, t_data *data)
 	{
 		if (!isvalid_identifier(*argv))
 		{
-			ft_dprintf(2, MINISHELL": export: %s: not a valid identifier\n", *argv);
+			ms_errlog("%s: %s: not a valid identifier\n", prgname, *argv);
 			retval = 1;
 		}
 		else

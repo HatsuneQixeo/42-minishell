@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+void	ms_heredoc(char **envp, t_list **lst)
+{
+	t_list	*it;
+}
+
 void	ms_procedure(t_data *data, const char *raw)
 {
 	char	*input;
@@ -41,7 +46,8 @@ void	ms_procedure(t_data *data, const char *raw)
 	 * Let's wait until then?
 	 * 
 	 */
-	t_list	*lst_ctrl = ms_parser(data->envp, &lst);
+	ms_heredoc(data->envp, &lst);
+	t_list	*lst_ctrl = ms_parser(&lst);
 
 	// show_lstctrl(lst_ctrl);
 	if (lst != NULL)

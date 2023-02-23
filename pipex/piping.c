@@ -34,7 +34,7 @@ int	ft_exec(const char *cmd, char **envp)
 	return (ft_exec_fd(cmd, envp, 0, 1));
 }
 
-/// @note This function does not allow concurrent action 
+/// @note This function does not allow concurrent action
 int	ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out)
 {
 	pid_t	child;
@@ -60,8 +60,8 @@ static void	pipex_pipeloop(int argc, char **argv, char **envp, int *pipex)
 	int	i;
 	int	prev_read;
 
-	i = 2;
-	while (++i < argc - 2)
+	i = 2;// + first command + infile
+	while (++i < argc - 2)// - lastcommand - outfile
 	{
 		prev_read = pipex[READ_END];
 		ft_pipeinit(pipex);

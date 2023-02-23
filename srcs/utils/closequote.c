@@ -1,8 +1,7 @@
 #include "minishell.h"
 #define ERR	((void *)-1)
 
-int	closing_parenthesis(const char *it); // ?
-int	closing_parenthesis(const char *it)
+static int	closing_parenthesis(const char *it)
 {
 	static int	paren;
 	int			clear;
@@ -20,25 +19,7 @@ int	closing_parenthesis(const char *it)
 	return (paren);
 }
 
-/* ? Should this include a delimiter? */
-char	*ft_strmultiply(const char *src, int amount)
-{
-	char			*str;
-	const size_t	len = ft_strlen(src);
-	const size_t	total_len = len * amount;
-
-	if (total_len == 0)
-		return (ft_strdup(""));
-	str = malloc(total_len);
-	if (str == NULL)
-		return (NULL);
-	str[0] = '\0';
-	while (amount--)
-		ft_strlcat(str, src, total_len + 1);
-	return (str);
-}
-
-char	closing_quote(const char *it)
+static char	closing_quote(const char *it)
 {
 	static char	quote;
 	char		clear;
@@ -90,8 +71,7 @@ static const char	*missing_closing_character(const char *input_raw)
 		{
 			closing_parenthesis(NULL);
 			closing_quote(NULL);
-			ft_dprintf(2,
-				MINISHELL": %s: Closing parenthesis without opening\n", it);
+			ms_errlog("%s: Closing parenthesis without opening\n", it);
 			return (ERR);
 		}
 	}
@@ -112,8 +92,10 @@ char	*ms_closequote(const char *input_raw)
 			break ;
 		else if (ret == NULL)
 			return (input);
-		/* This readline inherits the history,
-			maybe I should find a way to disable that*/
+		/*
+			This readline inherits the history,
+			maybe I should find a way to disable that
+		*/
 		read = readline(ret);
 		if (read == NULL)
 			break ;

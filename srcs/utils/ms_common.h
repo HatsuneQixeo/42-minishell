@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   ms_common.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/03 22:30:54 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:20:05 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/01/09 03:27:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
+#ifndef MS_COMMON_H
+# define MS_COMMON_H
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <sys/types.h>
-# include <sys/wait.h>
+# include "libft.h"
+
+int	g_lastexit;
+
+int		ft_isquote(int c);
+int		ft_isnameletter(int c);
+void	ft_cleanterminal(void);
+int		ft_dup3(int fd_attribute, int fd_value);
+int		ms_errlog(const char *str, ...);
+void	ms_perror(const char *name);
+void	ms_waitall(void);
+void	leakcheck(const char *str);
 
 #endif

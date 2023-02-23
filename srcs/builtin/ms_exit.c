@@ -1,18 +1,21 @@
 #include "minishell.h"
 
-int	ctrl_(int argc, char **argv, t_data *data)
+int	ms_exit(char **argv, t_data *data)
 {
-	if (argc == 1)
+	const char	*prgname = argv[0];
+	const char	*arg = argv[1];
+
+	ft_putendl_fd(prgname, 2);
+	if (arg == NULL)
 		exit(0);
-	else if (!ft_strisnumeric(argv[1]))
+	else if (!ft_strisnumeric(arg))
 	{
-		ft_dprintf(2, MINISHELL": %s: %s: numeric argument required\n",
-			argv[0], argv[1]);
+		ms_errlog("%s: %s: numeric argument required\n", prgname, arg);
 		exit(255);
 	}
-	else if (argc > 1 + 1)
-		ft_dprintf(2, MINISHELL": %s: too many arguments\n", argv[0]);
+	else if (argv[2] != NULL)
+		ms_errlog("%s: too many arguments\n", prgname);
 	else
-		exit(ft_atoi(argv[1]));
+		exit(ft_atoi(arg));
 	return (1);
 }

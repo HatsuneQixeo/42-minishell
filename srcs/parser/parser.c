@@ -12,20 +12,21 @@
 
 #include "minishell.h"
 
-static t_ftexitstatus	ctrl_value(const t_token *token)
+t_rdrt	*parser_rdrt_new(t_list *node_rdrt, t_list *node_arg)
 {
-	if (!ft_strcmp(token->value, "&&"))
-		return (ctrl_success);
-	else if (!ft_strcmp(token->value, "||"))
-		return (ctrl_failure);
-	else if (!ft_strcmp(token->value, "|"))
-		return (ctrl_continue);
-	else
-		ft_dprintf(2, "ctrl_value does not recognize: %s\n", token->value);
-	return (NULL);
+	t_token	*token_rdrt;
+	t_token	*token_arg;
+	t_rdrt	*rdrt;
+
+	token_rdrt = node_rdrt->content;
+	token_arg = node_arg->content;
+	rdrt = rdrt_new(rdrt_getft(token_rdrt->value), token_arg->value);
+	ft_lstdelone(node_rdrt, del_token);
+	ft_lstdelone(node_arg, free);
+	return (rdrt);
 }
 
-static t_ctrl	*parser_ctrlnode(char **envp, t_list **lst_token, t_ftexitstatus *condition)
+static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 {
 	t_ctrl	*ctrl;
 	t_list	*node_token;
@@ -38,11 +39,20 @@ static t_ctrl	*parser_ctrlnode(char **envp, t_list **lst_token, t_ftexitstatus *
 		token = node_token->content;
 		if (token->type == DEFAULT)
 			ft_lstadd_back(&ctrl->lst_exe, node_token);
+		else if (isoperator_rdrt(token->type))
+			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstnew(parser_rdrt_new(
+					node_token, ft_lstextract_front(lst_token))));
 		else if (isoperator_ctrl(token->type))
 		{
-			*condition = ctrl_value(token);
+			*condition = ctrl_value(token->value);
 			ft_lstdelone(node_token, del_token);
 			break ;
+		}
+		else if (token->type == SUBSH_BEGIN)
+		{
+			ctrl->ft_exe = exe_subsh;
+			ft_lstdelone(node_token, del_token);
+			ft_lstadd_back(&ctrl->lst_exe, ms_parser(lst_token));
 		}
 		else if (token->type == SUBSH_END)
 		{
@@ -50,37 +60,19 @@ static t_ctrl	*parser_ctrlnode(char **envp, t_list **lst_token, t_ftexitstatus *
 			ft_lstdelone(node_token, del_token);
 			break ;
 		}
-		else if (isoperator_rdrt(token->type))
-		{
-			ft_lstadd_back(&ctrl->lst_rdrt, node_token);
-			t_list	*rdrt_arg = ft_lstextract_front(lst_token);
-
-			if (!ft_strcmp(token->value, "<<"))
-			{
-				t_token	*rdrt_arg_token = rdrt_arg->content;
-				rdrt_arg_token->value = parser_heredoc(envp, rdrt_arg_token->value);
-			}
-			ft_lstadd_back(&ctrl->lst_rdrt, rdrt_arg);
-		}
-		else if (token->type == SUBSH_BEGIN)
-		{
-			ctrl->ft_exe = exe_subsh;
-			ft_lstdelone(node_token, del_token);
-			ft_lstadd_back(&ctrl->lst_exe, ms_parser(envp, lst_token));
-		}
 	}
 	return (ctrl);
 }
 
-t_list	*ms_parser(char **envp, t_list **lst_token)
+t_list	*ms_parser(t_list **lst_token)
 {
-	t_list			*lst_ctrl;
-	t_ftexitstatus	condition;
+	t_list		*lst_ctrl;
+	t_ftctrl	condition;
 
 	lst_ctrl = NULL;
 	condition = ctrl_continue;
 	while (*lst_token != NULL && condition != NULL)
 		ft_lstadd_back(&lst_ctrl, ft_lstnew(
-			parser_ctrlnode(envp, lst_token, &condition)));
+			parser_ctrlnode(lst_token, &condition)));
 	return (lst_ctrl);
 }

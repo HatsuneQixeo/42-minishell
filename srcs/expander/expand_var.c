@@ -1,4 +1,20 @@
-#include "minishell.h"
+#include "expander.h"
+
+char	*ft_getenv(char **envp, const char *varname)
+{
+	char	*var_joined;
+	size_t	len_varname;
+
+	var_joined = ft_strjoin(varname, "=");
+	len_varname = ft_strlen(var_joined);
+	while (*envp != NULL && ft_strncmp(*envp, var_joined, len_varname))
+		envp++;
+	free(var_joined);
+	if (*envp == NULL)
+		return (NULL);
+	else
+		return ((*envp) + len_varname);
+}
 
 static size_t	shell_varname_len(const char *src)
 {
@@ -53,7 +69,7 @@ static char	*ft_substrenv(char **envp, const char **p_src)
  * @param p_src 
  * @return char* 
  */
-char	*expander_node(char **envp, const char **p_src)
+char	*expand_var(char **envp, const char **p_src)
 {
 	const char	chr = (*p_src)[1];
 

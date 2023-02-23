@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
-void	leaks(void)
+void	leakcheck(const char *str)
 {
 	char	buffer[39];
 
+	if (str != NULL)
+		ft_printf("leakcheck: %s\n", str);
 	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
 	system(buffer);
 }
@@ -26,10 +28,13 @@ void	ms_signals_handler(void)
 	signal(SIGINT, SIG_IGN);
 }
 
+/*
+	Is oldpwd inherited for the program execution?
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	ft_cleanterminal();
 	ms_signals_handler();
 	ms_input(envp);
-	leaks();
+	leakcheck("mainend");
 }

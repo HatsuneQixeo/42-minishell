@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "expander.h"
 
 static char	*expander_doublequote(char **envp, const char **p_it)
 {
@@ -12,7 +12,7 @@ static char	*expander_doublequote(char **envp, const char **p_it)
 			continue ;
 		if (it != *p_it)
 			ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
-		ft_lstadd_back(&lst, ft_lstnew(expander_node(envp, &it)));
+		ft_lstadd_back(&lst, ft_lstnew(expand_var(envp, &it)));
 		*p_it = it + 1;
 	}
 	if (it != *p_it)
@@ -76,7 +76,7 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 	char	**strlist;
 	int		i;
 
-	expand_value = expander_node(envp, p_it);
+	expand_value = expand_var(envp, p_it);
 	if (expand_value == NULL)
 		return ;
 	strlist = ft_split_is(expand_value, ft_isspace);
@@ -93,7 +93,7 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 	free(strlist);
 }
 
-t_list	*ms_expander(char **envp, const char *arg)
+t_list	*expand_arg(char **envp, const char *arg)
 {
 	t_list		*lst_argv;
 	const char	*it = arg - 1;

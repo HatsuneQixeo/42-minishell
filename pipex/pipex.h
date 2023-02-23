@@ -23,7 +23,7 @@ char	*heredoc(const char *limiter_src);
 void	pipex_here_doc(int argc, char **argv, char **envp);
 // Utils
 void	ft_pipeinit(int *pipex);
-void	ft_dup3(int fd_attribute, int fd_value);
+int		ft_dup3(int fd_attribute, int fd_value);
 int		ft_getfd(const char *path, int option, int creat_permission);
 void	ft_errexit(int exitstatus, const char *errorname);
 
@@ -33,6 +33,5 @@ int		ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out);
 void	pipex_core(int argc, char **argv, char **envp, int out_option);
 
 // Path and envp
-char	*ft_getenv(char **envp, const char *varname);
 void	ft_pathaccess(char **envp, char **command);
 #endif

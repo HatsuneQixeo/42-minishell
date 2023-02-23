@@ -13,8 +13,7 @@ static int	valid_syntax(const t_token *token)
 
 	if (syntax_table[prev_type][token->type] == -1)
 	{
-		ft_dprintf(2, MINISHELL": syntax error near unexpected token `%s'\n",
-				token->value);
+		ms_errlog("syntax error near unexpected token `%s'\n", token->value);
 		prev_type = CTRL;
 		return (-1);
 	}

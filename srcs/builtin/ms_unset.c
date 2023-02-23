@@ -23,16 +23,17 @@ static void	unset(char **envp, const char *arg)
 	ft_memmove(env, env + 1, sizeof(char *) * (ft_strcount(env + 1) + 1));
 }
 
-int	ms_unset(int argc, char **argv, t_data *data)
+int	ms_unset(char **argv, t_data *data)
 {
-	int	retval;
+	const char	*prgname = argv[0];
+	int			retval;
 
 	retval = 0;
 	while (*++argv != NULL)
 	{
 		if (!valid_identifier(*argv))
 		{
-			ft_dprintf(2, MINISHELL": unset: %s: not a valid identifier\n", *argv);
+			ms_errlog("%s: %s: not a valid identifier\n", prgname, *argv);
 			retval = 1;
 		}
 		else

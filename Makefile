@@ -8,17 +8,16 @@ CFLAGS		+=	${UNUSED_SET}
 # CFLAGS		+=	-fsanitize=address -g
 LIBFT_DIR	:=	libft/
 LIBFT		:=	${LIBFT_DIR}libft.a
-LIBFT_INCLUDE	:=	${LIBFT_DIR}include/
 LIBFT_MAKE	:=	make -C ${LIBFT_DIR}
 
-HEADER_DIR	:=	include/
-HEADER		:=	$(wildcard ${INCLUDE}*)
-
 SRC_DIR		:=	srcs
-DIRS 		:=	$(shell find ${SRC_DIR} -type d)
-SRCS		:=	$(wildcard $(foreach fd, $(DIRS), $(fd)/*.c))
-OBJS_DIR	:=	objs/
-OBJS		:=	$(addprefix ${OBJS_DIR}, $(SRCS:c=o))
+SRCS		:=	$(shell find ${SRC_DIR} -name "*.c")
+
+HEADER		:=	$(shell find ${SRC_DIR} -name "*.h")
+INCLUDE		:=	$(addprefix -I, $(dir ${HEADER}) ${LIBFT_DIR}include/)
+
+OBJ_DIR		:=	objs
+OBJS		:=	$(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRCS})
 RM			:=	rm -rf
 #text_color
 DEFAULT		:=	\033[0m
@@ -28,32 +27,34 @@ YELLOW		:=	\033[0;33m
 CYAN		:=	\033[1;36m
 MAGENTA 	:=	\033[95m
 
-all : ${OBJS_DIR} ${NAME}
+all: ${NAME}
 
-${OBJS_DIR} :
+${OBJ_DIR} :
 	mkdir $@
 
-${OBJS_DIR}%.o : %.c ${HEADER}
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.c ${HEADER} | ${OBJ_DIR}
 	@mkdir -p ${@D}
 	@# printf "${MAGENTA}Compiling: $<${DEFAULT}\n"
-	${CC} ${CFLAGS} -I${HEADER_DIR} -I${LIBFT_INCLUDE} -c $< -o $@
+	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
 
-${NAME} : ${OBJS}
-	@${LIBFT_MAKE} && ${CC} ${CFLAGS} -I${HEADER_DIR} $^ ${LIBFT} ${EXTRA_LIBS} -o $@ && echo "$(CYAN)${NAME} done !$(DEFAULT)"
+${NAME}: ${OBJS}
+	@${LIBFT_MAKE} \
+		&& ${CC} ${CFLAGS} $^ ${LIBFT} ${EXTRA_LIBS} -o $@ \
+		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"
 
-san : ${SRCS}
-	@${LIBFT_MAKE} && \
-	${CC} ${CFLAGS} -fsanitize=address -g -I${HEADER_DIR} -I${LIBFT_INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME}
+san: ${SRCS}
+	@${LIBFT_MAKE} \
+		&& @${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME}
 
 clean:
 	@${LIBFT_MAKE} clean
-	${RM} ${OBJS_DIR}
+	${RM} ${OBJ_DIR}
 
 fclean: clean
 	@${LIBFT_MAKE} fclean
 	${RM} ${NAME}
 
-re : fclean all
+re: fclean all
 
 kill :
 	@killall -9 ${NAME}
@@ -61,4 +62,7 @@ kill :
 valgrind :
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${NAME}
 
-.PHONY : clean fclean all re
+norm:
+	norminette ${HEADER} ${SRCS}
+
+.PHONY: clean fclean all re ${LIBFT}

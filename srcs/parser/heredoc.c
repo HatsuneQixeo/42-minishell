@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+static char	*heredoc(const char *limiter_src)
+{
+	t_list	*lst_buffer;
+	char	*limiter;
+	char	*input;
+
+	lst_buffer = NULL;
+	limiter = ft_strjoin(limiter_src, "\n");
+	while (1)
+	{
+		/* The history */
+		input = readline("heredoc> ");
+		if (input == NULL || !ft_strcmp(limiter, input))
+			break ;
+		ft_lstadd_back(&lst_buffer, ft_lstnew(input));
+	}
+	free(input);
+	free(limiter);
+	return (ft_lsttostr_delimiter_clear(&lst_buffer, "\n"));
+}
+
 static int	heredoc_limiter(char *limiter)
 {
 	int	hasquote;
@@ -34,7 +55,7 @@ static char	*heredoc_expand(const char *str, const char *casted_envp)
 		ft_lstadd_back(&lst_expanded, ft_lstnew(
 				ft_substr(str, 0, ptr_var - str)));
 		ft_lstadd_back(&lst_expanded, ft_lstnew(
-				expander_node(envp, &ptr_var)));
+				expand_var(envp, &ptr_var)));
 		str = ptr_var + 1;
 	}
 	ft_lstadd_back(&lst_expanded, ft_lstnew(ft_strdup(str)));

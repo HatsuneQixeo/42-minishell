@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-const char	*ctrl_name(t_ftexitstatus condition)
+const char	*ctrl_name(t_ftctrl condition)
 {
 	if (condition == ctrl_continue)
 		return (GREY"?? ctrl_continue");
@@ -28,10 +28,7 @@ static void	show_lstctrl_showexe(t_list *lst_exe, int padding)
 static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 {
 	int			i;
-	// char		nesting_colour[8];
 
-	// ft_strlcpy(nesting_colour, RED, sizeof(nesting_colour));
-	// nesting_colour[5] = padding % 6 + '0';
 	i = 0;
 	while (lst_ctrl != NULL)
 	{
@@ -40,8 +37,6 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 		lst_ctrl = lst_ctrl->next;
 		ft_printf("%*sctrl[%d]: %s\n"DEF, padding * 4, "",
 				i, ctrl_name(node->condition));
-		// ft_printf("%s%*sctrl[%d]: %s\n"DEF, nesting_colour, padding * 4, "",
-		// 		i, ctrl_name(node->condition));
 		if (node->ft_exe == exe_argv) 
 			show_lstctrl_showexe(node->lst_exe, padding);
 		else if (node->ft_exe == exe_subsh)
