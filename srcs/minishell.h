@@ -13,11 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
 # include <signal.h>
-# include <stdio.h>
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -29,11 +25,6 @@
 # include "expander.h"
 
 # define MINISHELL	"🐚"
-
-typedef struct s_data
-{
-	char	**envp;
-}			t_data;
 
 /* routine */
 void	ms_input(char **envp);
@@ -52,10 +43,6 @@ int		parser_syntax(t_list *lst_token);
 t_list	*ms_parser(t_list **lst_token);
 
 /* Exe */
-void	ms_interpretor(char **envp, t_list **lst_ctrl);
+void	ms_interpretor(t_data *data, t_list **lst_ctrl);
 
-/* Currently only serves as an idenfitier */
-int	exe_argv(char **envp, t_list *lst_argv, int fd_in, int fd_out);
-/* Currently only serves as an idenfitier */
-int	exe_subsh(char **envp, t_list *lst_ctrl, int fd_in, int fd_out);
 #endif

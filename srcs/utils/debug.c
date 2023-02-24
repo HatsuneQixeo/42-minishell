@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	debuglst_tmpname(t_list *lst, t_ftsetname ft_setname,
+void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 			const char *tmpname,t_ftlstiter ft_debug)
 {
 	const char	*name = ft_setname(NULL);

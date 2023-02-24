@@ -129,10 +129,10 @@ static t_ctrl	*ctrl_frame(t_list **start, t_list *end, t_ftexitstatus condition)
 			/* Deleting the subsh_end token */
 			if (*start != NULL)
 			{
-				const char	*original = lstiter_tokenname(NULL);
-				lstiter_tokenname("ctrl_frame");
-					lstiter_showtoken(-1, (*start)->content);
-				lstiter_tokenname(original);
+				const char	*original = lstname_token(NULL);
+				lstname_token("ctrl_frame");
+					lstshow_token(-1, (*start)->content);
+				lstname_token(original);
 			ft_lstdelone(ft_lstextract_front(start), del_token);
 			}
 		}
@@ -164,7 +164,7 @@ t_list	*parser_ctrl(t_list **lst_token)
 	it = *lst_token;
 	condition = ctrl_continue;
 	ft_printf("parser_ctrl receiving: \n");
-	ft_lstiter(*lst_token, lstiter_showtoken);
+	ft_lstiter(*lst_token, lstshow_token);
 	ft_printf("\n");
 	while (it != NULL)
 	{
@@ -174,7 +174,7 @@ t_list	*parser_ctrl(t_list **lst_token)
 		if (token->type == SUBSH_END)
 		{
 			ft_printf("breaking parser_ctrl: \n");
-			ft_lstiter(it, lstiter_showtoken);
+			ft_lstiter(it, lstshow_token);
 			ft_printf("\n");
 			break ;
 		}

@@ -13,8 +13,12 @@ int		ctrl_wait(void); /* Semicolon, not part of the subject; Not implemented jus
 int		ctrl_success(void);
 int		ctrl_failure(void);
 
-typedef int	(*t_ftexe)(char **envp, t_list *lst, int fd_in, int fd_out);
+typedef int	(*t_ftexe)(t_data *data, t_list *lst, int fd_in, int fd_out);
 
+/* Currently only serves as an idenfitier */
+int	exe_argv(t_data *data, t_list *lst_argv, int fd_in, int fd_out);
+/* Currently only serves as an idenfitier */
+int	exe_subsh(t_data *data, t_list *lst_ctrl, int fd_in, int fd_out);
 typedef struct s_control
 {
 	t_ftctrl	condition;
@@ -38,6 +42,6 @@ t_ctrl		*ctrl_new(t_ftctrl condition, t_ftexe exe);
 /* Debug ctrl */
 const char	*ctrl_name(t_ftctrl condition);
 void	show_lstctrl(t_list *lst_ctrl);
-// void	lstiter_showctrl(int i, void *content);
+// void	lstshow_ctrl(int i, void *content);
 
 #endif

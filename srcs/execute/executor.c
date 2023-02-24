@@ -1,21 +1,6 @@
 #include "minishell.h"
 
-void	ft_aaclear(void **aa, t_ftdel del)
-{
-	int	y;
-
-	if (aa == NULL)
-		return ;
-	y = 0;
-	while (aa[y] != NULL)
-	{
-		del(aa[y]);
-		aa[y] = NULL;
-	}
-	free(aa);
-}
-
-void	interpretor_core(char **envp, t_list **lst_ctrl, int infd, int outfd);
+void	interpretor_core(t_data *data, t_list **lst_ctrl, int infd, int outfd);
 /**
  * @brief This function is meant to be the standard execution for executor
  * 
@@ -26,20 +11,15 @@ void	interpretor_core(char **envp, t_list **lst_ctrl, int infd, int outfd);
  * @param lst_argv 
  * @return pid_t?
  */
-int	exe_argv(char **envp, t_list *lst_argv, int infd, int outfd)
+int	exe_argv(t_data *data, t_list *lst_argv, int infd, int outfd)
 {
-	/* They are still fking token brooooo */
 	char	**argv;
 	t_list	*lst;
 
-	lst = ms_expander(envp, lst_argv, expand_lst_argv);
+	lst = ms_expander(data->envp, lst_argv, expand_lst_argv);
 	argv = (char **)ft_lsttoaa_clear(&lst);
-	// leakcheck("lsttoaa");
 	ft_strlistiteri(argv, iteristr_showstr);
-	leakcheck("from clear?");
-	// ft_strlistclear(argv);
-	ft_aaclear((void **)argv, free);
-	leakcheck("exe_argv");
+	ft_strlistclear(argv);
 	return (0);
 }
 
@@ -67,7 +47,7 @@ int	exe_argv(char **envp, t_list *lst_argv, int infd, int outfd)
  * @param subsh 
  * @return pid_t?
  */
-int	exe_subsh(char **envp, t_list *lst_ctrl, int infd, int outfd)
+int	exe_subsh(t_data *data, t_list *lst_ctrl, int infd, int outfd)
 {
 	pid_t	pid;
 
@@ -79,9 +59,7 @@ int	exe_subsh(char **envp, t_list *lst_ctrl, int infd, int outfd)
 	}
 	else if (pid == 0)
 	{
-		interpretor_core(envp, &lst_ctrl, infd, outfd);
-		/* What is this child suppose to exit,
-			I guess exit(g_lastexit) makes it retain the exit value ? */
+		interpretor_core(data, &lst_ctrl, infd, outfd);
 		leakcheck("exe_subsh");
 		exit(g_lastexit);
 	}
@@ -100,7 +78,7 @@ int	*pipe_new(void)
 	return (NULL);
 }
 
-void	execute(char **envp, t_list *lst_pipe, int infd, int outfd)
+void	execute(t_data *data, t_list *lst_pipe, int infd, int outfd)
 {
 	t_ctrl	*ctrl;
 	/* Lst of pipes */
@@ -108,10 +86,7 @@ void	execute(char **envp, t_list *lst_pipe, int infd, int outfd)
 	while (lst_pipe != NULL)
 	{
 		ctrl = lst_pipe->content;
-		t_list	*tmp = ctrl->lst_rdrt;
-		ctrl->lst_rdrt = ms_expander(envp, ctrl->lst_rdrt, expand_lst_rdrt);
-		ft_lstclear(&tmp, del_token);
-		ctrl->ft_exe(envp, ctrl->lst_exe, infd/* ?? */, outfd/* ?? */);
+		ctrl->ft_exe(data, ctrl->lst_exe, infd/* ?? */, outfd/* ?? */);
 		lst_pipe = lst_pipe->next;
 	}
 }
@@ -139,7 +114,7 @@ t_list	*ft_getlstpipe(t_list **lst_ctrl)
  * @param envp 
  * @param lst_ctrl 
  */
-void	interpretor_core(char **envp, t_list **lst_ctrl, int infd, int outfd)
+void	interpretor_core(t_data *data, t_list **lst_ctrl, int infd, int outfd)
 {
 	t_list	*lst_pipe;
 
@@ -153,7 +128,7 @@ void	interpretor_core(char **envp, t_list **lst_ctrl, int infd, int outfd)
 		// ft_printf("get pipe\n");
 		// show_lstctrl(lst_pipe);
 		// ft_printf("pipe end\n");
-		execute(envp, lst_pipe, infd, outfd);
+		execute(data, lst_pipe, infd, outfd);
 		/*
 			This shouldn't matter in practice?
 			In practice the variable would probably be freed in another process
@@ -166,8 +141,9 @@ void	interpretor_core(char **envp, t_list **lst_ctrl, int infd, int outfd)
 	// ft_printf("interpretor return\n");
 }
 
-void	ms_interpretor(char **envp, t_list **lst_ctrl)
+void	ms_interpretor(t_data *data, t_list **lst_ctrl)
 {
-	interpretor_core(envp, lst_ctrl, 0, 1);
+	show_lstctrl(*lst_ctrl);
+	interpretor_core(data, lst_ctrl, 0, 1);
 	leakcheck("interpretor end");
 }

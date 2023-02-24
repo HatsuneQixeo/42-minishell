@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+int		heredoc_limiter(char *limiter);
+t_list	*heredoc(const char *limiter);
+
 t_rdrt	*parser_rdrt_new(t_list *node_rdrt, t_list *node_arg)
 {
 	t_token	*token_rdrt;
@@ -23,6 +26,12 @@ t_rdrt	*parser_rdrt_new(t_list *node_rdrt, t_list *node_arg)
 	rdrt = rdrt_new(rdrt_getft(token_rdrt->value), token_arg->value);
 	ft_lstdelone(node_rdrt, del_token);
 	ft_lstdelone(node_arg, free);
+	if (rdrt->ft_rdrt == rdrt_heredoc)
+	{
+		if (heredoc_limiter(rdrt->str_arg))
+			rdrt->ft_rdrt = rdrt_quotedheredoc;
+		rdrt->lst_value = heredoc(rdrt->str_arg);
+	}
 	return (rdrt);
 }
 
@@ -73,6 +82,6 @@ t_list	*ms_parser(t_list **lst_token)
 	condition = ctrl_continue;
 	while (*lst_token != NULL && condition != NULL)
 		ft_lstadd_back(&lst_ctrl, ft_lstnew(
-			parser_ctrlnode(lst_token, &condition)));
+				parser_ctrlnode(lst_token, &condition)));
 	return (lst_ctrl);
 }

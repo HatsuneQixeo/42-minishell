@@ -31,12 +31,12 @@ void	del_ctrl(void *content)
 	t_ctrl	*process;
 
 	process = content;
+	ft_lstclear(&process->lst_rdrt, del_rdrt);
 	if (process->ft_exe == exe_argv)
 		ft_lstclear(&process->lst_exe, del_token);
 	else if (process->ft_exe == exe_subsh)
 		ft_lstclear(&process->lst_exe, del_ctrl);
 	else
 		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n", process->ft_exe);
-	ft_lstclear(&process->lst_rdrt, del_rdrt);
 	free(process);
 }

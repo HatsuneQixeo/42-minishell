@@ -91,7 +91,7 @@ static char	**lexer_core(char *src)
 		if (*src == '\0')
 			break ;
 	}
-	// ft_lstiter(lst, lstiter_showstr);
+	// ft_lstiter(lst, lstshow_str);
 	return (ft_lsttoaa_clear(&lst));
 }
 

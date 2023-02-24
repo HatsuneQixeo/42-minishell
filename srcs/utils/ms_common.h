@@ -17,6 +17,11 @@
 
 int	g_lastexit;
 
+typedef struct s_data
+{
+	char	**envp;
+}			t_data;
+
 int		ft_isquote(int c);
 int		ft_isnameletter(int c);
 void	ft_cleanterminal(void);

@@ -1,30 +1,11 @@
 #include "minishell.h"
 
-static char	*heredoc(const char *limiter_src)
-{
-	t_list	*lst_buffer;
-	char	*limiter;
-	char	*input;
-
-	lst_buffer = NULL;
-	limiter = ft_strjoin(limiter_src, "\n");
-	while (1)
-	{
-		/* The history */
-		input = readline("heredoc> ");
-		if (input == NULL || !ft_strcmp(limiter, input))
-			break ;
-		ft_lstadd_back(&lst_buffer, ft_lstnew(input));
-	}
-	free(input);
-	free(limiter);
-	return (ft_lsttostr_delimiter_clear(&lst_buffer, "\n"));
-}
-
-static int	heredoc_limiter(char *limiter)
+/* Return 0 is given limiter has no quote, 1 if has quote */
+int	heredoc_limiter(char *limiter)
 {
 	int	hasquote;
 
+	hasquote = 0;
 	while (*limiter != '\0')
 	{
 		if (!ft_isquote(*limiter))
@@ -35,11 +16,29 @@ static int	heredoc_limiter(char *limiter)
 		ft_memmove(limiter, limiter + 1, ft_strlen(limiter + 1) + 1);
 		hasquote = 1;
 	}
-	return (!hasquote);
+	return (hasquote);
+}
+
+t_list	*heredoc(const char *limiter)
+{
+	t_list	*lst_buffer;
+	char	*input;
+
+	lst_buffer = NULL;
+	while (1)
+	{
+		input = readline("heredoc> ");
+		if (input == NULL || !ft_strcmp(limiter, input))
+			break ;
+		ft_lstadd_back(&lst_buffer, ft_lstnew(input));
+	}
+	free(input);
+	return (lst_buffer);
 }
 
 /* This is so cursed and awesome at the same time */
-static char	*heredoc_expand(const char *str, const char *casted_envp)
+/* Hah, not anymore */
+char	*heredoc_expand_arg(const char *str, const char *casted_envp)
 {
 	t_list		*lst_expanded;
 	const char	*ptr_var;
@@ -62,16 +61,12 @@ static char	*heredoc_expand(const char *str, const char *casted_envp)
 	return (ft_lsttostr_clear(&lst_expanded));
 }
 
-char	*parser_heredoc(char **envp, char *limiter)
+void	heredoc_expand_lst(char **envp, t_list *lst)
 {
-	char	*str_content;
-	int		expand;
-
-	expand = heredoc_limiter(limiter);
-	str_content = heredoc(limiter);
-	free(limiter);
-	if (expand)
-		return (ft_strmodify(heredoc_expand, str_content, (void *)envp));
-	else
-		return (str_content);
+	while (lst != NULL)
+	{
+		lst->content = ft_strmodify(
+				heredoc_expand_arg, lst->content, (void *)envp);
+		lst = lst->next;
+	}
 }

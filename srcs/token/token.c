@@ -21,7 +21,7 @@ void	del_token(void *content)
 	free(token);
 }
 
-const char	*lstiter_tokenname(const char *newname)
+const char	*lstname_token(const char *newname)
 {
 	static const char	*name = "token";
 
@@ -30,7 +30,7 @@ const char	*lstiter_tokenname(const char *newname)
 	return (name);
 }
 
-void	lstiter_showtoken(int i, void *content)
+void	lstshow_token(int i, void *content)
 {
 	const t_token	*token = content;
 	const char		*str_type;
@@ -43,5 +43,5 @@ void	lstiter_showtoken(int i, void *content)
 		str_type = MAGENTA"Subshell";
 	else
 		str_type = GREY"Default";
-	ft_printf("%s[%2d]: %-8s: %b\n"DEF, lstiter_tokenname(NULL), i, str_type, token->value);
+	ft_printf("%s[%2d]: %-8s: %b\n"DEF, lstname_token(NULL), i, str_type, token->value);
 }

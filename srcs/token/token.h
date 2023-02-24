@@ -27,7 +27,7 @@ int		isoperator_subsh(enum e_tokentype type);
 /* Token */
 t_token	*token_new(char *str, enum e_tokentype type);
 void	del_token(void *content);
-const char	*lstiter_tokenname(const char *newname);
-void	lstiter_showtoken(int i, void *content);
+const char	*lstname_token(const char *newname);
+void	lstshow_token(int i, void *content);
 
 #endif

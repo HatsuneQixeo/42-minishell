@@ -98,7 +98,7 @@ t_list	*ms_control_token(const char *input_raw)
 	t_list						*lst_control;
 
 	lst_control = ft_split_operators(input_raw, operators);
-	ft_lstiter(lst_control, lstiter_showtoken);
+	ft_lstiter(lst_control, lstshow_token);
 	for (t_list *it = lst_control; it != NULL; it = it->next)
 	{
 		t_token	*token = it->content;
@@ -123,7 +123,7 @@ t_list	*ms_redirect_token(const char *command)
 	t_list						*lst_redirect;
 
 	lst_redirect = ft_split_operators(command, operators);
-	ft_lstiter(lst_redirect, lstiter_showtoken);
+	ft_lstiter(lst_redirect, lstshow_token);
 	ft_lstclear(&lst_redirect, del_token);
 	return (NULL);
 }

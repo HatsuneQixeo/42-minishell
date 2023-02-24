@@ -92,10 +92,6 @@ char	*ms_closequote(const char *input_raw)
 			break ;
 		else if (ret == NULL)
 			return (input);
-		/*
-			This readline inherits the history,
-			maybe I should find a way to disable that
-		*/
 		read = readline(ret);
 		if (read == NULL)
 			break ;

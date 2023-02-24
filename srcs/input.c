@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-void	ms_heredoc(char **envp, t_list **lst)
-{
-	t_list	*it;
-}
-
 void	ms_procedure(t_data *data, const char *raw)
 {
 	char	*input;
@@ -33,42 +28,11 @@ void	ms_procedure(t_data *data, const char *raw)
 		ft_lstclear(&lst, del_token);
 		return ;
 	}
-	/**
-	 * @brief Parser
-	 * Build the syntax tree
-	 * Interpreter will handle file not found and ambiguous shenanigan
-	 * 	But syntax error still need to be checked
-	 */
-	/**
-	 * @brief Heredoc
-	 * Let's do it here, before the syntax tree is built
-	 * I dunno, maybe I would need to split the syntax builder later or sooner?
-	 * Let's wait until then?
-	 * 
-	 */
-	ms_heredoc(data->envp, &lst);
 	t_list	*lst_ctrl = ms_parser(&lst);
 
 	// show_lstctrl(lst_ctrl);
-	if (lst != NULL)
-	{
-		debuglst_tmpname(lst, lstiter_tokenname, "leftover", lstiter_showtoken);
-		ft_lstclear(&lst, del_token);
-	}
-	ms_interpretor(data->envp, &lst_ctrl);
-	if (lst_ctrl != NULL)
-	{
-		ft_printf("LEFTOVER AFTER EXECUTION\n");
-		show_lstctrl(lst_ctrl);
-		ft_lstclear(&lst_ctrl, del_ctrl);
-	}
+	ms_interpretor(data, &lst_ctrl);
 	return ;
-	/**
-	 * Intepretor
-	 * Lexer? and expander Should be inside interpretor because ambiguous is error during execution
-	 * if lexer is in intepretor, how can parser check for error?
-	 * 	takes in a list of tokens, set up | first? and then do the redirection ><
-	*/
 }
 
 void	ms_input(char **src_envp)
