@@ -34,8 +34,8 @@ ${OBJ_DIR} :
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c ${HEADER} | ${OBJ_DIR}
 	@mkdir -p ${@D}
-	@# printf "${MAGENTA}Compiling: $<${DEFAULT}\n"
-	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+	@printf "${MAGENTA}Compiling: $<${DEFAULT}\n"
+	@${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
 
 ${NAME}: ${OBJS}
 	@${LIBFT_MAKE} \

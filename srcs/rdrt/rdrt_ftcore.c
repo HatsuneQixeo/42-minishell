@@ -1,9 +1,20 @@
 #include "rdrt.h"
 
-int	ambiguous(const char *str_arg)
+int	stris_onlyspace(const char *str)
 {
-	ms_errlog("%s: ambiguous redirect\n", str_arg);
-	return (-1);
+	while (*str != '\0' && ft_isspace(*str))
+		str++;
+	return (*str == '\0');
+}
+
+int	rdrt_ambiguous(const t_rdrt *rdrt)
+{
+	if (rdrt->lst_value == NULL || rdrt->lst_value->next != NULL
+		|| stris_onlyspace(rdrt->lst_value->content))
+		ms_errlog("%s: ambiguous redirect\n", rdrt->str_arg);
+	else
+		return (0);
+	return (1);
 }
 
 int	rdrt_core(const char *path, int std_fileno, int option, ...)

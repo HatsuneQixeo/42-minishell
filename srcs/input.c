@@ -30,8 +30,9 @@ void	ms_procedure(t_data *data, const char *raw)
 	}
 	t_list	*lst_ctrl = ms_parser(&lst);
 
-	// show_lstctrl(lst_ctrl);
+	show_lstctrl(lst_ctrl);
 	ms_interpretor(data, &lst_ctrl);
+	leakcheck("interpretor end");
 	return ;
 }
 

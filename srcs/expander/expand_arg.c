@@ -15,8 +15,7 @@ static char	*expander_doublequote(char **envp, const char **p_it)
 		ft_lstadd_back(&lst, ft_lstnew(expand_var(envp, &it)));
 		*p_it = it + 1;
 	}
-	if (it != *p_it)
-		ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
+	ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
 	*p_it = it;
 	return (ft_lsttostr_clear(&lst));
 }

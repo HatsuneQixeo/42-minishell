@@ -1,8 +1,9 @@
 #ifndef RDRT_H
 # define RDRT_H
 
-# include "token.h"
 # include "ms_common.h"
+# include "token.h"
+# include "expander.h"
 
 typedef struct s_rdrt	t_rdrt;
 typedef int	(*t_ftrdrt)(char **envp, t_rdrt *rdrt);

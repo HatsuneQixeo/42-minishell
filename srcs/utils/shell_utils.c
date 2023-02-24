@@ -34,8 +34,8 @@ void	ms_perror(const char *name)
 }
 
 /**
- * @brief Closes the original fd, essentially function as replacing the fd
- * 
+ * @brief Closes the original fd, essentially function as replacing the fd.
+ * @note Does not do anything if the fd_attribute is the same as ft_value
  * @param fd_attribute The attribute of the file descriptor
  * @param fd_value The value of the file descriptor
  * 

@@ -26,6 +26,9 @@
 
 # define MINISHELL	"🐚"
 
+# define READ_END	0
+# define WRITE_END	1
+
 /* routine */
 void	ms_input(char **envp);
 char	*ms_closequote(const char *raw);
