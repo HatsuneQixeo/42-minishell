@@ -12,6 +12,20 @@
 
 #include "token.h"
 
+int	ft_strprefix(const char *str, const char *prefix)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0' && prefix[i] != '\0')
+	{
+		if (str[i] != prefix[i])
+			return (str[i] - prefix[i]);
+		i++;
+	}
+	return (0);
+}
+
 static const t_token	*tokentype(const char *it)
 {
 	static const t_token	operators[] = {
@@ -29,10 +43,7 @@ static const t_token	*tokentype(const char *it)
 	int						i;
 
 	i = 0;
-	/* strlen for every check is pretty inefficient,
-		might need an alternative cmp function for it*/
-	/* But external function need external context soo? */
-	while (ft_strncmp(it, operators[i].value, ft_strlen(operators[i].value)))
+	while (ft_strprefix(it, operators[i].value))
 		i++;
 	return (&operators[i]);
 }
@@ -71,32 +82,3 @@ t_list	*ms_lexer(const char *input_raw)
 	ft_lstadd_back(&lst, lexer_lstnew_ifnempty(input_raw, it));
 	return (lst);
 }
-
-// t_list	*ms_lexer(const char *input_raw)
-// {
-// 	t_list			*lst;
-// 	t_token			token;
-// 	const char		*it = input_raw - 1;
-
-// 	lst = NULL;
-// 	while (*++it != '\0')
-// 	{
-// 		if (ft_isquote(*it))
-// 			it = ft_strchr(it + 1, *it);
-// 		else if (ft_isspace(*it))
-// 		{
-// 			ft_lstadd_back(&lst, lexer_lstnew_ifnempty(input_raw, it));
-// 			input_raw = it + 1;
-// 		}
-// 		else if (tokentype(&token, it)->type != DEFAULT)
-// 		{
-// 			ft_lstadd_back(&lst, lexer_lstnew_ifnempty(input_raw, it));
-// 			ft_lstadd_back(&lst, ft_lstnew(
-// 					token_new(ft_strdup(token.str), token.type)));
-// 			it += ft_strlen(token->value) - 1;
-// 			input_raw = it + 1;
-// 		}
-// 	}
-// 	ft_lstadd_back(&lst, lexer_lstnew_ifnempty(input_raw, it));
-// 	return (lst);
-// }

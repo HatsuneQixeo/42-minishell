@@ -46,7 +46,7 @@ int	execution(t_data *data, char **argv)
 		return (status);
 	pid = fork();
 	if (pid == -1)
-		perror(MINISHELL"execution fork");
+		ms_perror("execution");
 	else if (pid == 0)
 	{
 		ft_pathaccess(data->envp, argv);
@@ -56,5 +56,6 @@ int	execution(t_data *data, char **argv)
 	}
 	else
 		waitpid(pid, &status, 0);
+	ft_dprintf(2, "execution: %s: exited\n", argv[0]);
 	return (WEXITSTATUS(status));
 }

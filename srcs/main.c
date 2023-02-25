@@ -27,6 +27,24 @@ void	leakcheck(const char *str)
 	system(buffer);
 }
 
+void	leakfd(const char *str)
+{
+	int	arr[100];
+	int	fd_expect;
+
+	ft_dprintf(2, "\nleakfd: %s\n", str);
+	fd_expect = 3;
+	for (int i = 0; i < 100 && fd_expect < 1024 && fd_expect != -1; i++)
+	{
+		arr[i] = open("minishell", O_RDONLY);
+		if (arr[i] != fd_expect)
+			ft_dprintf(2, "fdleak: %d-%d\n", fd_expect, arr[i] - 1);
+		fd_expect = arr[i] + 1;
+	}
+	for (int i = 0; i < 100; i++)
+		close(arr[i]);
+}
+
 void	ms_signals_handler(void)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -54,6 +72,7 @@ void	ms_procedure(t_data *data, const char *raw)
 	// show_lstctrl(lst_ctrl);
 	ms_interpretor(data, &lst_ctrl);
 	leakcheck("interpretor end");
+	leakfd("interpretor end");
 }
 
 void	minishell(char **src_envp)
@@ -61,20 +80,16 @@ void	minishell(char **src_envp)
 	t_data	data;
 	char	*input;
 
-	data.fd_std[0] = dup(0);
-	data.fd_std[1] = dup(1);
 	data.envp = ft_strlistdup(src_envp);
 	while (1)
 	{
 		input = readline(MINISHELL"$ ");
 		if (input == NULL)
 			break ;
-		else if (*input != '\0')
+		else if (!stris_only(input, ft_isspace))
 			ms_procedure(&data, input);
 		free(input);
 	}
-	close(data.fd_std[0]);
-	close(data.fd_std[1]);
 	ft_strlistclear(data.envp);
 }
 

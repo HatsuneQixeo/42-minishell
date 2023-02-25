@@ -17,7 +17,6 @@
 # include "token.h"
 # include "rdrt.h"
 
-typedef int					(*t_ftctrl)(void);
 
 /* Exit Status */
 int			ctrl_continue(void);
@@ -26,19 +25,19 @@ int			ctrl_wait(void);
 int			ctrl_success(void);
 int			ctrl_failure(void);
 
-typedef struct s_control	t_ctrl;
-typedef int					(*t_ftexe)(t_data *data, t_ctrl *ctrl);
+typedef int	(*t_ftctrl)(void);
+typedef int	(*t_ftexe)(t_data *data, t_list *lst_args, t_list *lst_rdrt);
 
-struct s_control
+typedef struct s_control
 {
 	t_ftctrl	condition;
 	t_ftexe		ft_exe;
 	t_list		*lst_args;
 	t_list		*lst_rdrt;
-};
+}			t_ctrl;
 
-int			exe_argv(t_data *data, t_ctrl *exe);
-int			exe_subsh(t_data *data, t_ctrl *subsh);
+int			exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt);
+int			exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt);
 
 t_ftctrl	ctrl_value(const char *value);
 void		del_ctrl(void *content);

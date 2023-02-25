@@ -23,7 +23,6 @@ int	g_lastexit;
 typedef struct s_data
 {
 	char	**envp;
-	int		fd_std[2];
 }			t_data;
 
 
@@ -35,5 +34,6 @@ void	ms_perror(const char *name);
 void	ms_waitall(void);
 /* Forbidden */
 void	leakcheck(const char *str);
+void	leakfd(const char *str);
 
 #endif

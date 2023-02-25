@@ -33,7 +33,6 @@ int	ft_exec(const char *cmd, char **envp)
 	return (ft_exec_fd(cmd, envp, 0, 1));
 }
 
-/// @note This function does not allow concurrent action
 int	ft_exec_fd(const char *cmd, char **envp, int fd_in, int fd_out)
 {
 	pid_t	child;

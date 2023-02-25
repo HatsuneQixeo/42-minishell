@@ -14,10 +14,17 @@
 
 void	ms_waitall(void)
 {
-	int	status;
+	int		status;
+	pid_t	pid;
 
-	while (wait(&status) != -1)
+	while (1)
+	{
+		pid = wait(&status);
+		if (pid == -1)
+			break ;
 		g_lastexit = WEXITSTATUS(status);
+		ft_printf("%d exited\n", pid);
+	}
 }
 
 int	ctrl_continue(void)
