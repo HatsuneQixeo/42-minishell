@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:10:40 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
 /*                                                                           */
 /* ************************************************************************** */
 
@@ -93,9 +93,6 @@ void	minishell(char **src_envp)
 	ft_strlistclear(data.envp);
 }
 
-/*
-	Is oldpwd inherited for the program execution?
-*/
 int	main(int argc, char **argv, char **envp)
 {
 	ft_printf("\e[1;1H\e[2J");

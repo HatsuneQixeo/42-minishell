@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ms_unset(char **argv, t_data *data)
 	{
 		if (!valid_identifier(*argv))
 		{
-			ms_errlog("unset: %s: not a valid identifier\n", *argv);
+			ms_errlog("unset: `%s': not a valid identifier\n", *argv);
 			retval = 1;
 		}
 		else

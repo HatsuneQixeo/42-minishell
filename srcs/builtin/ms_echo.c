@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ms_echo(char **argv, t_data *data)
 {
 	int	nl;
 
-	ft_printf("it's me echo!\n");
 	nl = 1;
 	while (*++argv != NULL && echo_isflag(*argv))
 		nl = 0;

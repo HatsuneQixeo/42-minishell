@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ms_export(char **argv, t_data *data)
 	{
 		if (!isvalid_identifier(*argv))
 		{
-			ms_errlog("export: %s: not a valid identifier\n", *argv);
+			ms_errlog("export: `%s': not a valid identifier\n", *argv);
 			retval = 1;
 		}
 		else

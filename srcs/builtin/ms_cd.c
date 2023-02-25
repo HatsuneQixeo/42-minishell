@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:05 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ms_cd(char **argv, t_data *data)
 	char		pwd[1024];
 	const char	*path = argv[1];
 
-	ft_printf("it's me cd!\n");
 	if (!getcwd(pwd, sizeof(pwd)))
 	{
 		ms_perror("cd");

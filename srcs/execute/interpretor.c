@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpretor.c                                         :+:      :+:    :+:   */
+/*   interpretor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "interpretor.h"
-
-void	execute_pipe(t_data *data, t_list *lst_exe);
 
 void	interpretation(t_data *data, t_list *lst_exe)
 {
