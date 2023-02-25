@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ms_common.h"
 
 /* Return 0 is given limiter has no quote, 1 if has quote */
 int	heredoc_limiter(char *limiter)

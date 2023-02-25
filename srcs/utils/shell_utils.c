@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ms_common.h"
 
 int	ft_isquote(int c)
 {
@@ -20,6 +20,17 @@ int	ft_isquote(int c)
 int	ft_isnameletter(int c)
 {
 	return (ft_isalnum(c) || c == '_');
+}
+
+int	ms_errlog(const char *str_format, ...)
+{
+	va_list	args;
+	int		ret;
+
+	va_start(args, str_format);
+	ret = ft_putstr_fd(MINISHELL": ", 2) + ft_printf_core(2, str_format, args);
+	va_end(args);
+	return (ret);
 }
 
 void	ms_perror(const char *name)
@@ -55,15 +66,4 @@ int	ft_dup3(int fd_attribute, int fd_value)
 	else
 		return (0);
 	return (-1);
-}
-
-int	ms_errlog(const char *str_format, ...)
-{
-	va_list	args;
-	int		ret;
-
-	va_start(args, str_format);
-	ret = ft_putstr_fd(MINISHELL": ", 2) + ft_printf_core(2, str_format, args);
-	va_end(args);
-	return (ret);
 }

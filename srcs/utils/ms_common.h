@@ -14,7 +14,10 @@
 # define MS_COMMON_H
 
 # include "libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
+# define MINISHELL	"🐚"
 int	g_lastexit;
 
 typedef struct s_data
@@ -23,7 +26,6 @@ typedef struct s_data
 	int		fd_std[2];
 }			t_data;
 
-# define MINISHELL	"🐚"
 
 int		ft_isquote(int c);
 int		ft_isnameletter(int c);

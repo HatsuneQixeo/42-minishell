@@ -14,8 +14,8 @@
 # define CTRL_H
 
 # include "ms_common.h"
-# include "rdrt.h"
 # include "token.h"
+# include "rdrt.h"
 
 typedef int					(*t_ftctrl)(void);
 

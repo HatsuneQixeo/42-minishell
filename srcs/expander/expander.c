@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "rdrt.h"
 
 t_list	*expand_lst_argv(char **envp, void *ptr_token)
 {

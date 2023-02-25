@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 			const char *tmpname, t_ftlstiter ft_debug)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ms_common.h"
 
 static int	echo_isflag(const char *str)
 {

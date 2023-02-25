@@ -13,7 +13,7 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "libft.h"
+# include "ms_common.h"
 
 enum e_tokentype
 {

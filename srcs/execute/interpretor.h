@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   interpretor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
+#ifndef INTERPRETOR_H
+# define INTERPRETOR_H
 
 # include "ms_common.h"
+# include "ctrl.h"
 # include "expander.h"
 # include "builtin.h"
-# include "ctrl.h"
 
 int		exec_builtin(t_data *data, char **argv);
 int		execution(t_data *data, char **argv);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ctrl.h"
 
 const char	*ctrl_name(t_ftctrl condition)
 {

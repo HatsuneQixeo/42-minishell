@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "interpretor.h"
 
 static void	ft_pathaccess(char **envp, char **ptr_executable)
 {

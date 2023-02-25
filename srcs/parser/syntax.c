@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
 
 static int	valid_syntax(const t_token *token)
 {

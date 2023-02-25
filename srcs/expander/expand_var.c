@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "ms_common.h"
 
 char	*ft_getenv(char **envp, const char *varname)
 {

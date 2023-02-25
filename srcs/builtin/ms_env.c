@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ms_common.h"
 
 int	ms_env(char **argv, t_data *data)
 {

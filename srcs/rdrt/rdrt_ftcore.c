@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rdrt.h"
+#include "ms_common.h"
 
 int	stris_onlyspace(const char *str)
 {
@@ -19,11 +19,11 @@ int	stris_onlyspace(const char *str)
 	return (*str == '\0');
 }
 
-int	rdrt_ambiguous(const t_rdrt *rdrt)
+int	rdrt_ambiguous(const t_list *lst_value, const char *str_arg)
 {
-	if (rdrt->lst_value == NULL || rdrt->lst_value->next != NULL
-		|| stris_onlyspace(rdrt->lst_value->content))
-		ms_errlog("%s: ambiguous redirect\n", rdrt->str_arg);
+	if (lst_value == NULL || lst_value->next != NULL
+		|| stris_onlyspace(lst_value->content))
+		ms_errlog("%s: ambiguous redirect\n", str_arg);
 	else
 		return (0);
 	return (1);

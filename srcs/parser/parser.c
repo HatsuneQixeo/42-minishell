@@ -10,12 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parser.h"
 
-int		heredoc_limiter(char *limiter);
-t_list	*heredoc(const char *limiter);
-
-t_rdrt	*parser_rdrt_new(t_list *node_rdrt, t_list *node_arg)
+static t_rdrt	*parser_rdrt_new(t_list *node_rdrt, t_list *node_arg)
 {
 	t_token	*token_rdrt;
 	t_token	*token_arg;
@@ -48,10 +45,10 @@ static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 		token = node_token->content;
 		if (token->type == DEFAULT)
 			ft_lstadd_back(&ctrl->lst_args, node_token);
-		else if (isoperator_rdrt(token->type))
+		else if (token->type == RDRT)
 			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstnew(parser_rdrt_new(
 						node_token, ft_lstextract_front(lst_token))));
-		else if (isoperator_ctrl(token->type))
+		else if (token->type == CTRL)
 		{
 			*condition = ctrl_value(token->value);
 			ft_lstdelone(node_token, del_token);

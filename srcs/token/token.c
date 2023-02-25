@@ -47,11 +47,11 @@ void	lstshow_token(int i, void *content)
 	const t_token	*token = content;
 	const char		*str_type;
 
-	if (isoperator_rdrt(token->type))
+	if (token->type == RDRT)
 		str_type = CYAN"Redirect";
-	else if (isoperator_ctrl(token->type))
+	else if (token->type == CTRL)
 		str_type = YELLOW"Control";
-	else if (isoperator_subsh(token->type))
+	else if (token->type == SUBSH_BEGIN || token->type == SUBSH_END)
 		str_type = MAGENTA"Subshell";
 	else
 		str_type = GREY"Default";

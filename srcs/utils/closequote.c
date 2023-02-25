@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ms_common.h"
 #define ERR	((void *)-1)
 
 static int	closing_parenthesis(const char *it)

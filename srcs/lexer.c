@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "token.h"
-#include "ms_common.h"
 
 static const t_token	*tokentype(const char *it)
 {

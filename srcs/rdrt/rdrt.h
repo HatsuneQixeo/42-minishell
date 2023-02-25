@@ -14,7 +14,6 @@
 # define RDRT_H
 
 # include "ms_common.h"
-# include "token.h"
 # include "expander.h"
 
 # define HEREDOC_TXT	".miniheredoc.miku.is.cute.tmp"
@@ -32,7 +31,7 @@ struct s_rdrt
 	t_list		*lst_value;
 };
 
-int			rdrt_ambiguous(const t_rdrt *rdrt);
+int	rdrt_ambiguous(const t_list *lst_value, const char *str_arg);
 int			rdrt_core(const char *path, int std_fd, int option, ...);
 
 const char	*lstname_rdrt(const char *newname);

@@ -13,8 +13,8 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# include "token.h"
 # include "ms_common.h"
+# include "token.h"
 
 char	*ft_getenv(char **envp, const char *varname);
 char	*expand_var(char **envp, const char **p_src);
