@@ -34,8 +34,8 @@ int	exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt)
 	argv = (char **)ft_lsttoaa_clear(&lst);
 	g_lastexit = execution(data, argv);
 	ft_strlistclear(argv);
-	ft_dup3(fd_std[0], 0);
-	ft_dup3(fd_std[1], 1);
+	if ((ft_dup3(fd_std[0], 0) == -1) + (ft_dup3(fd_std[1], 1) == -1))
+		return (-1);
 	return (0);
 }
 

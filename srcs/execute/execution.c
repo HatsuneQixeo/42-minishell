@@ -56,6 +56,5 @@ int	execution(t_data *data, char **argv)
 	}
 	else
 		waitpid(pid, &status, 0);
-	ft_dprintf(2, "execution: %s: exited\n", argv[0]);
 	return (WEXITSTATUS(status));
 }

@@ -31,7 +31,6 @@ int		ft_isnameletter(int c);
 int		ft_dup3(int fd_attribute, int fd_value);
 int		ms_errlog(const char *str, ...);
 void	ms_perror(const char *name);
-void	ms_waitall(void);
 /* Forbidden */
 void	leakcheck(const char *str);
 void	leakfd(const char *str);

@@ -12,67 +12,63 @@
 
 #include "interpretor.h"
 
-pid_t	pipe_process(t_data *data, t_ctrl *ctrl, int infd, int outfd)
+static int	pipe_process(t_data *data, t_ctrl *ctrl, pid_t *pid)
 {
-	pid_t	pid;
+	int	fd_pipe[2];
 
-	pid = fork();
-	if (pid == -1)
+	if (pipe(fd_pipe) == -1)
+		ms_perror("pipe in pipe_process");
+	*pid = fork();
+	if (*pid == -1)
 		ms_perror("pipe_process");
-	else if (pid == 0)
+	else if (*pid == 0)
 	{
-		if ((ft_dup3(infd, 0) == -1) + (ft_dup3(outfd, 1) == -1))
-			exit(1);
+		close(fd_pipe[READ_END]);
+		ft_dup3(fd_pipe[WRITE_END], 1);
 		ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
-		close(0);
-		close(1);
-		ft_dprintf(2, "child[%s]: exitting\n", ((t_token *)ctrl->lst_args->content)->value);
 		exit(g_lastexit);
 	}
 	else
-		ft_dprintf(2, "pid[%s]: %d\n", ((t_token *)ctrl->lst_args->content)->value, pid);
-	return (pid);
+		close(fd_pipe[WRITE_END]);
+	return (fd_pipe[READ_END]);
 }
 
-void	piping(t_data *data, t_list *lst_exe, pid_t *arr_pid)
+static void	pipe_connection(t_data *data, t_list *lst_exe, pid_t *arr_pid)
 {
-	int		prev_read;
-	int		fd_pipe[2];
+	t_ctrl	*ctrl;
+	int		fd_stdin;
 
-	if (pipe(fd_pipe) == -1)
-		ms_perror("pipe");
-	*arr_pid++ = pipe_process(data, lst_exe->content, 0, fd_pipe[WRITE_END]);
-	close(fd_pipe[WRITE_END]);
-	prev_read = fd_pipe[READ_END];
-	lst_exe = lst_exe->next;
+	fd_stdin = dup(0);
 	while (lst_exe->next != NULL)
 	{
-		if (pipe(fd_pipe) == -1)
-			ms_perror("pipe");
-		*arr_pid++ = pipe_process(data, lst_exe->content, prev_read, fd_pipe[WRITE_END]);
-		close(prev_read);
-		close(fd_pipe[WRITE_END]);
-		prev_read = fd_pipe[READ_END];
+		ft_dup3(pipe_process(data, lst_exe->content, arr_pid++), 0);
 		lst_exe = lst_exe->next;
 	}
-	*arr_pid++ = pipe_process(data, lst_exe->content, prev_read, 1);
-	close(prev_read);
+	ctrl = lst_exe->content;
+	ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
+	ft_dup3(fd_stdin, 0);
+}
+
+static void	pipe_wait(pid_t *begin, pid_t *end)
+{
+	int	status;
+
+	while (begin != end)
+	{
+		waitpid(*begin++, &status, 0);
+		g_lastexit = WEXITSTATUS(status);
+	}
 }
 
 void	execute_pipe(t_data *data, t_list *lst_exe)
 {
 	pid_t		*arr_pid;
-	const int	size = ft_lstsize(lst_exe);
-	int			status;
+	const int	size = ft_lstsize(lst_exe) - 1;
 
 	arr_pid = malloc(sizeof(pid_t) * size);
 	if (arr_pid == NULL)
 		return ;
-	piping(data, lst_exe, arr_pid);
-	for (int i = 0; i < size; i++)
-	{
-		ft_printf("%d: pipeexit\n", waitpid(arr_pid[i], &status, 0));
-		g_lastexit = WEXITSTATUS(status);
-	}
+	pipe_connection(data, lst_exe, arr_pid);
+	pipe_wait(arr_pid, arr_pid + size);
 	free(arr_pid);
 }
