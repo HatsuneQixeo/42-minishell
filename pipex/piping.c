@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 08:01:14 by hqixeo            #+#    #+#             */
-/*   Updated: 2022/11/13 08:01:15 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/25 10:21:05 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -21,7 +21,6 @@ void	ft_execve(const char *cmd, char **envp)
 {
 	char	**command;
 
-	// Turn into argv
 	command = ft_split(cmd, ' ');
 	ft_pathaccess(envp, command);
 	execve(*command, command, envp);

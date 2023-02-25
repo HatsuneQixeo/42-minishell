@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /**
@@ -35,13 +47,10 @@ static void	export(t_list **lst_buffer, char **envp, const char *arg)
 	}
 }
 
-// Let's say MIKU=Hatsune Miku, why does export $MIKU=$MIKU result in Miku=Hatsune but IKU=$MIKU result in IKU=Hatsune Miku in bash
-/* Export empty argument in bash */
 int	ms_export(char **argv, t_data *data)
 {
-	t_list		*lst_buffer;
-	const char	*prgname = argv[0];
-	int			retval;
+	t_list	*lst_buffer;
+	int		retval;
 
 	lst_buffer = NULL;
 	retval = 0;
@@ -49,13 +58,14 @@ int	ms_export(char **argv, t_data *data)
 	{
 		if (!isvalid_identifier(*argv))
 		{
-			ms_errlog("%s: %s: not a valid identifier\n", prgname, *argv);
+			ms_errlog("export: %s: not a valid identifier\n", *argv);
 			retval = 1;
 		}
 		else
 			export(&lst_buffer, data->envp, *argv);
 	}
 	if (lst_buffer != NULL)
-		data->envp = ft_strlistcombine(data->envp, (char **)ft_lsttoaa_clear(&lst_buffer));
+		data->envp = ft_strlistcombine(data->envp,
+				(char **)ft_lsttoaa_clear(&lst_buffer));
 	return (retval);
 }

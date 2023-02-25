@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_main.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:10:40 by ntan-wan          #+#    #+#             */
-/*   Updated: 2022/12/20 12:29:01 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
 /*                                                                           */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#ifndef SAN
+# define SAN	0
+#endif
+
 void	leakcheck(const char *str)
 {
 	char	buffer[39];
 
-	if (str != NULL)
-		ft_printf("leakcheck: %s\n", str);
+	if (SAN != 0)
+		return ;
+	ft_printf("\nleakcheck: %s\n", str);
 	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
 	system(buffer);
 }
@@ -33,8 +38,10 @@ void	ms_signals_handler(void)
 */
 int	main(int argc, char **argv, char **envp)
 {
-	ft_cleanterminal();
+	ft_printf("\e[1;1H\e[2J");
 	ms_signals_handler();
 	ms_input(envp);
 	leakcheck("mainend");
+	(void)argc;
+	(void)argv;
 }

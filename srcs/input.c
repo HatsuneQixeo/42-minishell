@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_routine.c                                       :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:18:39 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:13:28 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ void	ms_procedure(t_data *data, const char *raw)
 	}
 	t_list	*lst_ctrl = ms_parser(&lst);
 
-	show_lstctrl(lst_ctrl);
+	// show_lstctrl(lst_ctrl);
 	ms_interpretor(data, &lst_ctrl);
 	leakcheck("interpretor end");
-	return ;
 }
 
 void	ms_input(char **src_envp)
@@ -41,6 +40,8 @@ void	ms_input(char **src_envp)
 	t_data	data;
 	char	*input;
 
+	data.fd_std[0] = dup(0);
+	data.fd_std[1] = dup(1);
 	data.envp = ft_strlistdup(src_envp);
 	while (1)
 	{
@@ -51,5 +52,7 @@ void	ms_input(char **src_envp)
 			ms_procedure(&data, input);
 		free(input);
 	}
+	close(data.fd_std[0]);
+	close(data.fd_std[1]);
 	ft_strlistclear(data.envp);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "token.h"
 
 t_token	*token_new(char *str, enum e_tokentype type)
@@ -43,5 +55,6 @@ void	lstshow_token(int i, void *content)
 		str_type = MAGENTA"Subshell";
 	else
 		str_type = GREY"Default";
-	ft_printf("%s[%2d]: %-8s: %b\n"DEF, lstname_token(NULL), i, str_type, token->value);
+	ft_printf("%s[%2d]: %-8s: %b\n"DEF,
+		lstname_token(NULL), i, str_type, token->value);
 }

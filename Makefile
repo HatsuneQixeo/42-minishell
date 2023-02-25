@@ -44,7 +44,7 @@ ${NAME}: ${OBJS}
 
 san: ${SRCS}
 	@${LIBFT_MAKE} \
-		&& @${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME}
+		&& ${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME} -DSAN=1
 
 clean:
 	@${LIBFT_MAKE} clean

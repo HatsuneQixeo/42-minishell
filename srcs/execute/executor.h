@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.h                                         :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANDER_H
-# define EXPANDER_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-# include "token.h"
 # include "ms_common.h"
+# include "expander.h"
+# include "builtin.h"
+# include "ctrl.h"
 
-char	*ft_getenv(char **envp, const char *varname);
-char	*expand_var(char **envp, const char **p_src);
-t_list	*expand_arg(char **envp, const char *arg);
+int		exec_builtin(t_data *data, char **argv);
+int		execution(t_data *data, char **argv);
 
-typedef t_list	*(*t_ftexpand)(char **envp, void *content);
-
-t_list	*expand_lst_argv(char **envp, void *token);
-t_list	*expand_lst_rdrt(char **envp, void *rdrt);
-
-t_list	*ms_expander(char **envp, t_list *lst, t_ftexpand ft_expand);
+void	ms_interpretor(t_data *data, t_list **lst_ctrl);
 
 #endif

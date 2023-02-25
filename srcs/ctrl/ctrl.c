@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ctrl.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_ftctrl	ctrl_value(const char *value)
@@ -37,6 +49,7 @@ void	del_ctrl(void *content)
 	else if (process->ft_exe == exe_subsh)
 		ft_lstclear(&process->lst_args, del_ctrl);
 	else
-		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n", process->ft_exe);
+		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n",
+			process->ft_exe);
 	free(process);
 }

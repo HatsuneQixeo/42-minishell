@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rdrt_ftcore.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rdrt.h"
 
 int	stris_onlyspace(const char *str)
@@ -17,7 +29,7 @@ int	rdrt_ambiguous(const t_rdrt *rdrt)
 	return (1);
 }
 
-int	rdrt_core(const char *path, int std_fileno, int option, ...)
+int	rdrt_core(const char *path, int std_fd, int option, ...)
 {
 	int		fd;
 	va_list	args;
@@ -30,6 +42,5 @@ int	rdrt_core(const char *path, int std_fileno, int option, ...)
 		ms_perror(path);
 		return (-1);
 	}
-	ft_dup3(fd, std_fileno);
-	return (0);
+	return (ft_dup3(fd, std_fd));
 }

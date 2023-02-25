@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ms_pwd(char **argv, t_data *data)
@@ -10,4 +22,5 @@ int	ms_pwd(char **argv, t_data *data)
 		return (!ft_putendl_fd(cwd, 1));
 	return (1);
 	(void)argv;
+	(void)data;
 }

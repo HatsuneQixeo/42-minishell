@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exe.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:05 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 typedef struct s_builtinlst
@@ -6,7 +18,7 @@ typedef struct s_builtinlst
 	t_ftbuiltin	ft;
 }		t_builtinlst[];
 
-int	exec_builtin(char **argv, t_data *data, int infd, int outfd)
+int	exec_builtin(t_data *data, char **argv)
 {
 	int							exe_amt;
 	static const t_builtinlst	builtinlst = {
@@ -18,22 +30,13 @@ int	exec_builtin(char **argv, t_data *data, int infd, int outfd)
 	{"env", ms_env},
 	{"exit", ms_exit}
 	};
-	int							fd_stdin;
-	int							fd_stdout;
 
 	exe_amt = (sizeof(builtinlst) / sizeof(builtinlst[0]));
 	while (exe_amt--)
 	{
 		if (ft_strcmp(argv[0], builtinlst[exe_amt].name))
 			continue ;
-		fd_stdin = dup(0);
-		fd_stdout = dup(1);
-		ft_dup3(infd, 0);
-		ft_dup3(outfd, 1);
-		g_lastexit = builtinlst[exe_amt].ft(argv, data);
-		ft_dup3(fd_stdin, 0);
-		ft_dup3(fd_stdout, 1);
-		return (0);
+		return (builtinlst[exe_amt].ft(argv, data));
 	}
 	return (-1);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   closequote.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #define ERR	((void *)-1)
 
@@ -66,7 +78,7 @@ static const char	*missing_closing_character(const char *input_raw)
 	while (*++it != '\0')
 	{
 		if (closing_quote(it))
-			continue;
+			continue ;
 		else if (closing_parenthesis(it) == -1)
 		{
 			closing_parenthesis(NULL);

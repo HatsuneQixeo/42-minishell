@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rdrt.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:08 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:08 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RDRT_H
 # define RDRT_H
 
@@ -5,8 +17,13 @@
 # include "token.h"
 # include "expander.h"
 
+# define HEREDOC_TXT	".miniheredoc.miku.is.cute.tmp"
+
+# define READ_END	0
+# define WRITE_END	1
+
 typedef struct s_rdrt	t_rdrt;
-typedef int	(*t_ftrdrt)(char **envp, t_rdrt *rdrt);
+typedef int				(*t_ftrdrt)(char **envp, t_rdrt *rdrt);
 
 struct s_rdrt
 {
@@ -14,6 +31,9 @@ struct s_rdrt
 	char		*str_arg;
 	t_list		*lst_value;
 };
+
+int			rdrt_ambiguous(const t_rdrt *rdrt);
+int			rdrt_core(const char *path, int std_fd, int option, ...);
 
 const char	*lstname_rdrt(const char *newname);
 void		lstshow_rdrt(int i, void *content);

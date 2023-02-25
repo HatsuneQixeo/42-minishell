@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 #include "rdrt.h"
 
-/* The experimental, Assuming the returned list only contain default tokens */
 t_list	*expand_lst_argv(char **envp, void *ptr_token)
 {
 	const t_token	*token = ptr_token;

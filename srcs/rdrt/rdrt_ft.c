@@ -1,31 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rdrt_ft.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rdrt.h"
-
-int	rdrt_ambiguous(const t_rdrt *rdrt);
-int	rdrt_core(const char *path, int std_fileno, int option, ...);
-
-int	rdrt_heredoc(char **envp, t_rdrt *rdrt)
-{
-	/*
-		write heredoc
-		What if the content is overwritten halfway?
-		Shouldn't be possible because I haven't start reading?
-		Still need to be aware of fd leaks
-	*/
-	// return (rdrt_core(rdrt->str_arg, STDIN_FILENO, O_RDONLY));
-	return (0);
-}
-
-int	rdrt_quotedheredoc(char **envp, t_rdrt *rdrt)
-{
-	/*
-		write heredoc
-		What if the content is overwritten halfway?
-		Shouldn't be possible because I haven't start reading?
-		Still need to be aware of fd leaks
-	*/
-	// return (rdrt_core(rdrt->str_arg, STDIN_FILENO, O_RDONLY));
-	return (0);
-}
+#include "minishell.h"
 
 int	rdrt_append(char **envp, t_rdrt *rdrt)
 {
@@ -33,7 +19,7 @@ int	rdrt_append(char **envp, t_rdrt *rdrt)
 	if (rdrt_ambiguous(rdrt))
 		return (-1);
 	return (rdrt_core(rdrt->lst_value->content, STDOUT_FILENO,
-		O_CREAT | O_APPEND | O_WRONLY, 0644));
+			O_CREAT | O_APPEND | O_WRONLY, 0644));
 }
 
 int	rdrt_input(char **envp, t_rdrt *rdrt)
@@ -50,5 +36,5 @@ int	rdrt_overwrite(char **envp, t_rdrt *rdrt)
 	if (rdrt_ambiguous(rdrt))
 		return (-1);
 	return (rdrt_core(rdrt->lst_value->content, STDOUT_FILENO,
-		O_CREAT | O_TRUNC | O_WRONLY, 0644));
+			O_CREAT | O_TRUNC | O_WRONLY, 0644));
 }

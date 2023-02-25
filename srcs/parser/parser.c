@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:16:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:20:31 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 			ft_lstadd_back(&ctrl->lst_args, node_token);
 		else if (isoperator_rdrt(token->type))
 			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstnew(parser_rdrt_new(
-					node_token, ft_lstextract_front(lst_token))));
+						node_token, ft_lstextract_front(lst_token))));
 		else if (isoperator_ctrl(token->type))
 		{
 			*condition = ctrl_value(token->value);

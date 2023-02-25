@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	valid_identifier(const char *str)
@@ -25,15 +37,14 @@ static void	unset(char **envp, const char *arg)
 
 int	ms_unset(char **argv, t_data *data)
 {
-	const char	*prgname = argv[0];
-	int			retval;
+	int	retval;
 
 	retval = 0;
 	while (*++argv != NULL)
 	{
 		if (!valid_identifier(*argv))
 		{
-			ms_errlog("%s: %s: not a valid identifier\n", prgname, *argv);
+			ms_errlog("unset: %s: not a valid identifier\n", *argv);
 			retval = 1;
 		}
 		else
@@ -41,5 +52,3 @@ int	ms_unset(char **argv, t_data *data)
 	}
 	return (retval);
 }
-
-

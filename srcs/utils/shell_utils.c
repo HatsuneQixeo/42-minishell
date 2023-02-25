@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_other_utils.c                                   :+:      :+:    :+:   */
+/*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/01/09 03:29:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,9 @@ int	ft_isnameletter(int c)
 	return (ft_isalnum(c) || c == '_');
 }
 
-void	ft_cleanterminal(void)
-{
-	ft_printf("\e[1;1H\e[2J");
-}
-
 void	ms_perror(const char *name)
 {
-	ms_errlog("");
-	perror(name);
+	ms_errlog("%s: %s\n", name, strerror(errno));
 }
 
 /**
@@ -46,11 +40,13 @@ int	ft_dup3(int fd_attribute, int fd_value)
 {
 	if (fd_attribute == fd_value)
 		return (0);
-	else if (fd_attribute == -1 || fd_value == -1)
-		return (-1);
+	else if (fd_attribute == -1)
+		ft_dprintf(2, "fd_attribute: %d\n", fd_attribute);
+	else if (fd_value == -1)
+		ft_dprintf(2, "fd_value: %d\n", fd_value);
 	else if (dup2(fd_attribute, fd_value) == -1)
 	{
-		ft_dprintf(2, "zsh: %s: %s\n", strerror(errno), "dup2");
+		ms_perror("dup2");
 		ft_dprintf(2, "fd_attribute: %d\n", fd_attribute);
 		ft_dprintf(2, "fd_value: %d\n", fd_value);
 	}

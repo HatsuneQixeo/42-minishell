@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
-			const char *tmpname,t_ftlstiter ft_debug)
+			const char *tmpname, t_ftlstiter ft_debug)
 {
 	const char	*name = ft_setname(NULL);
 

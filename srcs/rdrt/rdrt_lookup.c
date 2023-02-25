@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rdrt_lookup.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:07 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rdrt.h"
 
 static int	rdrt_cmpft(const t_rdrt *ref1, const t_rdrt *ref2)
@@ -34,8 +46,8 @@ static const t_rdrt	*rdrt_search(const t_rdrt *ref, t_getrdrt ft_get)
 
 t_ftrdrt	rdrt_getft(const char *value)
 {
-	const t_rdrt	*find= rdrt_search(
-				&(t_rdrt){NULL, (char *)value, NULL}, rdrt_cmpvalue);
+	const t_rdrt	*find = rdrt_search(
+			&(t_rdrt){NULL, (char *)value, NULL}, rdrt_cmpvalue);
 
 	if (find != NULL)
 		return (find->ft_rdrt);
@@ -46,7 +58,7 @@ t_ftrdrt	rdrt_getft(const char *value)
 const char	*rdrt_getvalue(t_ftrdrt ft_rdrt)
 {
 	const t_rdrt	*find = rdrt_search(
-				&(t_rdrt){ft_rdrt, NULL, NULL}, rdrt_cmpft);
+			&(t_rdrt){ft_rdrt, NULL, NULL}, rdrt_cmpft);
 
 	if (find != NULL)
 		return (find->str_arg);

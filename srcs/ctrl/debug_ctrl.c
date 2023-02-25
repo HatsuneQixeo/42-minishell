@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_ctrl.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/25 10:21:06 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 const char	*ctrl_name(t_ftctrl condition)
@@ -34,16 +46,17 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 	{
 		ctrl = lst_ctrl->content;
 		ft_printf("%*sctrl[%d]: %s\n"DEF, padding * 4, "",
-				i, ctrl_name(ctrl->condition));
-		if (ctrl->ft_exe == exe_argv) 
+			i, ctrl_name(ctrl->condition));
+		if (ctrl->ft_exe == exe_argv)
 			show_lstctrl_showlst(ctrl->lst_args, padding,
-					lstname_token, lstshow_token);
+				lstname_token, lstshow_token);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else
-			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n", ctrl->ft_exe);
+			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n",
+				ctrl->ft_exe);
 		show_lstctrl_showlst(ctrl->lst_rdrt, padding,
-				lstname_rdrt, lstshow_rdrt);
+			lstname_rdrt, lstshow_rdrt);
 		lst_ctrl = lst_ctrl->next;
 		i++;
 	}

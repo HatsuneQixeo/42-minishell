@@ -1,5 +1,5 @@
 *.vscode
 objs/
-minishell
+minishell*
 interactive_mode
 test
