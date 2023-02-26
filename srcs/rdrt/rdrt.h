@@ -31,11 +31,11 @@ struct s_rdrt
 	t_list		*lst_value;
 };
 
-int	rdrt_ambiguous(const t_list *lst_value, const char *str_arg);
+int	rdrt_ambiguousfilename(const t_list *lst_value, const char *str_arg);
 int			rdrt_core(const char *path, int std_fd, int option, ...);
 
 const char	*lstname_rdrt(const char *newname);
-void		lstshow_rdrt(int i, void *content);
+void		show_rdrt(int i, void *content);
 
 t_ftrdrt	rdrt_getft(const char *value);
 const char	*rdrt_getvalue(t_ftrdrt ft_rdrt);

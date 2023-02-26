@@ -12,6 +12,11 @@
 
 #include "ms_common.h"
 
+// int	ctrl_any(void)
+// {
+// 	return (1);
+// }
+
 int	ctrl_continue(void)
 {
 	return (1);

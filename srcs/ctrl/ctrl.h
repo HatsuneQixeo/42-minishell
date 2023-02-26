@@ -19,9 +19,8 @@
 
 
 /* Exit Status */
+int			ctrl_any(void);
 int			ctrl_continue(void);
-/* Semicolon, not part of the subject; Not implemented just yet */
-int			ctrl_wait(void);
 int			ctrl_success(void);
 int			ctrl_failure(void);
 
@@ -46,6 +45,6 @@ t_ctrl		*ctrl_new(t_ftctrl condition, t_ftexe exe);
 /* Debug ctrl */
 const char	*ctrl_name(t_ftctrl condition);
 void		show_lstctrl(t_list *lst_ctrl);
-// void	lstshow_ctrl(int i, void *content);
+// void	show_ctrl(int i, void *content);
 
 #endif

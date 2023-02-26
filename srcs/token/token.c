@@ -42,7 +42,7 @@ const char	*lstname_token(const char *newname)
 	return (name);
 }
 
-void	lstshow_token(int i, void *content)
+void	show_token(int i, void *content)
 {
 	const t_token	*token = content;
 	const char		*str_type;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ms_common.h"
 
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 			const char *tmpname, t_ftlstiter ft_debug)
@@ -20,4 +20,10 @@ void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 	ft_setname(tmpname);
 	ft_lstiter(lst, ft_debug);
 	ft_setname(name);
+}
+
+void	debug_errno(const char *name)
+{
+	if (DBG_ERRNO)
+		ft_dprintf(2, "%s errno: %d\n", name, g_lastexit);
 }

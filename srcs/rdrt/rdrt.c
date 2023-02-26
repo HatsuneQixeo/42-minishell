@@ -21,7 +21,7 @@ const char	*lstname_rdrt(const char *newname)
 	return (name);
 }
 
-void	lstshow_rdrt(int i, void *content)
+void	show_rdrt(int i, void *content)
 {
 	const t_rdrt	*rdrt = content;
 	char			*padname;
@@ -32,7 +32,7 @@ void	lstshow_rdrt(int i, void *content)
 			ft_strjoin(": ", lstname_str(NULL)), lstname_rdrt(NULL));
 	padname = ft_strcombine(ft_strcreate(' ', 4), padname);
 	lstshow_tmpname(rdrt->lst_value, lstname_str,
-		padname, lstshow_str);
+		padname, show_str);
 	free(padname);
 }
 

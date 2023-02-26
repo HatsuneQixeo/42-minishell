@@ -56,16 +56,16 @@ static char	*ms_substr_varname(const char *src)
  * 	also move the ptr to the end of the variable name
  * 
  * @param envp 
- * @param p_src 
+ * @param p_it 
  * @return char* 
  */
-static char	*ft_substrenv(char **envp, const char **p_src)
+static char	*ft_substrenv(char **envp, const char **p_it)
 {
 	char	*str_varname;
 	char	*str_varvalue;
 
-	str_varname = ms_substr_varname(*p_src);
-	(*p_src) += ft_strlen(str_varname);
+	str_varname = ms_substr_varname(*p_it);
+	(*p_it) += ft_strlen(str_varname);
 	str_varvalue = ft_getenv(envp, str_varname);
 	free(str_varname);
 	if (str_varvalue == NULL)
@@ -78,27 +78,33 @@ static char	*ft_substrenv(char **envp, const char **p_src)
  * @brief For expanding an iterator pointing to '$' character
  * 
  * @param envp 
- * @param p_src 
+ * @param p_it 
  * @return char* 
  */
-char	*expand_var(char **envp, const char **p_src)
+char	*expand_var(char **envp, const char **p_it)
 {
-	const char	chr = (*p_src)[1];
+	const char	chr = (*p_it)[1];
 
-	if (chr == '?')
+	if ((*p_it)[0] != '$')
 	{
-		(*p_src)++;
+		ft_dprintf(2, "expand_var is called"
+			"when the first character is not `$': %s\n", *p_it);
+		return (NULL);
+	}
+	else if (chr == '?')
+	{
+		(*p_it)++;
 		return (ft_itoa(g_lastexit));
 	}
-	else if (chr == '\0')
-		return (ft_strdup("$"));
-	else if (!ft_isnameletter(chr))
+	else if (ft_isquote(chr))
 		return (ft_strdup(""));
+	else if (!ft_isnameletter(chr))
+		return (ft_strdup("$"));
 	else if (ft_isdigit(chr))
 	{
-		(*p_src)++;
+		(*p_it)++;
 		return (ft_strdup(""));
 	}
 	else
-		return (ft_substrenv(envp, p_src));
+		return (ft_substrenv(envp, p_it));
 }

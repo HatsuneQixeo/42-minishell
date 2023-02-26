@@ -20,6 +20,10 @@
 # define MINISHELL	"🐚"
 int	g_lastexit;
 
+# ifndef DBG_ERRNO
+#  define DBG_ERRNO	0
+# endif
+
 typedef struct s_data
 {
 	char	**envp;
@@ -31,8 +35,10 @@ int		ft_isnameletter(int c);
 int		ft_dup3(int fd_attribute, int fd_value);
 int		ms_errlog(const char *str, ...);
 void	ms_perror(const char *name);
+
 /* Forbidden */
 void	leakcheck(const char *str);
 void	leakfd(const char *str);
+void	debug_errno(const char *name);
 
 #endif

@@ -14,7 +14,7 @@
 
 /**
  * @brief 
- * @test =a, a, a=, "a ", "a ="
+ * @test =a, a, a=, "a ", "a =", =
  * @param str 
  * @return int 
  */

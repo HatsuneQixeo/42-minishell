@@ -22,7 +22,8 @@ void	interpretation(t_data *data, t_list *lst_exe)
 	else if (lst_exe->next != NULL)
 		execute_pipe(data, lst_exe);
 	else
-		ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
+		g_lastexit = ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
+	debug_errno("interpretation end");
 }
 
 t_list	*interpret_getlstpipe(t_list **lst_ctrl)
@@ -57,7 +58,8 @@ void	ms_interpretor(t_data *data, t_list **lst_ctrl)
 	{
 		lst_exe = interpret_getlstpipe(lst_ctrl);
 		interpretation(data, lst_exe);
-		unlink(HEREDOC_TXT);
+		if (!access(HEREDOC_TXT, F_OK))
+			unlink(HEREDOC_TXT);
 		ft_lstclear(&lst_exe, del_ctrl);
 	}
 }

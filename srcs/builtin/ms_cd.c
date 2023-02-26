@@ -46,10 +46,14 @@ static int	cd_updatepath(t_data *data, const char *pwd_before, char **p_oldpwd)
 static const char	*cd_getpath(char **envp, const char *varname,
 			const char *oldpwd)
 {
-	const char	*path;
+	const char	*path = NULL;
 
 	if (!ft_strcmp(varname, "OLDPWD"))
+	{
 		path = oldpwd;
+		if (oldpwd != NULL)
+			ft_putendl_fd(oldpwd, 1);
+	}
 	else
 		path = ft_getenv(envp, varname);
 	if (path == NULL)

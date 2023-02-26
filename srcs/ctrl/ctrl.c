@@ -20,6 +20,8 @@ t_ftctrl	ctrl_value(const char *value)
 		return (ctrl_failure);
 	else if (!ft_strcmp(value, "|"))
 		return (ctrl_continue);
+	// else if (!ft_strcmp(value, ";"))
+	// 	return (ctrl_any);
 	ft_dprintf(2, "ctrl_value does not recognize: %s\n", value);
 	return (NULL);
 }

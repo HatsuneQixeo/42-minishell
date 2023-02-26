@@ -12,7 +12,7 @@
 
 #include "interpretor.h"
 
-int	redirection(char **envp, t_list *lst_rdrt)
+static int	redirect(char **envp, t_list *lst_rdrt)
 {
 	t_rdrt	*rdrt;
 
@@ -20,35 +20,46 @@ int	redirection(char **envp, t_list *lst_rdrt)
 	{
 		rdrt = lst_rdrt->content;
 		if (rdrt->ft_rdrt(envp, rdrt) == -1)
-			return (-1);
+			return (1);
 		lst_rdrt = lst_rdrt->next;
 	}
 	return (0);
 }
 
-int	exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt)
+static int	argv_lstargs(t_data *data, t_list *lst_args)
 {
 	char	**argv;
-	t_list	*lst;
-	int		fd_std[2];
+	int		status;
 
 	if (lst_args == NULL)
 		return (0);
+	argv = expand_lst_argv(data->envp, lst_args);
+	/* Return value */
+	status = execution(data, argv);
+	ft_strlistclear(argv);
+	return (status);
+}
+
+int	exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt)
+{
+	int		fd_std[2];
+	int		status;
+
 	fd_std[0] = dup(0);
 	fd_std[1] = dup(1);
-	if (redirection(data->envp, lst_rdrt) == -1)
+	if (fd_std[0] == -1 || fd_std[1] == -1)
 	{
-		ft_dup3(fd_std[0], 0);
-		ft_dup3(fd_std[1], 1);
-		return (-1);
+		ms_perror("exe_argv: fd_std");
+		close(fd_std[0]);
+		close(fd_std[1]);
+		return (831);
 	}
-	lst = ms_expander(data->envp, lst_args, expand_lst_argv);
-	argv = (char **)ft_lsttoaa_clear(&lst);
-	g_lastexit = execution(data, argv);
-	ft_strlistclear(argv);
+	status = redirect(data->envp, lst_rdrt);
+	if (status == 0)
+		status = argv_lstargs(data, lst_args);
 	if ((ft_dup3(fd_std[0], 0) == -1) + (ft_dup3(fd_std[1], 1) == -1))
-		return (-1);
-	return (0);
+		return (831);
+	return (status);
 }
 
 int	exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt)
@@ -64,7 +75,7 @@ int	exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt)
 	}
 	else if (pid == 0)
 	{
-		if (redirection(data->envp, lst_rdrt) == -1)
+		if (redirect(data->envp, lst_rdrt) == -1)
 			exit(1);
 		ms_interpretor(data, &lst_args);
 		leakcheck("exe_subsh");

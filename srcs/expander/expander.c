@@ -12,22 +12,57 @@
 
 #include "expander.h"
 
-t_list	*expand_lst_argv(char **envp, void *ptr_token)
+static char	*heredoc_expand_line(char **envp, const char *str)
 {
-	const t_token	*token = ptr_token;
+	t_list		*lst_expanded;
+	const char	*ptr_var;
 
-	return (expand_arg(envp, token->value));
+	lst_expanded = NULL;
+	while (1)
+	{
+		ptr_var = ft_strchr(str, '$');
+		if (ptr_var == NULL)
+			break ;
+		ft_lstadd_back(&lst_expanded, ft_lstnew(
+				ft_substr(str, 0, ptr_var - str)));
+		ft_lstadd_back(&lst_expanded, ft_lstnew(
+				expand_var(envp, &ptr_var)));
+		str = ptr_var + 1;
+	}
+	ft_lstadd_back(&lst_expanded, ft_lstnew(ft_strdup(str)));
+	return (ft_lsttostr_clear(&lst_expanded));
 }
 
-t_list	*ms_expander(char **envp, t_list *lst, t_ftexpand ft_expand)
+void	heredoc_expand(char **envp, t_list *lst)
+{
+	char	*tmp;
+
+	while (lst != NULL)
+	{
+		tmp = lst->content;
+		lst->content = heredoc_expand_line(envp, lst->content);
+		free(tmp);
+		lst = lst->next;
+	}
+}
+
+char	**expand_lst_argv(char **envp, t_list *lst)
 {
 	t_list	*lst_new;
+	t_token	*token;
 
 	lst_new = NULL;
 	while (lst != NULL)
 	{
-		ft_lstadd_back(&lst_new, ft_expand(envp, lst->content));
+		token = lst->content;
+		if (token->type != DEFAULT)
+		{
+			ms_errlog("Unknown token in expand_lst_argv");
+			show_token(-1, token);
+		}
+		else
+			ft_lstadd_back(&lst_new, expand_str(envp, token->value));
 		lst = lst->next;
 	}
-	return (lst_new);
+	return ((char **)ft_lsttoaa_clear(&lst_new));
 }

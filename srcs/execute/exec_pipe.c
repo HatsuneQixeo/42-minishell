@@ -25,8 +25,7 @@ static int	pipe_process(t_data *data, t_ctrl *ctrl, pid_t *pid)
 	{
 		close(fd_pipe[READ_END]);
 		ft_dup3(fd_pipe[WRITE_END], 1);
-		ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
-		exit(g_lastexit);
+		exit(ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt));
 	}
 	else
 		close(fd_pipe[WRITE_END]);
@@ -45,19 +44,14 @@ static void	pipe_connection(t_data *data, t_list *lst_exe, pid_t *arr_pid)
 		lst_exe = lst_exe->next;
 	}
 	ctrl = lst_exe->content;
-	ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
+	g_lastexit = ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
 	ft_dup3(fd_stdin, 0);
 }
 
 static void	pipe_wait(pid_t *begin, pid_t *end)
 {
-	int	status;
-
 	while (begin != end)
-	{
-		waitpid(*begin++, &status, 0);
-		g_lastexit = WEXITSTATUS(status);
-	}
+		waitpid(*begin++, NULL, 0);
 }
 
 void	execute_pipe(t_data *data, t_list *lst_exe)
@@ -70,5 +64,6 @@ void	execute_pipe(t_data *data, t_list *lst_exe)
 		return ;
 	pipe_connection(data, lst_exe, arr_pid);
 	pipe_wait(arr_pid, arr_pid + size);
+	debug_errno("execute_pipe");
 	free(arr_pid);
 }

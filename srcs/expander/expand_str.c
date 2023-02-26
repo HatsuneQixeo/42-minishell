@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_arg.c                                       :+:      :+:    :+:   */
+/*   expand_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "expander.h"
 
-static char	*expander_doublequote(char **envp, const char **p_it)
+static char	*expand_dquote(char **envp, const char **p_it)
 {
 	t_list		*lst;
 	const char	*it = (*p_it)++;
@@ -27,12 +27,16 @@ static char	*expander_doublequote(char **envp, const char **p_it)
 		ft_lstadd_back(&lst, ft_lstnew(expand_var(envp, &it)));
 		*p_it = it + 1;
 	}
-	ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
+	if (it != *p_it)
+		ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
 	*p_it = it;
-	return (ft_lsttostr_clear(&lst));
+	if (lst == NULL)
+		return (ft_strdup(""));
+	else
+		return (ft_lsttostr_clear(&lst));
 }
 
-static char	*expander_singlequote(const char **p_it)
+static char	*expand_skipquote(const char **p_it)
 {
 	const char	*end = ft_strchr(&(*p_it)[1], '\'');
 	char		*substr;
@@ -41,6 +45,35 @@ static char	*expander_singlequote(const char **p_it)
 	*p_it = end;
 	return (substr);
 }
+
+/**
+ * @brief 
+ * If the 2d array contain more than one string,
+ * 	which is when the expanded variable contain ISSPACE (Hatsune(Space)Miku),
+ * 	it will move the buffer into the give linked list,
+ * 	and append the list with the rest of the string
+ * The last string in the 2d array will be the new buffer
+ * 
+ * 
+ * @param lst_argv 
+ * @param strlist 
+ * @param p_buffer 
+ */
+static void	ass_pain_append(t_list **lst_argv, char **strlist, char **p_buffer)
+{
+	int		i;
+
+	if (strlist[0] == NULL)
+		return ;
+	*p_buffer = ft_strcombine(*p_buffer, strlist[0]);
+	i = -1;
+	while (strlist[++i + 1] != NULL)
+	{
+		ft_lstadd_back(lst_argv, ft_lstnew(*p_buffer));
+		*p_buffer = strlist[i + 1];
+	}
+}
+
 
 /**
  * @brief Imagine letting one function do only one thing
@@ -60,12 +93,7 @@ static char	*expander_singlequote(const char **p_it)
  * 	and combine the first string with the buffer in p_buffer
  * 	buffer = "I_love_Hatsune"
  * 
- * If the 2d array contain more than one string,
- * 	which is when the expanded variable contain ISSPACE (Hatsune(Space)Miku),
- * 	it will move the buffer into the give linked list,
- * 	and append the list with the rest of the string
- * 
- * The last string in the 2d array will be the new buffer
+ * (Refer to ass_pain_append for this section)
  * 
  * So in this case, the variables looks like follow:
  * 	lst_argv contain a node with content: "I_love_Hatsune"
@@ -85,26 +113,17 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 {
 	char	*expand_value;
 	char	**strlist;
-	int		i;
 
 	expand_value = expand_var(envp, p_it);
 	if (expand_value == NULL)
 		return ;
 	strlist = ft_split_is(expand_value, ft_isspace);
 	free(expand_value);
-	*p_buffer = ft_strcombine(*p_buffer, strlist[0]);
-	if (strlist[1] != NULL)
-	{
-		ft_lstadd_back(lst_argv, ft_lstnew(*p_buffer));
-		i = 0;
-		while (strlist[++i + 1] != NULL)
-			ft_lstadd_back(lst_argv, ft_lstnew(strlist[i]));
-		*p_buffer = strlist[i];
-	}
+	ass_pain_append(lst_argv, strlist, p_buffer);
 	free(strlist);
 }
 
-t_list	*expand_arg(char **envp, const char *arg)
+t_list	*expand_str(char **envp, const char *arg)
 {
 	t_list		*lst_argv;
 	const char	*it = arg - 1;
@@ -119,9 +138,9 @@ t_list	*expand_arg(char **envp, const char *arg)
 		if (it != arg)
 			buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
 		if (*it == '\'')
-			buffer = ft_strcombine(buffer, expander_singlequote(&it));
+			buffer = ft_strcombine(buffer, expand_skipquote(&it));
 		else if (*it == '\"')
-			buffer = ft_strcombine(buffer, expander_doublequote(envp, &it));
+			buffer = ft_strcombine(buffer, expand_dquote(envp, &it));
 		else if (*it == '$')
 			bash_expand_ass_pain(&lst_argv, envp, &it, &buffer);
 		arg = it + 1;

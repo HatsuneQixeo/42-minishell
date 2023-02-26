@@ -12,7 +12,7 @@
 
 #include "token.h"
 
-int	ft_strprefix(const char *str, const char *prefix)
+int	stris_prefix(const char *str, const char *prefix)
 {
 	size_t	i;
 
@@ -20,10 +20,10 @@ int	ft_strprefix(const char *str, const char *prefix)
 	while (str[i] != '\0' && prefix[i] != '\0')
 	{
 		if (str[i] != prefix[i])
-			return (str[i] - prefix[i]);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 static const t_token	*tokentype(const char *it)
@@ -32,6 +32,7 @@ static const t_token	*tokentype(const char *it)
 	{CTRL, "&&"},
 	{CTRL, "||"},
 	{CTRL, "|"},
+	// {CTRL, ";"},
 	{RDRT, "<<"},
 	{RDRT, ">>"},
 	{RDRT, "<"},
@@ -43,7 +44,7 @@ static const t_token	*tokentype(const char *it)
 	int						i;
 
 	i = 0;
-	while (ft_strprefix(it, operators[i].value))
+	while (!stris_prefix(it, operators[i].value))
 		i++;
 	return (&operators[i]);
 }
