@@ -12,27 +12,12 @@
 
 #include "token.h"
 
-int	stris_prefix(const char *str, const char *prefix)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0' && prefix[i] != '\0')
-	{
-		if (str[i] != prefix[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 static const t_token	*tokentype(const char *it)
 {
 	static const t_token	operators[] = {
 	{CTRL, "&&"},
 	{CTRL, "||"},
 	{CTRL, "|"},
-	// {CTRL, ";"},
 	{RDRT, "<<"},
 	{RDRT, ">>"},
 	{RDRT, "<"},
@@ -44,7 +29,7 @@ static const t_token	*tokentype(const char *it)
 	int						i;
 
 	i = 0;
-	while (!stris_prefix(it, operators[i].value))
+	while (!cmpstr_isprefix(&it, &operators[i].value))
 		i++;
 	return (&operators[i]);
 }

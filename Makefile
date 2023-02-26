@@ -1,20 +1,18 @@
 NAME		:=	minishell
-EXTRA_LIBS	:=	-lreadline -lncurses
-UNUSED_SET	:=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
+DPDLINK		:=	-lreadline -lncurses
 CC			:=	gcc
-# CFLAGS		:=	-Wall -Wextra -Werror
-CFLAGS		:=	-Wall -Werror
-CFLAGS		+=	${UNUSED_SET}
+CFLAGS		:=	-Wall -Wextra -Werror -DDBG_ERRNO=1
+# CFLAGS		:=	-Wall -Werror
+# CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
 # CFLAGS		+=	-fsanitize=address -g
-LIBFT_DIR	:=	libft/
-LIBFT		:=	${LIBFT_DIR}libft.a
-LIBFT_MAKE	:=	make -C ${LIBFT_DIR}
+LIBFT		:=	libft/libft.a
+LIBFT_MAKE	:=	make -C libft
 
 SRC_DIR		:=	srcs
 SRCS		:=	$(shell find ${SRC_DIR} -name "*.c")
 
 HEADER		:=	$(shell find ${SRC_DIR} -name "*.h")
-INCLUDE		:=	$(addprefix -I, $(dir ${HEADER}) ${LIBFT_DIR}include/)
+INCLUDE		:=	$(addprefix -I, $(sort $(dir ${HEADER}) libft/include))
 
 OBJ_DIR		:=	objs
 OBJS		:=	$(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRCS})
@@ -39,12 +37,12 @@ ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c ${HEADER} | ${OBJ_DIR}
 
 ${NAME}: ${OBJS}
 	@${LIBFT_MAKE} \
-		&& ${CC} ${CFLAGS} $^ ${LIBFT} ${EXTRA_LIBS} -o $@ \
+		&& ${CC} ${CFLAGS} $^ ${LIBFT} ${DPDLINK} -o $@ \
 		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"
 
 san: ${SRCS}
 	@${LIBFT_MAKE} \
-		&& ${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${EXTRA_LIBS} -o ${NAME} -DSAN=1
+		&& ${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${DPDLINK} -o ${NAME} -DSAN=1
 
 clean:
 	@${LIBFT_MAKE} clean

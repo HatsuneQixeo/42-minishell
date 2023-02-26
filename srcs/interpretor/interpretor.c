@@ -54,6 +54,7 @@ void	ms_interpretor(t_data *data, t_list **lst_ctrl)
 {
 	t_list	*lst_exe;
 
+	show_lstctrl(*lst_ctrl);
 	while ((*lst_ctrl) != NULL)
 	{
 		lst_exe = interpret_getlstpipe(lst_ctrl);

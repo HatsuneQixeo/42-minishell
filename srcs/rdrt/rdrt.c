@@ -26,13 +26,13 @@ void	show_rdrt(int i, void *content)
 	const t_rdrt	*rdrt = content;
 	char			*padname;
 
-	ft_printf("%s[%d]: %s: %s\n", lstname_rdrt(NULL), i,
+	ft_dprintf(2, "%s[%d]: %s: %s\n", lstname_rdrt(NULL), i,
 		rdrt_getvalue(rdrt->ft_rdrt), rdrt->str_arg);
 	padname = ft_strmodify(ft_strrjoin,
-			ft_strjoin(": ", lstname_str(NULL)), lstname_rdrt(NULL));
+			ft_strjoin(": ", iteri_name(NULL)), lstname_rdrt(NULL));
 	padname = ft_strcombine(ft_strcreate(' ', 4), padname);
-	lstshow_tmpname(rdrt->lst_value, lstname_str,
-		padname, show_str);
+	lstshow_tmpname(rdrt->lst_value, iteri_name,
+		padname, iteri_showstr);
 	free(padname);
 }
 

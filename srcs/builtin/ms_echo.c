@@ -21,7 +21,7 @@ static int	echo_isflag(const char *str)
 	return (*str == '\0');
 }
 
-void	iteristr_echo(int i, char *str)
+void	iteri_echo(int i, void *str)
 {
 	if (i != 0)
 		ft_putchar_fd(' ', 1);
@@ -35,7 +35,7 @@ int	ms_echo(char **argv, t_data *data)
 	nl = 1;
 	while (*++argv != NULL && echo_isflag(*argv))
 		nl = 0;
-	ft_strlistiteri(argv, iteristr_echo);
+	ft_strlistiteri(argv, iteri_echo);
 	if (nl)
 		ft_putchar_fd('\n', 1);
 	return (0);

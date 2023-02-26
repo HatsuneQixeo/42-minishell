@@ -12,8 +12,12 @@
 
 #include "ms_common.h"
 
+# ifndef DBG_ERRNO
+#  define DBG_ERRNO	0
+# endif
+
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
-			const char *tmpname, t_ftlstiter ft_debug)
+			const char *tmpname, t_ftiter ft_debug)
 {
 	const char	*name = ft_setname(NULL);
 

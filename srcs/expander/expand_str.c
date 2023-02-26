@@ -74,7 +74,6 @@ static void	ass_pain_append(t_list **lst_argv, char **strlist, char **p_buffer)
 	}
 }
 
-
 /**
  * @brief Imagine letting one function do only one thing
  * sounds as cringe as a="ho hi'"; ec$a expand to [0]echo [1]hi'

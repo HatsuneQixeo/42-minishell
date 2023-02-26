@@ -20,7 +20,7 @@
  */
 static int	isvalid_identifier(const char *str)
 {
-	if (!ft_isalpha(*str) && *str != '_')
+	if (!ft_isnameletter(*str))
 		return (0);
 	while (ft_isnameletter(*str))
 		str++;
@@ -53,6 +53,8 @@ int	ms_export(char **argv, t_data *data)
 	int		retval;
 
 	lst_buffer = NULL;
+	// if (argv[1] == NULL)
+
 	retval = 0;
 	while (*++argv != NULL)
 	{

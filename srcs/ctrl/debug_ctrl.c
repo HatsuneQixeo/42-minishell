@@ -24,8 +24,8 @@ const char	*ctrl_name(t_ftctrl condition)
 		return ("undefined function");
 }
 
-static void	show_lstctrl_showlst(t_list *lst_args, int padding,
-			t_ftsetname ft_setname, t_ftlstiter ft_debug)
+static void	pad_debuglst(t_list *lst_args, int padding,
+			t_ftsetname ft_setname, t_ftiter ft_debug)
 {
 	char	*padded_name;
 
@@ -33,7 +33,7 @@ static void	show_lstctrl_showlst(t_list *lst_args, int padding,
 			ft_strcreate(' ', (padding + 1) * 4), ft_setname(NULL));
 	lstshow_tmpname(lst_args, ft_setname, padded_name, ft_debug);
 	free(padded_name);
-	ft_printf("\n");
+	ft_putchar_fd('\n', 2);
 }
 
 static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
@@ -45,17 +45,17 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 	while (lst_ctrl != NULL)
 	{
 		ctrl = lst_ctrl->content;
-		ft_printf("%*sctrl[%d]: %s\n"DEF, padding * 4, "",
+		ft_dprintf(2, "%*sctrl[%d]: %s\n"DEF, padding * 4, "",
 			i, ctrl_name(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
-			show_lstctrl_showlst(ctrl->lst_args, padding,
+			pad_debuglst(ctrl->lst_args, padding,
 				lstname_token, show_token);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else
 			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n",
 				ctrl->ft_exe);
-		show_lstctrl_showlst(ctrl->lst_rdrt, padding,
+		pad_debuglst(ctrl->lst_rdrt, padding,
 			lstname_rdrt, show_rdrt);
 		lst_ctrl = lst_ctrl->next;
 		i++;
@@ -64,6 +64,6 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 
 void	show_lstctrl(t_list *lst_ctrl)
 {
-	ft_printf("showing lst_ctrl\n");
+	ft_dprintf(2, "showing lst_ctrl\n");
 	show_lstctrl_core(lst_ctrl, 0);
 }

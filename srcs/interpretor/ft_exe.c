@@ -34,7 +34,6 @@ static int	argv_lstargs(t_data *data, t_list *lst_args)
 	if (lst_args == NULL)
 		return (0);
 	argv = expand_lst_argv(data->envp, lst_args);
-	/* Return value */
 	status = execution(data, argv);
 	ft_strlistclear(argv);
 	return (status);

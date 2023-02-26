@@ -20,10 +20,6 @@
 # define MINISHELL	"🐚"
 int	g_lastexit;
 
-# ifndef DBG_ERRNO
-#  define DBG_ERRNO	0
-# endif
-
 typedef struct s_data
 {
 	char	**envp;

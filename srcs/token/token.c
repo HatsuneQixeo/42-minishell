@@ -55,6 +55,6 @@ void	show_token(int i, void *content)
 		str_type = MAGENTA"Subshell";
 	else
 		str_type = GREY"Default";
-	ft_printf("%s[%2d]: %-8s: %b\n"DEF,
+	ft_dprintf(2, "%s[%2d]: %-8s: %b\n"DEF,
 		lstname_token(NULL), i, str_type, token->value);
 }

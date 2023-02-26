@@ -14,7 +14,7 @@
 
 static int	valid_identifier(const char *str)
 {
-	if (!ft_isalpha(*str) && *str != '_')
+	if (!ft_isnameletter(*str))
 		return (0);
 	while (ft_isnameletter(*str))
 		str++;

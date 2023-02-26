@@ -27,7 +27,7 @@ static char	*ft_findcommand(char **envp, const char *command)
 	while (strlist_path[++y] != NULL)
 	{
 		abspath_command = ft_strinsert(strlist_path[y], "/", command);
-		if (access(abspath_command, F_OK) != -1)
+		if (!access(abspath_command, F_OK))
 		{
 			ft_strlistclear(strlist_path);
 			return (abspath_command);
@@ -36,6 +36,26 @@ static char	*ft_findcommand(char **envp, const char *command)
 	}
 	ft_strlistclear(strlist_path);
 	return (NULL);
+}
+
+void	exec(char **envp, char **argv)
+{
+	char	*prgpath;
+
+	prgpath = ft_findcommand(envp, argv[0]);
+	if (prgpath == NULL)
+		ms_errlog("%s: command not found\n", argv[0]);
+	else if (ft_strchr(argv[0], '/') && access(prgpath, F_OK) == -1)
+		ms_perror(argv[0]);
+	else
+	{
+		execve(prgpath, argv, envp);
+		ms_perror(prgpath);
+		leakcheck(prgpath);
+		exit(126);
+	}
+	leakcheck(argv[0]);
+	exit(127);
 }
 
 int	execution(t_data *data, char **argv)
@@ -50,20 +70,7 @@ int	execution(t_data *data, char **argv)
 	if (pid == -1)
 		ms_perror("execution");
 	else if (pid == 0)
-	{
-		char	*prgpath;
-		prgpath = ft_findcommand(data->envp, argv[0]);
-		if (prgpath == NULL)
-		{
-			ms_errlog("%s: command not found\n", argv[0]);
-			leakcheck(argv[0]);
-			exit(127);
-		}
-		execve(prgpath, argv, data->envp);
-		ms_perror(prgpath);
-		leakcheck(prgpath);
-		exit(g_lastexit);
-	}
+		exec(data->envp, argv);
 	else
 		waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
