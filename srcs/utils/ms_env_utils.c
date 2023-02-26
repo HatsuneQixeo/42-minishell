@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:47:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/23 00:06:09 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/24 07:52:56 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_double_list	*env_init(char **envp)
  */
 t_double_list	*env_set_or_get(t_double_list *env_head)
 {
-	static t_double_list	*env_list;
+	static t_double_list	*env_list = NULL;
 
 	if (env_head)
 		env_list = env_head;

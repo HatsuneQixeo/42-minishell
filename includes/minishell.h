@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/22 23:58:03 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:00:44 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,29 @@
 # define SUCCESS 0
 # define ERROR 1
 
-# include <stdio.h>
+/* Readline function */
 # include <readline/readline.h>
 # include <readline/history.h>
+
+/* opendir(), readir(), closedir() */
 # include <dirent.h>
+
+/* struct stat, stat() */
+# include <sys/stat.h>
+
+/* fork() */
 # include <sys/types.h>
+
+/* wait() */
+# include <sys/wait.h>
+
+/* open() */
+# include <fcntl.h>
+
+# include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <unistd.h>
 
 # include "libft.h"
 # include "ms_struct.h"
@@ -35,6 +51,7 @@ t_token			*token_create(void *value, t_token_type type);
 
 /* utils_token_check */
 bool			token_is_space(char c);
+bool			token_is_redir(t_token *token);
 bool			token_is_operator(t_token *token);
 bool			token_is_separator(t_token *token);
 
@@ -64,6 +81,17 @@ void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
 
+/* ********** EXECUTOR ********** */
+
+void			ms_executor(t_node *root);
+bool			is_executable(char *path_to_file);
+void			execute_token_literal(t_token *token);
+
+/* executor process */
+void			run_parent_process_literal(void);
+void			run_process_literal(char *path_name, char **cmd_line);
+void			run_child_process_literal(char *path_name, char **cmd_line);
+
 /* ********** DATA STRUCTURE ********** */
 
 /* Double Linked List */
@@ -78,7 +106,7 @@ void			double_lstclear(t_double_list **lst, void (*del)(void *));
 /* Abstract Syntax Tree*/
 void			ast_create(t_node **root, t_double_list *token_list);
 void			ast_add_token_operator(t_node **root, t_token *token);
-void			ast_add_token_literal(t_node **root, t_double_list *literal_list);
+void			ast_add_token_literal(t_node **root, t_double_list *list);
 void			ast_free(t_node **root);
 void			ast_del_content_token(void *token);
 
@@ -97,7 +125,7 @@ void			stack_push(t_stack *stack, char item);
 
 /* ********** ENVIRONMENT VARIABLE POINTER ********** */
 
-t_double_list   *env_init(char **envp);
+t_double_list	*env_init(char **envp);
 char			*env_value_get(char *env_var);
 t_double_list	*env_set_or_get(t_double_list *env_head);
 void			env_free(t_double_list **env_list);
@@ -111,12 +139,13 @@ bool			file_in_path(char *dir_path, char *file);
 
 void			util_clear_screen(void);
 void			util_arr_str_free(void *arr_str);
-char			**util_list_to_arr_str(t_double_list *literal_list);
+void			util_perror(char *title, char *msg);
+char			**util_list_to_arr_str(t_double_list *list);
 
 /* ********** DEBUG ********** */
 
 void			debug_env_content_print(void *content);
 void			debug_token_content_print(void *content);
 void			debug_ast_content_print(t_node *root, int depth);
-void			debug_list_content_print(t_double_list *list, void (*f)(void *));
+void			debug_list_content_print(t_double_list *lst, void (*f)(void *));
 #endif

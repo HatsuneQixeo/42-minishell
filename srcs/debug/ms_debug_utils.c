@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:01:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/22 23:33:11 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/25 21:17:08 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	debug_list_content_print(t_double_list *list, void (*f)(void *))
 	double_lstiter(list, f);
 }
 
-void	debug_ast_content_print(t_node *root, int depth)
+void	debug_ast_content_print(t_node *root, int indent)
 {
 	int		i;
 	t_token	*token;
@@ -45,12 +45,12 @@ void	debug_ast_content_print(t_node *root, int depth)
 	i = -1;
 	token = root->content;
 	token_value = token->value;
-	while (++i < depth)
+	while (++i < indent)
 		printf(" ");
 	i = -1;
 	while (token_value[++i])
 		printf("%s ", token_value[i]);
 	printf("\n");
-	debug_ast_content_print(root->left, depth + 2);
-	debug_ast_content_print(root->right, depth + 2);
+	debug_ast_content_print(root->left, indent + 2);
+	debug_ast_content_print(root->right, indent + 2);
 }
