@@ -6,16 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:49 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_common.h"
-
-// int	ctrl_any(void)
-// {
-// 	return (1);
-// }
 
 int	ctrl_continue(void)
 {

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:49 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 # include "token.h"
 # include "rdrt.h"
 
-
 /* Exit Status */
-int			ctrl_any(void);
 int			ctrl_continue(void);
 int			ctrl_success(void);
 int			ctrl_failure(void);

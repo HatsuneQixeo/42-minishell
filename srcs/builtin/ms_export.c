@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,12 @@ static int	isvalid_identifier(const char *str)
 
 static void	export(t_list **lst_buffer, char **envp, const char *arg)
 {
-	const char	*assignment = ft_strchr(arg, '=');
-	// char		*var_name;
-	char		**existing_var;
+	char	**existing_var;
 
-	// var_name = ft_substr(arg, 0, assignment - arg);
 	existing_var = (char **)ft_aafind((void **)envp, arg, cmp_strvarname);
-	// free(var_name);
 	if (existing_var == NULL)
 		ft_lstadd_back(lst_buffer, ft_lstnew(ft_strdup(arg)));
-	else if (assignment != NULL)
+	else if (ft_strchr(arg, '=') != NULL)
 	{
 		free(*existing_var);
 		*existing_var = ft_strdup(arg);

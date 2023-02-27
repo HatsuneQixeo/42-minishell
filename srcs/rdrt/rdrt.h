@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:08 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:50 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ struct s_rdrt
 	t_list		*lst_value;
 };
 
-int	rdrt_ambiguousfilename(const t_list *lst_value, const char *str_arg);
 int			rdrt_core(const char *path, int std_fd, int option, ...);
 
 const char	*lstname_rdrt(const char *newname);

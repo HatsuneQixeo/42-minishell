@@ -6,13 +6,13 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rdrt.h"
 
-int	rdrt_ambiguousfilename(const t_list *lst_value, const char *str_arg)
+static int	rdrt_ambiguousfilename(const t_list *lst_value, const char *str_arg)
 {
 	const char	*reason;
 

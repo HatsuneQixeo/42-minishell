@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:49 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ t_ftrdrt	rdrt_getft(const char *value)
 	const t_rdrt	*find = rdrt_search(
 			&(t_rdrt){NULL, (char *)value, NULL}, rdrt_cmpvalue);
 
-	if (find != NULL)
+	if (find == NULL)
+		ft_dprintf(2, "rdrt_getft does not recognize: %s\n", value);
+	else
 		return (find->ft_rdrt);
-	ft_dprintf(2, "rdrt_getft does not recognize: %s\n", value);
 	return (NULL);
 }
 
@@ -60,8 +61,9 @@ const char	*rdrt_getvalue(t_ftrdrt ft_rdrt)
 	const t_rdrt	*find = rdrt_search(
 			&(t_rdrt){ft_rdrt, NULL, NULL}, rdrt_cmpft);
 
-	if (find != NULL)
+	if (find == NULL)
+		ft_dprintf(2, "rdrt_getvalue does not recognize: %p\n", ft_rdrt);
+	else
 		return (find->str_arg);
-	ft_dprintf(2, "rdrt_getvalue does not recognize: %p\n", ft_rdrt);
 	return (NULL);
 }

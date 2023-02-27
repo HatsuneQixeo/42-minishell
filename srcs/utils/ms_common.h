@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:50 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:12:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <readline/history.h>
 
 # define MINISHELL	"🐚"
+
 int	g_lastexit;
 
 typedef struct s_data
 {
 	char	**envp;
 }			t_data;
-
 
 int		ft_isquote(int c);
 int		ft_isnameletter(int c);
