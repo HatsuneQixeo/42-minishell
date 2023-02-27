@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 00:52:27 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:50 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ void	ms_perror(const char *name);
 void	leakcheck(const char *str);
 void	leakfd(const char *str);
 void	debug_errno(const char *name);
+void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
+			const char *tmpname, t_ftiterlst ft_debug);
 
 #endif

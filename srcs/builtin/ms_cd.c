@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	cd_updatepath(t_data *data, const char *pwd_before, char **p_oldpwd)
 static const char	*cd_getpath(char **envp, const char *varname,
 			const char *oldpwd)
 {
-	const char	*path = NULL;
+	const char	*path;
 
 	if (!ft_strcmp(varname, "OLDPWD"))
 	{

@@ -6,11 +6,12 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:05:17 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:49 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_common.h"
+#include <errno.h>
 
 int	ft_isquote(int c)
 {

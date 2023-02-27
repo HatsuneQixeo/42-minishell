@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:49 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,52 @@
 #  define DBG_ERRNO	0
 # endif
 
+#ifndef SAN
+# define SAN	0
+#endif
+
+#ifndef DEBUG
+# define DEBUG	1
+#endif
+
+void	leakcheck(const char *str)
+{
+	char	buffer[39];
+
+	if (SAN || !DEBUG)
+		return ;
+	ft_dprintf(2, "\nleakcheck: %s\n", str);
+	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
+	system(buffer);
+}
+
+void	leakfd(const char *str)
+{
+	int	arrfd[100];
+	int	fd_expect;
+
+	if (!DEBUG)
+		return ;
+	ft_dprintf(2, "\nleakfd: %s\n", str);
+	fd_expect = 3;
+	for (int i = 0; i < 100 && fd_expect < 1024 && fd_expect != -1; i++)
+	{
+		arrfd[i] = open("/dev/null", O_RDONLY);
+		if (arrfd[i] == -1)
+		{
+			perror("/dev/null");
+			break ;
+		}
+		if (arrfd[i] != fd_expect)
+			ft_dprintf(2, "fdleak: %d-%d\n", fd_expect, arrfd[i] - 1);
+		fd_expect = arrfd[i] + 1;
+	}
+	for (int i = 0; i < 100; i++)
+		close(arrfd[i]);
+}
+
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
-			const char *tmpname, t_ftiter ft_debug)
+			const char *tmpname, t_ftiterlst ft_debug)
 {
 	const char	*name = ft_setname(NULL);
 
@@ -28,6 +72,7 @@ void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 
 void	debug_errno(const char *name)
 {
-	if (DBG_ERRNO)
-		ft_dprintf(2, "%s errno: %d\n", name, g_lastexit);
+	if (!DBG_ERRNO || !DEBUG)
+		return ;
+	ft_dprintf(2, "%s errno: %d\n", name, g_lastexit);
 }

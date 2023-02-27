@@ -6,11 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "interpretor.h"
+#include "executor.h"
 
 static char	*ft_findcommand(char **envp, const char *command)
 {
@@ -38,7 +38,7 @@ static char	*ft_findcommand(char **envp, const char *command)
 	return (NULL);
 }
 
-void	exec(char **envp, char **argv)
+static void	exec_program(char **envp, char **argv)
 {
 	char	*prgpath;
 
@@ -70,7 +70,7 @@ int	execution(t_data *data, char **argv)
 	if (pid == -1)
 		ms_perror("execution");
 	else if (pid == 0)
-		exec(data->envp, argv);
+		exec_program(data->envp, argv);
 	else
 		waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));

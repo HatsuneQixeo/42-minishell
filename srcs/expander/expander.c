@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**expand_lst_argv(char **envp, t_list *lst)
 		if (token->type != DEFAULT)
 		{
 			ms_errlog("Unknown token in expand_lst_argv");
-			show_token(-1, token);
+			lstshow_token(token);
 		}
 		else
 			ft_lstadd_back(&lst_new, expand_str(envp, token->value));

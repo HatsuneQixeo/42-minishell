@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ const char	*ctrl_name(t_ftctrl condition)
 }
 
 static void	pad_debuglst(t_list *lst_args, int padding,
-			t_ftsetname ft_setname, t_ftiter ft_debug)
+			t_ftsetname ft_setname, t_ftiterlst ft_debug)
 {
 	char	*padded_name;
 
@@ -49,14 +49,14 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 			i, ctrl_name(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
 			pad_debuglst(ctrl->lst_args, padding,
-				lstname_token, show_token);
+				lstname_token, lstshow_token);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else
 			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n",
 				ctrl->ft_exe);
 		pad_debuglst(ctrl->lst_rdrt, padding,
-			lstname_rdrt, show_rdrt);
+			lstname_rdrt, lstshow_rdrt);
 		lst_ctrl = lst_ctrl->next;
 		i++;
 	}

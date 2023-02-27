@@ -1,44 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/26 18:52:48 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_common.h"
+#include "lexer.h"
 #include "parser.h"
-#include "interpretor.h"
-
-/* routine */
-char	*ms_closequote(const char *raw);
-/* Lexer */
-t_list	*ms_lexer(const char *input_raw);
-
-#ifndef SAN
-# define SAN	0
-#endif
-
-void	leakcheck(const char *str)
-{
-	char	buffer[39];
-
-	if (SAN)
-		return ;
-	ft_dprintf(2, "\nleakcheck: %s\n", str);
-	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
-	system(buffer);
-}
-
-void	leakfd(const char *str)
-{
-	int	arr[100];
-	int	fd_expect;
-
-	ft_dprintf(2, "\nleakfd: %s\n", str);
-	fd_expect = 3;
-	for (int i = 0; i < 100 && fd_expect < 1024 && fd_expect != -1; i++)
-	{
-		arr[i] = open("minishell", O_RDONLY);
-		if (arr[i] != fd_expect)
-			ft_dprintf(2, "fdleak: %d-%d\n", fd_expect, arr[i] - 1);
-		fd_expect = arr[i] + 1;
-	}
-	for (int i = 0; i < 100; i++)
-		close(arr[i]);
-}
+#include "executor.h"
 
 void	ms_signals_handler(void)
 {
@@ -46,26 +21,18 @@ void	ms_signals_handler(void)
 	signal(SIGINT, SIG_IGN);
 }
 
-void	ms_procedure(t_data *data, const char *raw)
+void	ms_interpretor(t_data *data, const char *raw)
 {
-	char	*input;
+	t_list	*lst_token;
+	t_list	*lst_ctrl;
 
-	input = ms_closequote(raw);
-	if (input == NULL)
+	lst_token = ms_lexer(raw);
+	if (lst_token != NULL && parser_syntax(lst_token) == -1)
+		ft_lstclear(&lst_token, del_token);
+	if (lst_token == NULL)
 		return ;
-	add_history(input);
-	t_list	*lst = ms_lexer(input);
-	free(input);
-
-	if (parser_syntax(lst) == -1)
-	{
-		ft_lstclear(&lst, del_token);
-		return ;
-	}
-	t_list	*lst_ctrl = ms_parser(&lst);
-
-	// show_lstctrl(lst_ctrl);
-	ms_interpretor(data, &lst_ctrl);
+	lst_ctrl = ms_parser(&lst_token);
+	ms_executor(data, &lst_ctrl);
 	leakcheck("interpretor end");
 	leakfd("interpretor end");
 }
@@ -83,7 +50,7 @@ void	minishell(char **src_envp)
 		if (input == NULL)
 			break ;
 		else if (!stris_only(input, ft_isspace))
-			ms_procedure(&data, input);
+			ms_interpretor(&data, input);
 		free(input);
 	}
 	ft_strlistclear(data.envp);

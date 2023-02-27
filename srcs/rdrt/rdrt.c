@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ const char	*lstname_rdrt(const char *newname)
 	return (name);
 }
 
-void	show_rdrt(int i, void *content)
+void	lstshow_rdrt(void *content)
 {
 	const t_rdrt	*rdrt = content;
 	char			*padname;
 
-	ft_dprintf(2, "%s[%d]: %s: %s\n", lstname_rdrt(NULL), i,
+	ft_dprintf(2, "%s: %s: %s\n", lstname_rdrt(NULL),
 		rdrt_getvalue(rdrt->ft_rdrt), rdrt->str_arg);
 	padname = ft_strmodify(ft_strrjoin,
 			ft_strjoin(": ", iteri_name(NULL)), lstname_rdrt(NULL));
 	padname = ft_strcombine(ft_strcreate(' ', 4), padname);
 	lstshow_tmpname(rdrt->lst_value, iteri_name,
-		padname, iteri_showstr);
+		padname, lstshow_str);
 	free(padname);
 }
 

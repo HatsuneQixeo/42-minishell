@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ms_pwd(char **argv, t_data *data)
 	if (!getcwd(cwd, sizeof(cwd)))
 		perror("ms_pwd");
 	else
-		return (!ft_putendl_fd(cwd, 1));
+		return (ft_putendl_fd(cwd, 1) == -1);
 	return (1);
 	(void)argv;
 	(void)data;

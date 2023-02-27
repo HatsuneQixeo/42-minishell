@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:23 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:49 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const char	*lstname_token(const char *newname)
 	return (name);
 }
 
-void	show_token(int i, void *content)
+void	lstshow_token(void *content)
 {
 	const t_token	*token = content;
 	const char		*str_type;
@@ -55,6 +55,6 @@ void	show_token(int i, void *content)
 		str_type = MAGENTA"Subshell";
 	else
 		str_type = GREY"Default";
-	ft_dprintf(2, "%s[%2d]: %-8s: %b\n"DEF,
-		lstname_token(NULL), i, str_type, token->value);
+	ft_dprintf(2, "%s: %-8s: %b\n"DEF,
+		lstname_token(NULL), str_type, token->value);
 }

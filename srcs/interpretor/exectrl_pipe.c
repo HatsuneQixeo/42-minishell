@@ -6,21 +6,21 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "interpretor.h"
+#include "executor.h"
 
 static int	pipe_process(t_data *data, t_ctrl *ctrl, pid_t *pid)
 {
 	int	fd_pipe[2];
 
 	if (pipe(fd_pipe) == -1)
-		ms_perror("pipe in pipe_process");
+		ms_perror("pipe_process pipe");
 	*pid = fork();
 	if (*pid == -1)
-		ms_perror("pipe_process");
+		ms_perror("pipe_process fork");
 	else if (*pid == 0)
 	{
 		close(fd_pipe[READ_END]);
@@ -54,7 +54,7 @@ static void	pipe_wait(pid_t *begin, pid_t *end)
 		waitpid(*begin++, NULL, 0);
 }
 
-void	execute_pipe(t_data *data, t_list *lst_exe)
+void	exectrl_piping(t_data *data, t_list *lst_exe)
 {
 	pid_t		*arr_pid;
 	const int	size = ft_lstsize(lst_exe) - 1;
@@ -64,6 +64,6 @@ void	execute_pipe(t_data *data, t_list *lst_exe)
 		return ;
 	pipe_connection(data, lst_exe, arr_pid);
 	pipe_wait(arr_pid, arr_pid + size);
-	debug_errno("execute_pipe");
+	debug_errno("exectrl_piping");
 	free(arr_pid);
 }

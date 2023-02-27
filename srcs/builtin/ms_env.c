@@ -6,15 +6,24 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ms_common.h"
 
+static void	iteri_putenv(unsigned int i, void *envp)
+{
+	const char	*env = ((const char **)envp)[i];
+
+	if (!ft_strchr(env, '='))
+		return ;
+	ft_putendl_fd(env, 1);
+}
+
 int	ms_env(char **argv, t_data *data)
 {
-	ft_strlistiteri(data->envp, iteri_putendl);
+	ft_strlistiteri(data->envp, iteri_putenv);
 	return (0);
 	(void)argv;
 }

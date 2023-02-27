@@ -6,15 +6,15 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_common.h"
+#include "builtin.h"
 
 static int	valid_identifier(const char *str)
 {
-	if (!ft_isnameletter(*str))
+	if (!(ft_isalpha(*str) || *str == '_'))
 		return (0);
 	while (ft_isnameletter(*str))
 		str++;
@@ -23,12 +23,9 @@ static int	valid_identifier(const char *str)
 
 static void	unset(char **envp, const char *arg)
 {
-	char	*name;
 	char	**env;
 
-	name = ft_strjoin(arg, "=");
-	env = ft_strlistfind_prefix(envp, name);
-	free(name);
+	env = (char **)ft_aafind((void **)envp, arg, cmp_strvarname);
 	if (env == NULL)
 		return ;
 	free(*env);

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:47 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static int	echo_isflag(const char *str)
 	return (*str == '\0');
 }
 
-void	iteri_echo(int i, void *str)
+static void	iteri_echo(unsigned int i, void *argv)
 {
+	const char	*str = ((const char **)argv)[i];
+
 	if (i != 0)
 		ft_putchar_fd(' ', 1);
 	ft_putstr_fd(str, 1);

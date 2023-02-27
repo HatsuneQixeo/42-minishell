@@ -6,11 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:26:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/25 18:26:22 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:52:48 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "interpretor.h"
+#include "executor.h"
 
 static int	redirect(char **envp, t_list *lst_rdrt)
 {
@@ -76,7 +76,7 @@ int	exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt)
 	{
 		if (redirect(data->envp, lst_rdrt) == -1)
 			exit(1);
-		ms_interpretor(data, &lst_args);
+		ms_executor(data, &lst_args);
 		leakcheck("exe_subsh");
 		exit(g_lastexit);
 	}
