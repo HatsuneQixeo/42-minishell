@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/22 23:47:29 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/03 09:15:55 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,24 @@ void	parse_token_type_reassign(t_double_list *token_list)
 			token_type_set(token, OR);
 		else if (token->type == AMPERSAND)
 			token_type_set(token, AND);
-		else if (token->type == REDIR_LEFT)
-			token_type_set(token, REDIR_LEFT_DOUBLE);
-		else if (token->type == REDIR_RIGHT)
-			token_type_set(token, REDIR_RIGHT_DOUBLE);
+		else if (token->type == LESS)
+			token_type_set(token, DLESS);
+		else if (token->type == GREAT)
+			token_type_set(token, DGREAT);
 		else if (token->type == SEMICOLON)
 			token_type_set(token, UNKNOWN);
+	}
+}
+
+void	handle_spaces(t_double_list **token_list)
+{
+	t_double_list *next;
+	
+	while (token_type_get((*token_list)->content) == SPACES)	
+	{
+		next = (*token_list)->next;
+		double_lstdelone(*token_list, token_free);
+		*token_list = next;
 	}
 }
 
@@ -73,6 +85,8 @@ void	parse_token_list(t_double_list *token_list)
 			handle_backslash(token_list);
 		else if (type == VARIABLE)
 			handle_variable(token_list);
+		else if (type == SPACES)
+			handle_spaces(&token_list);
 		parse_token_type_same_concat(token_list);
 		parse_token_type_reassign(token_list);
 		token_list = token_list->next;

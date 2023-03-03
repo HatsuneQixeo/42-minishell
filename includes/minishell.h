@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 10:00:44 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/01 22:36:18 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define SUCCESS 0
 # define ERROR 1
+# define EMPTY 2
+# define ERR_SYNTAX 0x0000DEAD
 
 /* Readline function */
 # include <readline/readline.h>
@@ -80,6 +82,9 @@ void			parse_token_type_same_concat(t_double_list *token_list);
 void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
+
+/* parser2 */
+t_scanner	*scanner_init(t_double_list *token_list);
 
 /* ********** EXECUTOR ********** */
 

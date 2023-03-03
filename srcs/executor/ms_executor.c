@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 09:36:33 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 19:49:53 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/02/28 09:33:56 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,24 @@ void	execute_token_literal(t_token *token)
 // 		wait(&child_status);
 // }
 
-void	handle_redir_right(t_node *ast_root)
-{
-	// if (ast_root->left && )
+// void	handle_redir_right(t_node *ast_root)
+// {
+// 	// if (ast_root->left && )
 
-}
+// }
 
-void	execute_token_redir(t_node *ast_root)
-{
-	int		fd;
-	t_token	*token;
+// void	execute_token_redir(t_node *ast_root)
+// {
+// 	int		fd;
+// 	t_token	*token;
 
-	token = ast_root->content;
-	if (token->type == REDIR_RIGHT)
-		handle_redir_right();
-	// else if (token->type == REDIR_RIGHT_DOUBLE)
-		// handle_redir_right_double();
-	// run_process_redir();
-}
+// 	token = ast_root->content;
+// 	if (token->type == GREAT)
+// 		handle_redir_right();
+// 	// else if (token->type == DGREAT)
+// 		// handle_redir_right_double();
+// 	// run_process_redir();
+// }
 
 void	ms_executor(t_node *ast_root)
 {

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:37:05 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/25 09:16:55 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:50:02 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ bool	token_is_operator(t_token *token)
 	return (type >= PIPELINE && type <= SEMICOLON);
 }
 
-// haven't handle heredoc
 bool	token_is_redir(t_token *token)
 {
 	t_token_type	type;
 
 	type = token->type;
-	return (type == REDIR_RIGHT || type == REDIR_RIGHT_DOUBLE
-		|| type == REDIR_LEFT);
+	return (type == GREAT || type == DGREAT || type == LESS);
 }
