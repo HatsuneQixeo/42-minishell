@@ -17,7 +17,6 @@
 
 typedef int	(*t_ftbuiltin)(char **argv, t_data *data);
 
-int	cmp_strvarname(const void *str, const void *varname);
 int	ms_cd(char **argv, t_data *data);
 int	ms_echo(char **argv, t_data *data);
 int	ms_env(char **argv, t_data *data);

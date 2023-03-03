@@ -15,10 +15,15 @@
 #include "parser.h"
 #include "executor.h"
 
+void	sig_show(int idunno)
+{
+	ft_dprintf(2, "sig: %d\n", idunno);
+}
+
 void	ms_signals_handler(void)
 {
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, sig_show);
+	signal(SIGINT, sig_show);
 }
 
 void	ms_interpretor(t_data *data, const char *raw)

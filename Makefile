@@ -5,7 +5,7 @@ CFLAGS		:=	-Wall -Wextra -Werror
 # CFLAGS		:=	-Wall -Werror
 # CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
 # CFLAGS		+=	-fsanitize=address -g
-# CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=0
+CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=0
 LIBFT		:=	libft/libft.a
 LIBFT_MAKE	:=	make -C libft
 

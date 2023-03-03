@@ -12,19 +12,21 @@
 
 #include "rdrt.h"
 
-static int	rdrt_cmpft(const t_rdrt *ref1, const t_rdrt *ref2)
+int	find_rdrtft(unsigned int i, const void *arr, const void *ref)
 {
-	return (ref1->ft_rdrt != ref2->ft_rdrt);
+	const t_rdrt	rdrt = ((const t_rdrt *)arr)[i];
+
+	return (rdrt.ft_rdrt == ref);
 }
 
-static int	rdrt_cmpvalue(const t_rdrt *ref1, const t_rdrt *ref2)
+int	find_rdrtvalue(unsigned int i, const void *arr, const void *ref)
 {
-	return (ft_strcmp(ref1->str_arg, ref2->str_arg));
+	const t_rdrt	rdrt = ((const t_rdrt *)arr)[i];
+
+	return (!ft_strcmp(rdrt.str_arg, ref));
 }
 
-typedef int	(*t_getrdrt)(const t_rdrt *ref1, const t_rdrt *ref2);
-
-static const t_rdrt	*rdrt_search(const t_rdrt *ref, t_getrdrt ft_get)
+static const t_rdrt	*rdrt_search(t_ftfind ft_find, const void *ref)
 {
 	static const t_rdrt	arr_rdrt[] = {
 	{rdrt_heredoc, "<<", NULL},
@@ -33,21 +35,18 @@ static const t_rdrt	*rdrt_search(const t_rdrt *ref, t_getrdrt ft_get)
 	{rdrt_input, "<", NULL},
 	{rdrt_overwrite, ">", NULL},
 	};
-	int					i;
+	static const int	length = (sizeof(arr_rdrt) / sizeof(arr_rdrt[0]));
+	const size_t		find = ft_arrfind(arr_rdrt, length, ft_find, ref);
 
-	i = sizeof(arr_rdrt) / sizeof(arr_rdrt[0]);
-	while (i--)
-	{
-		if (!ft_get(&arr_rdrt[i], ref))
-			return (&arr_rdrt[i]);
-	}
-	return (NULL);
+	if (find == SIZE_T_MAX)
+		return (NULL);
+	else
+		return (&arr_rdrt[find]);
 }
 
 t_ftrdrt	rdrt_getft(const char *value)
 {
-	const t_rdrt	*find = rdrt_search(
-			&(t_rdrt){NULL, (char *)value, NULL}, rdrt_cmpvalue);
+	const t_rdrt	*find = rdrt_search(find_rdrtvalue, value);
 
 	if (find == NULL)
 		ft_dprintf(2, "rdrt_getft does not recognize: %s\n", value);
@@ -58,8 +57,7 @@ t_ftrdrt	rdrt_getft(const char *value)
 
 const char	*rdrt_getvalue(t_ftrdrt ft_rdrt)
 {
-	const t_rdrt	*find = rdrt_search(
-			&(t_rdrt){ft_rdrt, NULL, NULL}, rdrt_cmpft);
+	const t_rdrt	*find = rdrt_search(find_rdrtft, ft_rdrt);
 
 	if (find == NULL)
 		ft_dprintf(2, "rdrt_getvalue does not recognize: %p\n", ft_rdrt);

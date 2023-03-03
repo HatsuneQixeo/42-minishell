@@ -29,6 +29,7 @@ typedef struct s_control
 {
 	t_ftctrl	condition;
 	t_ftexe		ft_exe;
+	t_ftdel		exedel_ft;
 	t_list		*lst_args;
 	t_list		*lst_rdrt;
 }			t_ctrl;
@@ -38,7 +39,7 @@ int			exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt);
 
 t_ftctrl	ctrl_value(const char *value);
 void		del_ctrl(void *content);
-t_ctrl		*ctrl_new(t_ftctrl condition, t_ftexe exe);
+t_ctrl		*ctrl_new(t_ftctrl condition, t_ftexe exe, t_ftdel ft_del);
 
 /* Debug ctrl */
 const char	*ctrl_name(t_ftctrl condition);

@@ -12,23 +12,7 @@
 
 #include "ms_common.h"
 
-char	*ft_getenv(char **envp, const char *varname)
-{
-	char	*var_joined;
-	size_t	len_varname;
-
-	var_joined = ft_strjoin(varname, "=");
-	len_varname = ft_strlen(var_joined);
-	while (*envp != NULL && ft_strncmp(*envp, var_joined, len_varname))
-		envp++;
-	free(var_joined);
-	if (*envp == NULL)
-		return (NULL);
-	else
-		return ((*envp) + len_varname);
-}
-
-static size_t	shell_varname_len(const char *src)
+static size_t	len_strvarname(const char *src)
 {
 	size_t	i;
 
@@ -48,7 +32,7 @@ static size_t	shell_varname_len(const char *src)
  */
 static char	*ms_substr_varname(const char *src)
 {
-	return (ft_substr(&src[1], 0, shell_varname_len(&src[1])));
+	return (ft_substr(&src[1], 0, len_strvarname(&src[1])));
 }
 
 /**
@@ -66,7 +50,7 @@ static char	*ft_substrenv(char **envp, const char **p_it)
 
 	str_varname = ms_substr_varname(*p_it);
 	(*p_it) += ft_strlen(str_varname);
-	str_varvalue = ft_getenv(envp, str_varname);
+	str_varvalue = env_getvalue(envp, str_varname);
 	free(str_varname);
 	if (str_varvalue == NULL)
 		return (NULL);

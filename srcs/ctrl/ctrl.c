@@ -24,7 +24,7 @@ t_ftctrl	ctrl_value(const char *value)
 	return (NULL);
 }
 
-t_ctrl	*ctrl_new(t_ftctrl condition, t_ftexe exe)
+t_ctrl	*ctrl_new(t_ftctrl condition, t_ftexe exe, t_ftdel exedel_ft)
 {
 	t_ctrl	*ctrl;
 
@@ -33,6 +33,7 @@ t_ctrl	*ctrl_new(t_ftctrl condition, t_ftexe exe)
 		return (NULL);
 	ctrl->condition = condition;
 	ctrl->ft_exe = exe;
+	ctrl->exedel_ft = exedel_ft;
 	ctrl->lst_args = NULL;
 	ctrl->lst_rdrt = NULL;
 	return (ctrl);
@@ -44,12 +45,6 @@ void	del_ctrl(void *content)
 
 	process = content;
 	ft_lstclear(&process->lst_rdrt, del_rdrt);
-	if (process->ft_exe == exe_argv)
-		ft_lstclear(&process->lst_args, del_token);
-	else if (process->ft_exe == exe_subsh)
-		ft_lstclear(&process->lst_args, del_ctrl);
-	else
-		ft_dprintf(2, "del_ctrl does not recognize the ft_exe: %p\n",
-			process->ft_exe);
+	ft_lstclear(&process->lst_args, process->exedel_ft);
 	free(process);
 }

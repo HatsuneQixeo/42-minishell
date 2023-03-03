@@ -13,3 +13,9 @@
 #include <signal.h>
 #include "ms_common.h"
 
+void	signal_attibute(sig_t interrupt, sig_t eof, sig_t exit)
+{
+	signal(SIGINT, interrupt);
+	signal(SIGQUIT, exit);
+	(void)eof;
+}

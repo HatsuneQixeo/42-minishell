@@ -15,7 +15,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	ft_printf("\e[1;1H\e[2J");
+	// ft_printf("\e[1;1H\e[2J");
 	minishell(envp);
 	leakcheck("mainend");
 	(void)argc;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "ms_common.h"
 
 void	export_log(char **envp);
 
@@ -20,20 +20,20 @@ static int	isvalid_identifier(const char *str)
 		return (0);
 	while (ft_isnameletter(*str))
 		str++;
-	return (*str == '\0' || *str == '=');
+	return (ft_isnameend(*str));
 }
 
 static void	export(t_list **lst_buffer, char **envp, const char *arg)
 {
-	char	**existing_var;
+	char	**var;
 
-	existing_var = (char **)ft_aafind((void **)envp, arg, cmp_strvarname);
-	if (existing_var == NULL)
+	var = env_getaddress(envp, arg);
+	if (var == NULL)
 		ft_lstadd_back(lst_buffer, ft_lstnew(ft_strdup(arg)));
-	else if (ft_strchr(arg, '=') != NULL)
+	else if (ft_strchr(arg, '='))
 	{
-		free(*existing_var);
-		*existing_var = ft_strdup(arg);
+		free(*var);
+		*var = ft_strdup(arg);
 	}
 }
 

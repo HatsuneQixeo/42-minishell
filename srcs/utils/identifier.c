@@ -10,9 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "ms_common.h"
 
-static int	ft_isnameend(int c)
+int	ft_isquote(int c)
+{
+	return (c == '\'' || c == '\"');
+}
+
+int	ft_isnameletter(int c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+int	ft_isnameend(int c)
 {
 	return (c == '\0' || c == '=');
 }

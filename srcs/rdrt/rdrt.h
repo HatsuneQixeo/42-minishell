@@ -31,6 +31,7 @@ struct s_rdrt
 	t_list		*lst_value;
 };
 
+int			ft_dup3(int fd_attribute, int fd_value);
 int			rdrt_core(const char *path, int std_fd, int option, ...);
 
 const char	*lstname_rdrt(const char *newname);

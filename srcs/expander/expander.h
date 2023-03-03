@@ -16,7 +16,6 @@
 # include "ms_common.h"
 # include "token.h"
 
-char	*ft_getenv(char **envp, const char *varname);
 char	*expand_var(char **envp, const char **p_it);
 t_list	*expand_str(char **envp, const char *arg);
 

@@ -28,10 +28,8 @@ void	lstshow_rdrt(void *content)
 
 	ft_dprintf(2, "%s: %s: %s\n", lstname_rdrt(NULL),
 		rdrt_getvalue(rdrt->ft_rdrt), rdrt->str_arg);
-	padname = ft_strmodify(ft_strrjoin,
-			ft_strjoin(": ", iteri_name(NULL)), lstname_rdrt(NULL));
-	padname = ft_strcombine(ft_strcreate(' ', 4), padname);
-	lstshow_tmpname(rdrt->lst_value, iteri_name,
+	padname = ft_strmerge("    %s: %s", lstname_rdrt(NULL), lstshow_name(NULL));
+	lstshow_tmpname(rdrt->lst_value, lstshow_name,
 		padname, lstshow_str);
 	free(padname);
 }

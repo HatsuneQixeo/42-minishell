@@ -20,13 +20,13 @@ static char	*ft_findcommand(char **envp, const char *command)
 
 	if (ft_strchr(command, '/'))
 		return (ft_strdup(command));
-	strlist_path = ft_split(ft_getenv(envp, "PATH"), ':');
+	strlist_path = ft_split(env_getvalue(envp, "PATH"), ':');
 	if (strlist_path == NULL)
 		return (NULL);
 	y = -1;
 	while (strlist_path[++y] != NULL)
 	{
-		abspath_command = ft_strinsert(strlist_path[y], "/", command);
+		abspath_command = ft_strmerge("%s/%s", strlist_path[y], command);
 		if (!access(abspath_command, F_OK))
 		{
 			ft_strlistclear(strlist_path);

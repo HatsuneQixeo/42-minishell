@@ -26,9 +26,18 @@ typedef struct s_data
 	char	**envp;
 }			t_data;
 
+/* Identifier */
 int		ft_isquote(int c);
 int		ft_isnameletter(int c);
-int		ft_dup3(int fd_attribute, int fd_value);
+int		ft_isnameend(int c);
+int		cmp_strvarname(const void *str, const void *varname);
+
+/* Envp */
+char	**env_getaddress(char **envp, const char *varname);
+char	*env_getvalue(char **envp, const char *varname);
+int		env_update(char **envp, const char *varname, const char *varvalue);
+
+/* Log */
 int		ms_errlog(const char *str, ...);
 void	ms_perror(const char *name);
 

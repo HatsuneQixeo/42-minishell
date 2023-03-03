@@ -38,7 +38,7 @@ static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 	t_list	*node_token;
 	t_token	*token;
 
-	ctrl = ctrl_new(*condition, exe_argv);
+	ctrl = ctrl_new(*condition, exe_argv, del_token);
 	while (*lst_token != NULL)
 	{
 		node_token = ft_lstextract_front(lst_token);
@@ -57,6 +57,7 @@ static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 		else if (token->type == SUBSH_BEGIN)
 		{
 			ctrl->ft_exe = exe_subsh;
+			ctrl->exedel_ft = del_ctrl;
 			ft_lstdelone(node_token, del_token);
 			ft_lstadd_back(&ctrl->lst_args, ms_parser(lst_token));
 		}

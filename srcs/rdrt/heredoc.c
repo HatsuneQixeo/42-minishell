@@ -23,7 +23,11 @@ static int	write_here_doc(t_list *lst_value)
 		ms_perror(HEREDOC_TXT);
 		return (-1);
 	}
-	ft_strrelease_fd(ft_lsttostr_delimiter(lst_value, "\n"), fd_here);
+	while (lst_value != NULL)
+	{
+		ft_putendl_fd(lst_value->content, fd_here);
+		lst_value = lst_value->next;
+	}
 	close(fd_here);
 	return (0);
 }

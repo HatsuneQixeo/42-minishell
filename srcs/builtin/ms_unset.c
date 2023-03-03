@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "ms_common.h"
 
 static int	valid_identifier(const char *str)
 {
@@ -25,7 +25,7 @@ static void	unset(char **envp, const char *arg)
 {
 	char	**env;
 
-	env = (char **)ft_aafind((void **)envp, arg, cmp_strvarname);
+	env = env_getaddress(envp, arg);
 	if (env == NULL)
 		return ;
 	free(*env);

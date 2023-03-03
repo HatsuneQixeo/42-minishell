@@ -4,3 +4,4 @@ minishell*
 !minishell.c
 interactive_mode
 test
+expandtest/

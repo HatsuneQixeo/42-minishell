@@ -12,6 +12,23 @@
 
 #include "expander.h"
 
+char	*ft_patsubst(const char *str, const char *replace, const char *with)
+{
+	t_list			*lst_buffer;
+	const char		*find = ft_strstr(str, replace);
+	const size_t	len_replace = ft_strlen(replace);
+
+	lst_buffer = NULL;
+	while (find != NULL)
+	{
+		ft_lstadd_back(&lst_buffer, ft_lstnew(ft_substr(str, 0, find - str)));
+		str = find + len_replace;
+		find = ft_strstr(str, replace);
+	}
+	ft_lstadd_back(&lst_buffer, ft_lstnew(ft_strdup(str)));
+	return (ft_lsttostr_delimiter_clear(&lst_buffer, with));
+}
+
 static char	*expand_dquote(char **envp, const char **p_it)
 {
 	t_list		*lst;
@@ -24,16 +41,16 @@ static char	*expand_dquote(char **envp, const char **p_it)
 			continue ;
 		if (it != *p_it)
 			ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
-		ft_lstadd_back(&lst, ft_lstnew(expand_var(envp, &it)));
+		if (ft_isquote(*(it + 1)))
+			ft_lstadd_back(&lst, ft_lstnew(ft_strdup("$")));
+		else
+			ft_lstadd_back(&lst, ft_lstnew(expand_var(envp, &it)));
 		*p_it = it + 1;
 	}
 	if (it != *p_it)
 		ft_lstadd_back(&lst, ft_lstnew(ft_substr(*p_it, 0, it - *p_it)));
 	*p_it = it;
-	if (lst == NULL)
-		return (ft_strdup(""));
-	else
-		return (ft_lsttostr_clear(&lst));
+	return (ft_lsttostr_clear(&lst));
 }
 
 static char	*expand_skipquote(const char **p_it)
@@ -117,6 +134,12 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 	if (expand_value == NULL)
 		return ;
 	strlist = ft_split_is(expand_value, ft_isspace);
+	/*
+		Maybe I should expand the wildcard here ?
+		But I have no idea if the previous wildcard character is literal character or not
+		Which is why I'm expanding the strlist ?
+		The wildcard also need to take the buffer as part of the argument
+	*/
 	free(expand_value);
 	ass_pain_append(lst_argv, strlist, p_buffer);
 	free(strlist);
@@ -142,11 +165,16 @@ t_list	*expand_str(char **envp, const char *arg)
 			buffer = ft_strcombine(buffer, expand_dquote(envp, &it));
 		else if (*it == '$')
 			bash_expand_ass_pain(&lst_argv, envp, &it, &buffer);
+		/*
+			What about wildcard that is not in variable ?
+		*/
 		arg = it + 1;
 	}
 	if (it != arg)
 		buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
 	if (buffer != NULL)
 		ft_lstadd_back(&lst_argv, ft_lstnew(buffer));
+	lstshow_name("buffer");
+	ft_lstiter(lst_argv, lstshow_str);
 	return (lst_argv);
 }
