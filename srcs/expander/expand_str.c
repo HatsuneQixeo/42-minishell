@@ -12,23 +12,6 @@
 
 #include "expander.h"
 
-char	*ft_patsubst(const char *str, const char *replace, const char *with)
-{
-	t_list			*lst_buffer;
-	const char		*find = ft_strstr(str, replace);
-	const size_t	len_replace = ft_strlen(replace);
-
-	lst_buffer = NULL;
-	while (find != NULL)
-	{
-		ft_lstadd_back(&lst_buffer, ft_lstnew(ft_substr(str, 0, find - str)));
-		str = find + len_replace;
-		find = ft_strstr(str, replace);
-	}
-	ft_lstadd_back(&lst_buffer, ft_lstnew(ft_strdup(str)));
-	return (ft_lsttostr_delimiter_clear(&lst_buffer, with));
-}
-
 static char	*expand_dquote(char **envp, const char **p_it)
 {
 	t_list		*lst;
@@ -63,6 +46,22 @@ static char	*expand_skipquote(const char **p_it)
 	return (substr);
 }
 
+t_list	*wildcard_lexer(const char *str)
+{
+	const char	*wildcard = ft_strchr(str, '*');
+	t_list		*lst_pattern;
+
+	lst_pattern = NULL;
+	while (wildcard != NULL)
+	{
+		ft_lstadd_back(&lst_pattern, ft_lstnew(ft_substr(str, 0, wildcard - str)));
+		str = wildcard + 1;
+		wildcard = ft_strchr(str, '*');
+	}
+	ft_lstadd_back(&lst_pattern, ft_lstnew(ft_strdup(str)));
+	return (lst_pattern);
+}
+
 /**
  * @brief 
  * If the 2d array contain more than one string,
@@ -82,12 +81,13 @@ static void	ass_pain_append(t_list **lst_argv, char **strlist, char **p_buffer)
 
 	if (strlist[0] == NULL)
 		return ;
+	/* Need to evaluate every strlist before adding to the list or joining */
 	*p_buffer = ft_strcombine(*p_buffer, strlist[0]);
-	i = -1;
-	while (strlist[++i + 1] != NULL)
+	i = 0;
+	while (strlist[++i] != NULL)
 	{
 		ft_lstadd_back(lst_argv, ft_lstnew(*p_buffer));
-		*p_buffer = strlist[i + 1];
+		*p_buffer = strlist[i];
 	}
 }
 
@@ -133,10 +133,12 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 	expand_value = expand_var(envp, p_it);
 	if (expand_value == NULL)
 		return ;
+	/* if expand value has space in the front, do not join */
+	/* Oh my spagetti, I have to refactor this sooner or later */
 	strlist = ft_split_is(expand_value, ft_isspace);
 	/*
 		Maybe I should expand the wildcard here ?
-		But I have no idea if the previous wildcard character is literal character or not
+		But I have no idea whether the previous * is literal character
 		Which is why I'm expanding the strlist ?
 		The wildcard also need to take the buffer as part of the argument
 	*/
@@ -155,7 +157,7 @@ t_list	*expand_str(char **envp, const char *arg)
 	buffer = NULL;
 	while (*++it != '\0')
 	{
-		if (!(*it == '\'' || *it == '\"' || *it == '$'))
+		if (!(*it == '\'' || *it == '\"' || *it == '$' || *it == '*'))
 			continue ;
 		if (it != arg)
 			buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
@@ -165,6 +167,10 @@ t_list	*expand_str(char **envp, const char *arg)
 			buffer = ft_strcombine(buffer, expand_dquote(envp, &it));
 		else if (*it == '$')
 			bash_expand_ass_pain(&lst_argv, envp, &it, &buffer);
+		else if (*it == '*')
+		{
+			
+		}
 		/*
 			What about wildcard that is not in variable ?
 		*/

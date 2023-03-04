@@ -44,6 +44,7 @@ static t_ctrl	*parser_ctrlnode(t_list **lst_token, t_ftctrl *condition)
 		node_token = ft_lstextract_front(lst_token);
 		token = node_token->content;
 		if (token->type == DEFAULT)
+		/* I probably should convert this token to str when I add it to the lst? */
 			ft_lstadd_back(&ctrl->lst_args, node_token);
 		else if (token->type == RDRT)
 			ft_lstadd_back(&ctrl->lst_rdrt, ft_lstnew(parser_rdrt_new(
