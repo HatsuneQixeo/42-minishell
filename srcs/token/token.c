@@ -12,7 +12,7 @@
 
 #include "token.h"
 
-t_token	*token_new(char *str, enum e_tokentype type)
+t_token	*token_new(char *str, int type)
 {
 	t_token	*token;
 
@@ -40,21 +40,4 @@ const char	*lstname_token(const char *newname)
 	if (newname != NULL)
 		name = newname;
 	return (name);
-}
-
-void	lstshow_token(void *content)
-{
-	const t_token	*token = content;
-	const char		*str_type;
-
-	if (token->type == RDRT)
-		str_type = CYAN"Redirect";
-	else if (token->type == CTRL)
-		str_type = YELLOW"Control";
-	else if (token->type == SUBSH_BEGIN || token->type == SUBSH_END)
-		str_type = MAGENTA"Subshell";
-	else
-		str_type = GREY"Default";
-	ft_dprintf(2, "%s: %-8s: %b\n"DEF,
-		lstname_token(NULL), str_type, token->value);
 }

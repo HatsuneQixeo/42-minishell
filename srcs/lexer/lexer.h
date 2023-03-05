@@ -16,7 +16,20 @@
 # include "ms_common.h"
 # include "token.h"
 
+enum e_lexertoken
+{
+	DEFAULT,
+	RDRT,
+	CTRL,
+	SUBSH_BEGIN,
+	SUBSH_END,
+	TOKENCOUNT
+};
+
 char	*ms_closequote(const char *raw);
+
+void	lstshow_lexertoken(void *content);
+
 /* Lexer */
 t_list	*ms_lexer(const char *raw);
 

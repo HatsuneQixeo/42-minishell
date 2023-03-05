@@ -12,39 +12,38 @@
 
 #include "expander.h"
 
-static char	*heredoc_expand_line(char **envp, const char *str)
+char	*simpleexpand(char **envp, const char *arg)
 {
-	t_list		*lst_expanded;
-	const char	*ptr_var;
+	const char	*var = ft_strchr(arg, '$');
+	t_list		*lst_buffer;
 
-	lst_expanded = NULL;
-	while (1)
+	lst_buffer = NULL;
+	while (var != NULL)
 	{
-		ptr_var = ft_strchr(str, '$');
-		if (ptr_var == NULL)
-			break ;
-		ft_lstadd_back(&lst_expanded, ft_lstnew(
-				ft_substr(str, 0, ptr_var - str)));
-		ft_lstadd_back(&lst_expanded, ft_lstnew(
-				expand_var(envp, &ptr_var)));
-		str = ptr_var + 1;
+		if (var != arg)
+			ft_lstadd_back(&lst_buffer, ft_lstnew(ft_substr(arg, 0, var - arg)));
+		ft_lstadd_back(&lst_buffer, ft_lstnew(expand_var(envp, &var)));
+		arg = var + 1;
+		var = ft_strchr(arg, '$');
 	}
-	ft_lstadd_back(&lst_expanded, ft_lstnew(ft_strdup(str)));
-	return (ft_lsttostr_clear(&lst_expanded));
+	if (var != arg)
+		ft_lstadd_back(&lst_buffer, ft_lstnew(ft_strdup(arg)));
+	return (ft_lsttostr_clear(&lst_buffer));
 }
 
 void	heredoc_expand(char **envp, t_list *lst)
 {
-	char	*tmp;
-
 	while (lst != NULL)
 	{
-		tmp = lst->content;
-		lst->content = heredoc_expand_line(envp, lst->content);
-		free(tmp);
+		lst->content = ft_strmodify(strmod_replace, lst->content,
+				simpleexpand(envp, lst->content));
 		lst = lst->next;
 	}
 }
+
+void	exp_expander(char **envp, t_list *lst_exptoken);
+t_list	*exp_delimiter(t_list **lst);
+t_list	*exp_parse(t_list **lst);
 
 char	**expand_lst_argv(char **envp, t_list *lst)
 {
@@ -55,12 +54,22 @@ char	**expand_lst_argv(char **envp, t_list *lst)
 	while (lst != NULL)
 	{
 		token = lst->content;
-		if (token->type != DEFAULT)
+		// if (token->type != DEFAULT)
+		// {
+		// 	ms_errlog("Unknown token in expand_lst_argv");
+		// 	lstshow_lexertoken(token);
+		// }
+		// else
+		/* Future replacement for expand_str */
 		{
-			ms_errlog("Unknown token in expand_lst_argv");
-			lstshow_token(token);
+			t_list	*lst_test = expand_lexer(token->value);
+
+			exp_expander(envp, lst_test);
+			lst_test = exp_delimiter(&lst_test);
+			lst_test = exp_parse(&lst_test);
+			ft_lstiter(lst_test, lstshow_expandtoken);
+			ft_lstclear(&lst_test, del_token);
 		}
-		else
 			ft_lstadd_back(&lst_new, expand_str(envp, token->value));
 		lst = lst->next;
 	}

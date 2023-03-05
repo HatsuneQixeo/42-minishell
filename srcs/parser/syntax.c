@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token.h"
+#include "lexer.h"
 
 static int	valid_syntax(const t_token *token)
 {
-	static const int		syntax_table[][TOKENCOUNT] = {
+	static const int	syntax_table[][TOKENCOUNT] = {
 	{00, 00, 00, -1, 00},
 	{00, -1, -1, -1, -1},
 	{00, 00, -1, 00, -1},
 	{00, 00, -1, 00, -1},
 	{-1, 00, 00, -1, 00}
 	};
-	static enum e_tokentype	prev_type = CTRL;
+	static int			prev_type = CTRL;
 
 	if (syntax_table[prev_type][token->type] == -1)
 	{

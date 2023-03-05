@@ -36,9 +36,9 @@ static char	*expand_dquote(char **envp, const char **p_it)
 	return (ft_lsttostr_clear(&lst));
 }
 
-static char	*expand_skipquote(const char **p_it)
+static char	*expand_skipquote(const char **p_it, char quote)
 {
-	const char	*end = ft_strchr(&(*p_it)[1], '\'');
+	const char	*end = ft_strchr(&(*p_it)[1], quote);
 	char		*substr;
 
 	substr = ft_substr(&(*p_it)[1], 0, end - &(*p_it)[1]);
@@ -46,6 +46,7 @@ static char	*expand_skipquote(const char **p_it)
 	return (substr);
 }
 
+/* Likely will not be used for not able to differenciate literal and operator */
 t_list	*wildcard_lexer(const char *str)
 {
 	const char	*wildcard = ft_strchr(str, '*');
@@ -135,6 +136,7 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 		return ;
 	/* if expand value has space in the front, do not join */
 	/* Oh my spagetti, I have to refactor this sooner or later */
+	/* Oh my dumbass, I think the refactor version is not solving anything */
 	strlist = ft_split_is(expand_value, ft_isspace);
 	/*
 		Maybe I should expand the wildcard here ?
@@ -147,6 +149,13 @@ static void	bash_expand_ass_pain(t_list **lst_argv, char **envp,
 	free(strlist);
 }
 
+/**
+ * @test
+ * $INVALID			should return an empty list (This, this is a pain in the ass)
+ * $UNQUOTESPACE	should return multiple argv
+ * 
+ * Currently functional version
+ */
 t_list	*expand_str(char **envp, const char *arg)
 {
 	t_list		*lst_argv;
@@ -157,30 +166,23 @@ t_list	*expand_str(char **envp, const char *arg)
 	buffer = NULL;
 	while (*++it != '\0')
 	{
-		if (!(*it == '\'' || *it == '\"' || *it == '$' || *it == '*'))
+		if (!(*it == '\'' || *it == '\"' || *it == '$'))
 			continue ;
 		if (it != arg)
 			buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
 		if (*it == '\'')
-			buffer = ft_strcombine(buffer, expand_skipquote(&it));
+			buffer = ft_strcombine(buffer, expand_skipquote(&it, *it));
 		else if (*it == '\"')
 			buffer = ft_strcombine(buffer, expand_dquote(envp, &it));
 		else if (*it == '$')
 			bash_expand_ass_pain(&lst_argv, envp, &it, &buffer);
-		else if (*it == '*')
-		{
-			
-		}
-		/*
-			What about wildcard that is not in variable ?
-		*/
 		arg = it + 1;
 	}
 	if (it != arg)
 		buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
 	if (buffer != NULL)
 		ft_lstadd_back(&lst_argv, ft_lstnew(buffer));
-	lstshow_name("buffer");
-	ft_lstiter(lst_argv, lstshow_str);
+	// lstshow_name("buffer");
+	// ft_lstiter(lst_argv, lstshow_str);
 	return (lst_argv);
 }

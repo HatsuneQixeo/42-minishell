@@ -49,7 +49,7 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 			i, ctrl_name(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
 			pad_debuglst(ctrl->lst_args, padding,
-				lstname_token, lstshow_token);
+				lstname_token, lstshow_lexertoken);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else

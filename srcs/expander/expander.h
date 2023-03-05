@@ -18,11 +18,16 @@
 
 enum e_expandtoken
 {
-	STRING,
-	SPACE,
-	DQUOTE,
+	LITERAL,
+	EXPAND = 0b001,
+	PARSE = 0b010,
+	SPACE = 0b100
 };
 
+void	lstshow_expandtoken(void *content);
+t_list	*expand_lexer(const char *arg);
+
+char	*simpleexpand(char **envp, const char *arg);
 
 char	*expand_var(char **envp, const char **p_it);
 t_list	*expand_str(char **envp, const char *arg);

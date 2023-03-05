@@ -73,6 +73,7 @@ char	*expand_var(char **envp, const char **p_it)
 	{
 		ft_dprintf(2, "expand_var is called"
 			"when the first character is not `$': %s\n", *p_it);
+		exit(39);
 		return (NULL);
 	}
 	else if (chr == '?')

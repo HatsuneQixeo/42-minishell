@@ -15,6 +15,7 @@
 
 # include "ms_common.h"
 # include "token.h"
+# include "lexer.h"
 # include "rdrt.h"
 
 /* Exit Status */
