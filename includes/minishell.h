@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/01 22:36:18 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/05 12:07:49 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ void			rm_token_value(t_token *token);
 void			list_token_type_set(t_double_list *list, t_token_type set_type);
 t_token			*concat_2_tokens(t_token *t1, t_token *t2, t_token_type type);
 
+/* ********** SCANNER ********* */
+
+void			scanner_save(t_scanner *scanner);
+void			scanner_reset(t_scanner *scanner);
+void			scanner_free(t_scanner **scanner);
+t_double_list	*s_next(t_scanner *scanner);
+t_token			*s_get_token(t_scanner *scanner);
+t_scanner		*scanner_init(t_double_list *token_list);
+
 /* ********** PARSER ********** */
 
 t_node			*ms_parser(t_double_list *token_list);
@@ -83,8 +92,8 @@ void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
 
-/* parser2 */
-t_scanner	*scanner_init(t_double_list *token_list);
+/* ********** PARSER2 ********** */
+t_ast	*parse_tokenlist(t_scanner *s);
 
 /* ********** EXECUTOR ********** */
 
@@ -114,6 +123,9 @@ void			ast_add_token_operator(t_node **root, t_token *token);
 void			ast_add_token_literal(t_node **root, t_double_list *list);
 void			ast_free(t_node **root);
 void			ast_del_content_token(void *token);
+
+/* Abstract Syntax Tree 2*/
+int				ast_gettype(t_ast *node);
 
 /* Binary Tree */
 t_node			*btree_node_init(void *content);

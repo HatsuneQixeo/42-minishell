@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/03 09:15:55 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/05 13:03:51 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	parse_token_type_reassign(t_double_list *token_list)
 	t_token	*token;
 	char	*value;
 
+	if (!token_list)
+		return ;
 	token = token_list->content;
 	value = token->value;
 	if (ft_strlen(value) == 2)
@@ -58,17 +60,48 @@ void	parse_token_type_reassign(t_double_list *token_list)
 	}
 }
 
-void	handle_spaces(t_double_list **token_list)
+// got bug, "  echo  ", create another function to generate list without spaces
+void	handle_spaces(t_double_list **list, t_double_list **token_list)
 {
 	t_double_list *next;
 	
-	while (token_type_get((*token_list)->content) == SPACES)	
+	// while (*list && token_type_get((*list)->content) == SPACES)	
+	// {
+	// 	next = (*list)->next;
+	// 	double_lstdelone(*list, token_free);
+	// 	*list = next;
+	// }
+	parse_token_type_same_concat(*list);
+	if (!(*list)->prev && !(*list)->next)
 	{
-		next = (*token_list)->next;
-		double_lstdelone(*token_list, token_free);
-		*token_list = next;
+		double_lstdelone(*list, token_free);
+		*token_list = NULL;
+	}
+	else if (!(*list)->prev)
+	{
+		next = (*list)->next;
+		double_lstdelone(*list, token_free);
+		*list = next;
+		*token_list = *list;
+	}
+	else
+	{
+		next = (*list)->next;
+		double_lstdelone(*list, token_free);
+		*list = next;
 	}
 }
+
+// void	parse_token_remove_spaces(t_double_list **token_list)
+// {
+// 	t_double_list *next;
+	
+// 	// next = (*token_list)->next;
+// 	// if (*token_list && token_type_get((*token_list)->content) == SPACES)
+// 		// double_lstdelone(*token_list, token_free);
+// 	// *token_list = next;
+// 	// *token_list = NULL;
+// }
 
 void	parse_token_list(t_double_list *token_list)
 {
@@ -85,14 +118,70 @@ void	parse_token_list(t_double_list *token_list)
 			handle_backslash(token_list);
 		else if (type == VARIABLE)
 			handle_variable(token_list);
-		else if (type == SPACES)
-			handle_spaces(&token_list);
-		parse_token_type_same_concat(token_list);
-		parse_token_type_reassign(token_list);
-		token_list = token_list->next;
+		// else if (type == SPACES)
+			// handle_spaces(&token_list);
+		// parse_token_type_same_concat(token_list);
+		// parse_token_type_reassign(token_list);
+		// parse_token_remove_spaces(&token_list);
+		if (token_list)
+			token_list = token_list->next;
 	}
 }
 
+t_token	*token_dup(t_token *token)
+{
+	t_token	*new_token;
+
+	if (!token)
+		return (NULL);
+	new_token = ft_calloc(1, sizeof(t_token));
+	new_token->value = ft_strdup(token->value);
+	new_token->type = token->type;
+	return (new_token);
+}
+
+t_double_list	*token_list_filter(t_double_list *list, t_token_type type)
+{
+	t_token			*token;
+	t_double_list	*old_list;
+	t_double_list	*new_list;
+	
+	old_list = list;
+	new_list = NULL;
+	while (list)	
+	{
+		token = list->content;
+		if (token->type != type)
+			double_lstadd_back(&new_list, double_lstnew(token_dup(token)));
+		list = list->next;
+	}
+	double_lstclear(&old_list, token_free);
+	return (new_list);
+}
+
+void	parse_token_list2(t_double_list **token_list)
+{
+	t_token			*token;
+	t_token_type	type;
+	t_double_list	*list;
+
+	list = *token_list;
+	while (list)
+	{
+		token = list->content;
+		type = token->type;
+		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+			handle_quote(list);
+		else if (type == BACKSLASH)
+			handle_backslash(list);
+		else if (type == VARIABLE)
+			handle_variable(list);
+		parse_token_type_same_concat(list);
+		parse_token_type_reassign(list);
+		list = list->next;
+	}
+	*token_list = token_list_filter(*token_list, SPACES);
+}
 // haven't handle separator.
 // haven't handle syntax check.
 // haven't handle subshell.

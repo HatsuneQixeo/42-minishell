@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/02 17:49:43 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:36:34 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ typedef struct s_stack
 	int		max_size;
 }	t_stack;
 
+/* Abstract Syntax Tree */
+typedef struct	s_ast
+{
+	int				type;
+	char			*data;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
+
+typedef enum	e_asttype{
+	AST_PIPE =		(1 << 0),
+	AST_SEQ =		(1 << 1),
+	AST_AND =		(1 << 2),
+	AST_OR =		(1 << 3),
+	AST_REDIR =		(1 << 4),
+	AST_RD_INFILE =	(1 << 5),
+	AST_RD_HDOC =	(1 << 6),
+	AST_RD_TRUNC =	(1 << 7),
+	AST_RD_APPEND =	(1 << 8),
+	AST_CMD =		(1 << 9),
+	AST_ARG =		(1 << 10),
+	AST_DATA =		(1 << 11)
+}	t_asttype;
+
 /* ********** TOKENIZER ********** */
 
 typedef enum e_token_type
@@ -61,7 +85,8 @@ typedef enum e_token_type
 	BACKSLASH,
 	SPACES,
 	OPTION,
-	ASSIGN,
+	OPEN_PAREN,
+	CLOSE_PAREN,
 }	t_token_type;
 
 typedef struct s_grammar
@@ -78,87 +103,15 @@ typedef struct s_token
 
 /* ********** PARSER ********** */
 
+/*
+	cursor = Point to the current list.
+	token_list = Store tokens.
+	save_point = Save current list here when need.
+ */
 typedef struct	s_scanner
 {
+	t_double_list	*cursor;
 	t_double_list	*token_list;
-	t_double_list	*current_list;	
+	t_double_list	*save_point;
 }	t_scanner;
-
-typedef struct	s_cmd_word
-{
-	char	*word;
-}	t_cmd_word;
-
-typedef struct	s_cmd_name
-{
-	char	*word;
-}	t_cmd_name;
-
-/* 
-	@brief "<", "<&", ">", ">&", ">>"
- */
-// typedef enum	e_io_type
-// {
-// 	LESS,
-// 	LESSAND,
-// 	GREAT,
-// 	GREATAND,
-// 	DGREAT,
-// }	t_io_type;
-
-typedef struct	s_file_name
-{
-	char	*word;
-}	t_file_name;
-
-typedef struct	s_here_end
-{
-	char	*word;
-}	t_here_end;
-
-typedef struct	s_io_file
-{
-	t_file_name		*file_name;
-	t_token_type	type;
-}	t_io_file;
-
-typedef struct	s_io_here
-{
-	//DLESS
-	t_here_end	*here_end;
-}	t_io_here;
-
-typedef struct	s_io_redirect
-{
-	int			io_num;
-	int			io_default;
-	t_io_file	*io_file;
-	t_io_here	*io_here;
-}	t_io_redirect;
-
-typedef struct	s_cmd_prefix
-{
-	t_double_list	*io_redirect;
-	t_double_list	*assignment_word;
-}	t_cmd_prefix;
-
-typedef struct	s_cmd_suffix
-{
-	t_double_list	*io_redirect;
-	t_double_list	*words;
-}	t_cmd_suffix;
-
-typedef	struct	s_simple_cmd
-{
-	t_cmd_prefix	*prefix;
-	t_cmd_suffix	*suffix;
-	t_cmd_name		*cmd_name;
-	t_cmd_word		*cmd_word;	
-}	t_simple_cmd;
-
-// typedef struct	s_complete_cmd
-// {
-// 	t_double_list	*list;
-// 	t_sep_operator	*sep_op;
-// }	t_complete_cmd;
 #endif

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/03 14:35:22 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/07 00:15:34 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,114 +62,99 @@ void	resources_free(char **input, t_double_list **lst, t_node **ast)
 
 // }
 
-/* ********** SCANNER ********** */
+void	print_ast(t_ast *root, int indent)
+{
+	int		i;
+	int		node_type_int;
+	char	*node_type_str;
 
-void	scanner_free(t_scanner **self);
+	i = -1;
+	// printf("%d\n", indent);
+	if (!root)
+		return ;
+	while (++i < indent)
+		printf(" ");
+	node_type_str = "(null)";
+	node_type_int = ast_gettype(root);
+	if (node_type_int & AST_RD_HDOC)
+		node_type_str = "<<";
+	else if (node_type_int & AST_RD_INFILE)
+		node_type_str = "<";
+	else if (node_type_int & AST_RD_APPEND)
+		node_type_str = ">>";
+	else if (node_type_int & AST_RD_TRUNC)
+		node_type_str = ">";
+	else if (node_type_int & AST_ARG)
+		node_type_str = "arg";
+	else if (node_type_int & AST_CMD)
+		node_type_str = "cmd";
+	else if (node_type_int & AST_PIPE)
+		node_type_str = "|";
+	else if (node_type_int & AST_AND)
+		node_type_str = "&&";
+	else if (node_type_int & AST_OR)
+		node_type_str = "||";
+	if (root->type & AST_DATA)
+		printf("type: %s, data: %s\n", node_type_str, root->data);
+	else
+		printf("type: %s\n", node_type_str);
+	print_ast(root->left, indent + 4);
+	print_ast(root->right, indent + 4);
+}
 
-/* ********** PARSER ********** */
+t_ast	*redir_test_1_heredoc(t_scanner *s);
+t_ast	*redir_test_2_infile(t_scanner *s);
+t_ast	*parse_redir_in(t_scanner *s);
+t_ast	*parse_redir_out(t_scanner *s);
+t_ast	*parse_redir(t_scanner *s);
+t_ast	*token_list_test_1(t_scanner *s);
+t_ast	*token_list_test_2(t_scanner *s);
+t_ast	*parse_tokenlist(t_scanner *s);
+t_ast	*cmd_ast(t_ast *node);
+t_ast	*parse_cmd(t_scanner *s);
 
-int		parse_cmd_word(t_scanner *scanner, t_cmd_word **cmd_word);
-void	cmd_word_free(t_cmd_word **cmd_word);
-int		parse_cmd_name(t_scanner *scanner, t_cmd_name **cmd_name);
-void	cmd_name_free(t_cmd_name **cmd_name);
-int		parse_file_name(t_scanner *scanner, t_file_name **file_name);
-void	file_name_free(t_file_name **file_name);
-void	here_end_free(t_here_end **here_end);
-int		parse_here_end(t_scanner *scanner, t_here_end **here_end);
-
-void	io_here_free(t_io_here **io_here);
-int		parse_io_here(t_scanner *scanner, t_io_here **io_here);
-void	io_file_free(t_io_file **io_file);
-int		parse_io_file(t_scanner *scanner, t_io_file **io_file);
-void	io_redir_free(t_io_redirect **io_redir);
-int		parse_io_redirect(t_scanner *scanner, t_io_redirect **io_redir);
-
-void	cmd_prefix_io_redir_free(t_double_list **cmd_prefix_io_redir);
-int		parse_cmd_prefix_io_redir(t_scanner *scanner, t_cmd_prefix *cmd_prefix);
-
-int		cmd_prefix_add(t_scanner *scanner, t_cmd_prefix *cmd_prefix);
-void	cmd_prefix_free(t_cmd_prefix **cmd_prefix);
-
-int		parse_cmd_prefix(t_scanner *scanner, t_cmd_prefix **cmd_prefix);
-int		parse_simple_cmd_prefix(t_scanner *scanner, t_simple_cmd *simple_cmd);
-
-int		parse_simple_cmd(t_scanner *scanner, t_simple_cmd **simple_cmd);
-
-t_double_list	*scanner_next(t_scanner *self);
-void	simple_cmd_free(t_simple_cmd **simple_cmd);
-
+void	parse_token_list2(t_double_list **list);
+t_ast	*parse_tokenlist(t_scanner *s);
+t_ast	*parse_job(t_scanner *s);
+t_ast	*job_test_1(t_scanner *s);
+t_ast	*job_test_2(t_scanner *s);
+t_ast	*job_test_3(t_scanner *s);
+t_ast	*job_test_4(t_scanner *s);
+//remember to create a fucntion that generate a new list that doesnt contain token space
+t_ast	*parse_cmd_line(t_scanner *s);
+t_ast	**and_or_ast(t_ast *node);
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
 	t_double_list	*token_list;
 	t_scanner		*scanner;
-	
-	input = ">a";
+
+	input ="a && b";
 	token_list = ms_tokenizer(input);
-	parse_token_list(token_list);
+	parse_token_list2(&token_list);
 	scanner = scanner_init(token_list);
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
-	// while (scanner->current_list)
-	// {
-		int	status;
-
-		// t_cmd_word	*cmd_word;
-		// status = parse_cmd_word(scanner, &cmd_word);
-		// cmd_word_free(&cmd_word);
-
-		// t_cmd_name *cmd_name;
-		// status = parse_cmd_name(scanner, &cmd_name);
-		// cmd_name_free(&cmd_name);
-
-		// t_file_name *file_name;
-		// status = parse_file_name(scanner, &file_name);
-		// file_name_free(&file_name);
-
-		// t_here_end *here_end;
-		// status = parse_here_end(scanner, &here_end);
-		// here_end_free(&here_end);
-
-		// t_io_here	*io_here;
-		// status = parse_io_here(scanner, &io_here);
-		// io_here_free(&io_here);
-
-	// t_io_file	*io_file;
-	// status = parse_io_file(scanner, &io_file);
-	// io_file_free(&io_file);
-
-	// t_io_redirect	*io_redir;
-	// status = parse_io_redirect(scanner, &io_redir);
-	// io_redir_free(&io_redir);
+	t_ast	*node;
 	
-	// t_cmd_prefix	*cmd_prefix;
-	// cmd_prefix = ft_calloc(1, sizeof(t_cmd_prefix));
-	// parse_cmd_prefix_io_redir(scanner, cmd_prefix);
-	// cmd_prefix_io_redir_free(&cmd_prefix->io_redirect);
-	// free(cmd_prefix);
+	// node = parse_redir_in(scanner);
 
-	// t_cmd_prefix	*cmd_prefix;
-	// cmd_prefix = ft_calloc(1, sizeof(t_cmd_prefix));
-	// cmd_prefix_add(scanner, cmd_prefix);
-	// cmd_prefix_free(&cmd_prefix);
-	// free(cmd_prefix);
+	// node = parse_redir_out(scanner);
 
- 	// t_cmd_prefix	*cmd_prefix;
-	// status = parse_cmd_prefix(scanner, &cmd_prefix);
-	// cmd_prefix_free(&cmd_prefix);
-
-	// t_cmd_prefix	*cmd_prefix;
-	// t_simple_cmd	*simple_cmd;
-	// simple_cmd = ft_calloc(1, sizeof(t_simple_cmd));
-	// status = parse_simple_cmd_prefix(scanner, simple_cmd);
-	// free(simple_cmd);
-
-	t_simple_cmd	*simple_cmd;
-	status = parse_simple_cmd(scanner, &simple_cmd);
-	simple_cmd_free(&simple_cmd);
-	printf("status %d\n", status);
-	// }
+	// node = parse_redir(scanner);
+	// node = token_list_test_1(scanner);
+	// node = token_list_test_2(scanner);
+	// node = parse_tokenlist(scanner);
+	// node = parse_cmd(scanner);
+	// node = parse_tokenlist(scanner);
+	// node = parse_job(scanner);
+	node = parse_cmd_line(scanner);
+	print_ast(node, 0);
+	// print_ast(cmd_ast(NULL), 0);
+	// print_ast(*and_or_ast(NULL), 0);
+	if (scanner->cursor)
+		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(scanner->cursor->content));
 	scanner_free(&scanner);
 	return (0);
 }

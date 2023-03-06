@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:30:13 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/28 09:34:13 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/05 16:39:21 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_grammar	*token_grammar_get(void)
 	{'\\', BACKSLASH},
 	{'$', VARIABLE},
 	{'|', PIPELINE},
+	{'(', OPEN_PAREN},
+	{')', CLOSE_PAREN},
 	};
 
 	return (grammar);
