@@ -41,9 +41,22 @@ void	heredoc_expand(char **envp, t_list *lst)
 	}
 }
 
-void	exp_expander(char **envp, t_list *lst_exptoken);
-t_list	*exp_delimiter(t_list **lst);
-t_list	*exp_parse(t_list **lst);
+t_list	*expand_arg(char **envp, const char *value)
+{
+	t_list	*lst_test;
+
+	/*
+		I think I should try to remove all the $'' before anything starts,
+		Gonna have to hardcode it,
+		not gonna looks pretty,
+		but I ain't got no other way
+	*/
+	lst_test = expd_tokenizer(value);
+	expd_expand(envp, lst_test);
+	expd_delimitertoken(&lst_test);
+	lst_test = expd_parse(&lst_test);
+	return (lst_test);
+}
 
 char	**expand_lst_argv(char **envp, t_list *lst)
 {
@@ -54,23 +67,8 @@ char	**expand_lst_argv(char **envp, t_list *lst)
 	while (lst != NULL)
 	{
 		token = lst->content;
-		// if (token->type != DEFAULT)
-		// {
-		// 	ms_errlog("Unknown token in expand_lst_argv");
-		// 	lstshow_lexertoken(token);
-		// }
-		// else
-		/* Future replacement for expand_str */
-		{
-			t_list	*lst_test = expand_lexer(token->value);
-
-			exp_expander(envp, lst_test);
-			lst_test = exp_delimiter(&lst_test);
-			lst_test = exp_parse(&lst_test);
-			ft_lstiter(lst_test, lstshow_expandtoken);
-			ft_lstclear(&lst_test, del_token);
-		}
-			ft_lstadd_back(&lst_new, expand_str(envp, token->value));
+		/* Consider changing this after let's say, parser add string instead of token */
+		ft_lstadd_back(&lst_new, expand_arg(envp, token->value));
 		lst = lst->next;
 	}
 	return ((char **)ft_lsttoaa_clear(&lst_new));

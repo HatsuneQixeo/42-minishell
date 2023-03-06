@@ -3,9 +3,9 @@ DPDLINK		:=	-lreadline -lncurses
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror
 # CFLAGS		:=	-Wall -Werror
-# CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
+CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
 # CFLAGS		+=	-fsanitize=address -g
-CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=1
+CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=0
 LIBFT		:=	libft/libft.a
 LIBFT_MAKE	:=	make -C libft
 
@@ -54,6 +54,11 @@ fclean: clean
 	${RM} ${NAME}
 
 re: fclean all
+
+thisre:
+	${RM} ${OBJ_DIR}
+	${RM} ${NAME}
+	make
 
 kill :
 	@killall -9 ${NAME}

@@ -69,6 +69,8 @@ char	*expand_var(char **envp, const char **p_it)
 {
 	const char	chr = (*p_it)[1];
 
+	// ft_dprintf(2, "expandchr: %c\n", chr);
+	// ft_dprintf(2, "expandptr: %s\n", *p_it);
 	if ((*p_it)[0] != '$')
 	{
 		ft_dprintf(2, "expand_var is called"
@@ -81,8 +83,6 @@ char	*expand_var(char **envp, const char **p_it)
 		(*p_it)++;
 		return (ft_itoa(g_lastexit));
 	}
-	else if (ft_isquote(chr))
-		return (ft_strdup(""));
 	else if (!ft_isnameletter(chr))
 		return (ft_strdup("$"));
 	else if (ft_isdigit(chr))

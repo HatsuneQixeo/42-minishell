@@ -46,23 +46,6 @@ static char	*expand_skipquote(const char **p_it, char quote)
 	return (substr);
 }
 
-/* Likely will not be used for not able to differenciate literal and operator */
-t_list	*wildcard_lexer(const char *str)
-{
-	const char	*wildcard = ft_strchr(str, '*');
-	t_list		*lst_pattern;
-
-	lst_pattern = NULL;
-	while (wildcard != NULL)
-	{
-		ft_lstadd_back(&lst_pattern, ft_lstnew(ft_substr(str, 0, wildcard - str)));
-		str = wildcard + 1;
-		wildcard = ft_strchr(str, '*');
-	}
-	ft_lstadd_back(&lst_pattern, ft_lstnew(ft_strdup(str)));
-	return (lst_pattern);
-}
-
 /**
  * @brief 
  * If the 2d array contain more than one string,

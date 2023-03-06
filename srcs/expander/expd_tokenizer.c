@@ -20,7 +20,7 @@ void	lstshow_expandtoken(void *content)
 		lstname_token(NULL), str_type, token->value);
 }
 
-static t_token	*expand_quotetoken(const char **it)
+static t_token	*expd_tokenquote(const char **it)
 {
 	const char	quote = **it;
 	const char	*start = &(*it)[1];
@@ -31,12 +31,12 @@ static t_token	*expand_quotetoken(const char **it)
 		return (token_new(ft_substr(start, 0, it_end - start), LITERAL));
 	else if (quote == '\"')
 		return (token_new(ft_substr(start, 0, it_end - start), EXPAND));
-	ft_dprintf(2, "expand_quotetoken receiving non quote pointer: %s\n", *it);
+	ft_dprintf(2, "expd_tokenquote receiving non quote pointer: %s\n", *it);
 	*it = start - 1;
 	return (NULL);
 }
 
-t_list	*expand_lexer(const char *arg)
+t_list	*expd_tokenizer(const char *arg)
 {
 	t_list		*lst_extoken;
 	const char	*it = arg - 1;
@@ -44,21 +44,12 @@ t_list	*expand_lexer(const char *arg)
 	lst_extoken = NULL;
 	while (*++it != '\0')
 	{
-		/*
-			What about space?
-
-			No, any given space not inside quote should already been excluded,
-			and space in quote should be preserved, no problem here
-
-			The space only come from unquoted expand variable,
-			which is marked together with * by PARSE
-		*/
 		if (!ft_isquote(*it))
 			continue ;
 		if (it != arg)
 			ft_lstadd_back(&lst_extoken, ft_lstnew(token_new(
 						ft_substr(arg, 0, it - arg), EXPAND + PARSE)));
-		ft_lstadd_back(&lst_extoken, ft_lstnew(expand_quotetoken(&it)));
+		ft_lstadd_back(&lst_extoken, ft_lstnew(expd_tokenquote(&it)));
 		arg = it + 1;
 	}
 	if (it != arg)

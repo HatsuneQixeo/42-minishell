@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 while true
 do
@@ -11,9 +11,13 @@ do
 	varbash="$(bash <<< $command)"
 	varminishell="$(./minishell <<< $command)"
 
-	echo "bash    : ][ $varbash ]["
-	echo "minshell: ][ $varminishell ]["
-
+	if [ "$varbash" == "$varminishell" ]
+	then
+		echo -e "${Green}No difference${Reset}"
+		continue
+	fi
 	diff -y <(echo "$varbash") <(echo "$varminishell")
 
+	echo "bash    : $varbash"
+	echo "minshell: $varminishell"
 done

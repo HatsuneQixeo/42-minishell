@@ -43,7 +43,7 @@ int	rdrt_core(const char *path, int std_fd, int option, ...)
 
 int	rdrt_append(char **envp, t_rdrt *rdrt)
 {
-	rdrt->lst_value = expand_str(envp, rdrt->str_arg);
+	rdrt->lst_value = expand_arg(envp, rdrt->str_arg);
 	if (rdrt_ambiguousfilename(rdrt->lst_value, rdrt->str_arg))
 		return (-1);
 	return (rdrt_core(rdrt->lst_value->content, STDOUT_FILENO,
@@ -52,7 +52,7 @@ int	rdrt_append(char **envp, t_rdrt *rdrt)
 
 int	rdrt_input(char **envp, t_rdrt *rdrt)
 {
-	rdrt->lst_value = expand_str(envp, rdrt->str_arg);
+	rdrt->lst_value = expand_arg(envp, rdrt->str_arg);
 	if (rdrt_ambiguousfilename(rdrt->lst_value, rdrt->str_arg))
 		return (-1);
 	return (rdrt_core(rdrt->lst_value->content, STDIN_FILENO, O_RDONLY));
@@ -60,7 +60,7 @@ int	rdrt_input(char **envp, t_rdrt *rdrt)
 
 int	rdrt_overwrite(char **envp, t_rdrt *rdrt)
 {
-	rdrt->lst_value = expand_str(envp, rdrt->str_arg);
+	rdrt->lst_value = expand_arg(envp, rdrt->str_arg);
 	if (rdrt_ambiguousfilename(rdrt->lst_value, rdrt->str_arg))
 		return (-1);
 	return (rdrt_core(rdrt->lst_value->content, STDOUT_FILENO,
