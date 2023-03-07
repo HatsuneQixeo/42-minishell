@@ -28,7 +28,6 @@ void	lstshow_expandtoken(void *content);
 t_list	*expd_tokenizer(const char *arg);
 
 t_list	*wildcard_lstpattern(t_list *lst_token);
-t_list	*wildcard_parsing(t_list *lst_token);
 char	**wildcard_expand(t_list *lst_pattern);
 
 void	expd_expand(char **envp, t_list *lst_expdtoken);

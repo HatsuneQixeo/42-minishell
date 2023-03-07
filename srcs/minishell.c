@@ -23,7 +23,7 @@ void	sig_show(int idunno)
 void	ms_signals_handler(void)
 {
 	signal(SIGQUIT, sig_show);
-	signal(SIGINT, sig_show);
+	// signal(SIGINT, sig_show);
 }
 
 void	ms_interpretor(t_data *data, const char *raw)
