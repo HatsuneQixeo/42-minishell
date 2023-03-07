@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcard_lexer.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/07 15:22:16 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 
 static t_list	*wildcard_lexer(const char *str)
@@ -8,7 +20,8 @@ static t_list	*wildcard_lexer(const char *str)
 	lst_pattern = NULL;
 	while (wildcard != NULL)
 	{
-		ft_lstadd_back(&lst_pattern, ft_lstnew(ft_substr(str, 0, wildcard - str)));
+		ft_lstadd_back(&lst_pattern, ft_lstnew(
+				ft_substr(str, 0, wildcard - str)));
 		str = ft_strskip_chr(wildcard, '*');
 		wildcard = ft_strchr(str, '*');
 	}
@@ -38,7 +51,8 @@ t_list	*wildcard_lstpattern(t_list *lst_token)
 	{
 		token = lst_token->content;
 		if (token->type & PARSE && ft_strchr(token->value, '*'))
-			ft_lstadd_back(&lst_pattern, wildcard_joinbuffer(token->value, &buffer));
+			ft_lstadd_back(&lst_pattern,
+				wildcard_joinbuffer(token->value, &buffer));
 		else
 			buffer = ft_strmodify(ft_strjoin, buffer, token->value);
 		lst_token = lst_token->next;

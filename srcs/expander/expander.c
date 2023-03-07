@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/02/27 16:12:49 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	**expand_lst_argv(char **envp, t_list *lst)
 	while (lst != NULL)
 	{
 		token = lst->content;
-		/* Consider changing this after let's say, parser add string instead of token */
+		/*
+			Consider changing this after let's say,
+			parser add string instead of token
+		*/
 		ft_lstadd_back(&lst_new, expand_arg(envp, token->value));
 		lst = lst->next;
 	}
