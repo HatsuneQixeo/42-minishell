@@ -11,6 +11,9 @@ do
 	varbash="$(bash <<< $command)"
 	varminishell="$(./minishell <<< $command)"
 
+	echo -e "command: ${Bold}${Cyan}${command}${Reset}"
+	echo "bash    : $varbash"
+	echo "minshell: $varminishell"
 	if [ "$varbash" == "$varminishell" ]
 	then
 		echo -e "${Green}No difference${Reset}"
@@ -18,6 +21,4 @@ do
 	fi
 	diff -y <(echo "$varbash") <(echo "$varminishell")
 
-	echo "bash    : $varbash"
-	echo "minshell: $varminishell"
 done

@@ -59,18 +59,23 @@ static int	wildcard_substitution(t_list *lst_pattern, const char *str)
 	return (0);
 }
 
-void	wildcard_matching(t_list *lst_pattern, char **strlist)
+static void	wildcard_matching(t_list *lst_pattern, char **strlist)
 {
+	char	**end;
+
 	while (*strlist != NULL)
 	{
-		if (wildcard_substitution(lst_pattern, *strlist) == 0)
+		end = strlist;
+		while (*end != NULL && wildcard_substitution(lst_pattern, *end) == -1)
 		{
-			strlist++;
-			continue ;
+			free(*end);
+			end++;
 		}
-		free(*strlist);
-		ft_memmove(strlist, strlist + 1,
-			sizeof(char *) * (ft_strcount(strlist + 1) + 1));
+		if (end == strlist)
+			strlist++;
+		else
+			ft_memmove(strlist, end,
+				sizeof(char *) * (ft_strcount(end) + 1));
 	}
 }
 
@@ -110,3 +115,12 @@ char	**wildcard_expand(t_list *lst_pattern)
 	ft_strlistiteri(strlist_content, iteri_sortinsert_strascend);
 	return (strlist_content);
 }
+
+/*
+	Period test
+		.*.
+		.*
+		*.
+		*.*
+
+*/

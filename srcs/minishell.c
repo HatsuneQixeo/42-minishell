@@ -37,6 +37,7 @@ void	ms_interpretor(t_data *data, const char *raw)
 	if (lst_token == NULL)
 		return ;
 	lst_ctrl = ms_parser(&lst_token);
+	// show_lstctrl(lst_ctrl);
 	ms_executor(data, &lst_ctrl);
 	leakcheck("interpretor end");
 	leakfd("interpretor end");

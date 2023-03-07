@@ -41,6 +41,11 @@ ${NAME}: ${OBJS}
 		&& ${CC} ${CFLAGS} $^ ${LIBFT} ${DPDLINK} -o $@ \
 		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"
 
+link: 
+	@${LIBFT_MAKE} \
+		&& ${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${DPDLINK} -o ${NAME} \
+		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"
+
 san: ${SRCS}
 	@${LIBFT_MAKE} \
 		&& ${CC} ${CFLAGS} -fsanitize=address -g ${INCLUDE} $^ ${LIBFT} ${DPDLINK} -o ${NAME} -DSAN=1

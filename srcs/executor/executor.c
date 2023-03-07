@@ -56,7 +56,6 @@ void	ms_executor(t_data *data, t_list **lst_ctrl)
 {
 	t_list	*lst_exe;
 
-	show_lstctrl(*lst_ctrl);
 	while ((*lst_ctrl) != NULL)
 	{
 		lst_exe = exectrl_getlstpipe(lst_ctrl);
