@@ -6,80 +6,11 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 10:31:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/07 01:04:15 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 09:57:25 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_scanner	*scanner_init(t_double_list *token_list)
-{
-	t_scanner	*scanner;
-
-	scanner = malloc(sizeof(t_scanner));
-	if (scanner)
-	{
-		scanner->token_list = token_list;
-		scanner->cursor = token_list;
-		scanner->save_point = token_list;
-	}
-	return (scanner);
-}
-
-/* 
-	@brief Get current token from scanner.
-	@return Return pointer to t_token.
- */
-t_token	*s_get_token(t_scanner *scanner)
-{
-	if (scanner->cursor)
-		return (scanner->cursor->content);
-	else
-		return (NULL);
-}
-
-/* 
-	@brief Save current list as save point.
- */
-void	scanner_save(t_scanner *scanner)
-{
-	scanner->save_point = scanner->cursor;
-}
-
-/* 
-	@brief Reset cursor to previous save point.
- */
-void	scanner_reset(t_scanner *scanner)
-{
-	scanner->cursor = scanner->save_point;
-}
-
-/* 
-	@brief Check whether cursor reached the end of token list.
- */
-bool	scanner_has_tokens(t_scanner *scanner)
-{
-	return (scanner->cursor);
-}
-/* 
-	@brief Read the next list and advance the cursor.
-	@return Return next list.
-*/
-t_double_list	*s_next(t_scanner *scanner)
-{
-	if (scanner->cursor)
-		scanner->cursor = scanner->cursor->next;
-	return (scanner->cursor);
-}
-
-void	scanner_free(t_scanner **scanner)
-{
-	if (!*scanner)
-		return ;
-	token_list_free(&(*scanner)->token_list);
-	free(*scanner);
-	*scanner = NULL;
-}
 
 void	ast_settype(t_ast *node, t_asttype type)
 {
@@ -104,7 +35,7 @@ void	ast_attach(t_ast *root, t_ast *left, t_ast *right)
 	root->right = right;
 }
 
-void	ast_insert_right(t_ast *root, t_ast *node)
+void	cmd_ast_insert_right(t_ast *root, t_ast *node)
 {
 	t_ast	*tmp;
 
@@ -121,7 +52,7 @@ int	ast_gettype(t_ast *node)
 	return (node->type & (~AST_DATA));
 }
 
-void	ast_insert_left(t_ast *root, t_ast *node)
+void	cmd_ast_insert_left(t_ast *root, t_ast *node)
 {
 	t_ast	*tmp;
 
@@ -147,190 +78,6 @@ void	ast_delete(t_ast **node)
 
 /* ********** PARSER ********** */
 
-bool	s_have_tokens_left(t_scanner *s)
-{
-	return (s->cursor);
-}
-
-/* '<<' [file_name] */
-t_ast	*redir_test_1_heredoc(t_scanner *s)
-{
-	char	*file;
-	t_ast	*node;
-
-	node = NULL;
-	if (s_have_tokens_left(s) && s_get_token(s)->type == DLESS)
-	{
-		s_next(s);
-		if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-		{
-			file = ft_strdup(s_get_token(s)->value);
-			node = ft_calloc(1, sizeof(t_ast));
-			ast_settype(node, AST_RD_HDOC);
-			ast_setdata(node, file);
-			ast_attach(node, NULL, NULL);
-			s_next(s);
-			return (node);
-		}
-		return (NULL);
-	}
-	return (NULL);
-}
-
-/*  '<' [file_name] */
-t_ast	*redir_test_2_infile(t_scanner *s)
-{
-	char	*file;
-	t_ast	*node;
-
-	node = NULL;
-	if (s_have_tokens_left(s) && s_get_token(s)->type == LESS)
-	{
-		s_next(s);
-		if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-		{
-			file = ft_strdup(s_get_token(s)->value);
-			node = ft_calloc(1, sizeof(t_ast));
-			ast_settype(node, AST_RD_INFILE);
-			ast_setdata(node, file);
-			ast_attach(node, NULL, NULL);
-			s_next(s);
-			return (node);
-		}
-		return (NULL);
-	}
-	return (NULL);
-}
-
-t_ast	*parse_redir_in(t_scanner *s)
-{
-	t_ast	*new_node;
-	t_double_list	*save;
-
-	// scanner_save(s);
-	save = s->cursor;
-	new_node = redir_test_1_heredoc(s);
-	if (new_node)
-		return (new_node);
-	// scanner_reset(s);
-	s->cursor = save;
-	new_node = redir_test_2_infile(s);
-	if (new_node)
-		return (new_node);
-	return (NULL);
-}
-
-/* '>> [file_name] */
-t_ast	*redir_test_1_append(t_scanner *s)
-{
-	char	*file;
-	t_ast	*node;
-
-	node = NULL;
-	if (s_have_tokens_left(s) && s_get_token(s)->type == DGREAT)
-	{
-		s_next(s);
-		if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-		{
-			file = ft_strdup(s_get_token(s)->value);
-			node = ft_calloc(1, sizeof(t_ast));
-			ast_settype(node, AST_RD_APPEND);
-			ast_setdata(node, file);
-			ast_attach(node, NULL, NULL);
-			s_next(s);
-			return (node);
-		}
-		return (NULL);
-	}
-	return (NULL);
-}
-/* '>' [file_name] */
-t_ast	*redir_test_2_outfile(t_scanner *s)
-{
-	char	*file;
-	t_ast	*node;
-
-	node = NULL;
-	if (s_have_tokens_left(s) && s_get_token(s)->type == GREAT)
-	{
-		s_next(s);
-		if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-		{
-			file = ft_strdup(s_get_token(s)->value);
-			node = ft_calloc(1, sizeof(t_ast));
-			ast_settype(node, AST_RD_TRUNC);
-			ast_setdata(node, file);
-			ast_attach(node, NULL, NULL);
-			s_next(s);
-			return (node);
-		}
-		return (NULL);
-	}
-	return (NULL);
-}
-
-t_ast	*parse_redir_out(t_scanner *s)
-{
-	t_ast	*new_node;
-	t_double_list	*save;
-
-	// scanner_save(s);
-	save = s->cursor;
-	new_node = redir_test_1_append(s);
-	if (new_node)
-		return (new_node);
-	// scanner_reset(s);
-	s->cursor = save;
-	new_node = redir_test_2_outfile(s);
-	if (new_node)
-		return (new_node);
-	return (NULL);
-}
-
-t_ast	*redir_test_1_in(t_scanner *s)
-{
-	t_ast	*node;
-
-	node = parse_redir_in(s);
-	if (node)
-	{
-		ast_attach(node, NULL, NULL);
-		return (node);
-	}
-	return (NULL);
-}
-
-t_ast	*redir_test_2_out(t_scanner *s)
-{
-	t_ast	*node;
-
-	node = parse_redir_out(s);
-	if (node)
-	{
-		ast_attach(node, NULL, NULL);
-		return (node);
-	}
-	return (NULL);
-}
-
-t_ast	*parse_redir(t_scanner *s)
-{
-	t_ast	*new_node;
-	t_double_list	*save;
-
-	// scanner_save(s);
-	save = s->cursor;
-	new_node = redir_test_1_in(s);
-	if (new_node)
-		return (new_node);
-	// scanner_reset(s);
-	s->cursor = save;
-	new_node = redir_test_2_out(s);
-	if (new_node)
-		return (new_node);
-	return (NULL);
-}
-
 t_ast	*cmd_ast(t_ast *node)
 {
 	static t_ast	*cmd_ast;
@@ -341,106 +88,6 @@ t_ast	*cmd_ast(t_ast *node)
 		cmd_ast = node;
 	return (cmd_ast);
 }
-
-/* [cmd_name] [token_list] */
-// uses global cmd_ast
-t_ast	*tokenlist_test_1_cmd_name(t_scanner *s)
-{
-	char	*name;
-	t_token	*token;
-	
-	token = s_get_token(s);
-	if (cmd_ast(NULL)->data == NULL)
-	{
-		if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-		{
-			name = ft_strdup(s_get_token(s)->value);
-			ast_setdata(cmd_ast(NULL), name);
-			s_next(s);
-			parse_tokenlist(s);
-			return (cmd_ast(NULL));
-		}
-	}
-	return (NULL);
-}
-
-/* [redir] [token_list] */
-// uses global ast
-t_ast	*tokenlist_test_2_redir(t_scanner *s)
-{
-	t_ast	*node;
-	
-	node = parse_redir(s);
-	if (node)
-	{
-		parse_tokenlist(s);
-		ast_insert_left(cmd_ast(NULL), node);
-		return (node);
-	}
-	return (NULL);
-}
-
-/* [token] [token_list] = [token_args]*/
-t_ast	*tokenlist_test_3_args(t_scanner *s)
-{
-	char	*arg;
-	t_ast	*node;
-
-	if (s_have_tokens_left(s) && s_get_token(s)->type == LITERAL)
-	{
-		arg = ft_strdup(s_get_token(s)->value);
-		node = ft_calloc(1, sizeof(t_ast));
-		ast_settype(node, AST_ARG);
-		ast_setdata(node, arg);
-		s_next(s);
-		parse_tokenlist(s);
-		ast_insert_right(cmd_ast(NULL), node);
-		return (node);
-	}
-	return (NULL);
-}
-
-t_ast	*test(t_ast *(*func)(t_scanner *), t_scanner *s)
-{
-	// scanner_save(s);
-	// *node = func(s);
-	// if (!*node)
-	// 	scanner_reset(s);
-	t_ast	*new_node;
-
-	new_node = NULL;
-	scanner_save(s);
-	new_node = func(s);
-	if (!new_node)
-		scanner_reset(s);
-	return (new_node);
-}
-
-t_ast	*parse_tokenlist(t_scanner *s)
-{
-	t_ast		*new_node;
-	t_double_list	*save;
-
-	// new_node = test(tokenlist_test_1_cmd_name, s);
-	// new_node = test(tokenlist_test_2_redir, s);
-	// new_node = test(tokenlist_test_3_args, s);
-	// scanner_save(s);
-	save = s->cursor;
-	new_node = tokenlist_test_1_cmd_name(s);
-	if (new_node)
-		return (new_node);
-	// scanner_reset(s);
-	s->cursor = save;
-	new_node = tokenlist_test_2_redir(s);
-	if (new_node)
-		return (new_node);
-	// scanner_reset(s);
-	s->cursor = save;
-	new_node = tokenlist_test_3_args(s);
-		return (new_node);
-	return (NULL);
-}
-
 
 /* [name] [token_list]*/
 t_ast	*cmd_test_1(t_scanner *s)
@@ -464,13 +111,6 @@ t_ast	*cmd_test_1(t_scanner *s)
 t_ast	*parse_cmd(t_scanner *s)
 {
 	return (cmd_test_1(s));
-}
-
-bool	s_token_type_matches(t_token_type match_type, t_scanner *s)
-{
-	//
-	// printf("%s\n", (char *)token_value_get(s->cursor->content));
-	return (s_have_tokens_left(s) && s_get_token(s)->type == match_type);
 }
 
 t_ast	*parse_job(t_scanner *s);
@@ -576,22 +216,22 @@ t_ast	*parse_job(t_scanner *s)
 	t_ast	*node;
 	t_double_list	*save;
 
-	// scanner_save(s);
+	// s_save(s);
 	save = s->cursor;
 	node = job_test_1(s);
 	if (node)
 		return (node);
-	// scanner_reset(s);
+	// s_reset(s);
 	s->cursor = save;
 	node = job_test_2(s);
 	if (node)
 		return (node);
-	// scanner_reset(s);
+	// s_reset(s);
 	s->cursor = save;
 	node = job_test_3(s);
 	if (node)
 		return (node);
-	// scanner_reset(s);
+	// s_reset(s);
 	s->cursor = save;
 	node = job_test_4(s);
 	if (node)

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/07 00:15:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 09:46:54 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ void	print_ast(t_ast *root, int indent)
 	print_ast(root->right, indent + 4);
 }
 
-t_ast	*redir_test_1_heredoc(t_scanner *s);
-t_ast	*redir_test_2_infile(t_scanner *s);
+t_ast	*redir_in_pattern_1_heredoc(t_scanner *s);
+t_ast	*redir_in_pattern_2_infile(t_scanner *s);
 t_ast	*parse_redir_in(t_scanner *s);
 t_ast	*parse_redir_out(t_scanner *s);
 t_ast	*parse_redir(t_scanner *s);
 t_ast	*token_list_test_1(t_scanner *s);
 t_ast	*token_list_test_2(t_scanner *s);
 t_ast	*parse_tokenlist(t_scanner *s);
-t_ast	*cmd_ast(t_ast *node);
+// t_ast	*cmd_ast(t_ast *node);
 t_ast	*parse_cmd(t_scanner *s);
 
 void	parse_token_list2(t_double_list **list);
@@ -129,10 +129,10 @@ int	main(int ac, char **av, char **envp)
 	t_double_list	*token_list;
 	t_scanner		*scanner;
 
-	input ="a && b";
+	input = "echo a >b > c";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
-	scanner = scanner_init(token_list);
+	scanner = s_init(token_list);
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
@@ -155,6 +155,6 @@ int	main(int ac, char **av, char **envp)
 	// print_ast(*and_or_ast(NULL), 0);
 	if (scanner->cursor)
 		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(scanner->cursor->content));
-	scanner_free(&scanner);
+	s_free(&scanner);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/05 16:36:34 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 09:55:54 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_token
 /*
 	cursor = Point to the current list.
 	token_list = Store tokens.
-	save_point = Save current list here when need.
+	save_point = Save current list here when needed.
  */
 typedef struct	s_scanner
 {

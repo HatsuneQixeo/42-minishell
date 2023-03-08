@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/05 12:07:49 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 09:57:25 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ t_token			*concat_2_tokens(t_token *t1, t_token *t2, t_token_type type);
 
 /* ********** SCANNER ********* */
 
-void			scanner_save(t_scanner *scanner);
-void			scanner_reset(t_scanner *scanner);
-void			scanner_free(t_scanner **scanner);
+void			s_save(t_scanner *scanner);
+void			s_reset(t_scanner *scanner);
+void			s_free(t_scanner **scanner);
 t_double_list	*s_next(t_scanner *scanner);
 t_token			*s_get_token(t_scanner *scanner);
-t_scanner		*scanner_init(t_double_list *token_list);
+t_scanner		*s_init(t_double_list *token_list);
 
 /* ********** PARSER ********** */
 
@@ -91,6 +91,40 @@ void			parse_token_type_same_concat(t_double_list *token_list);
 void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
+
+/* scanner */
+void	        s_free(t_scanner **scanner);
+t_double_list	*s_next(t_scanner *scanner);
+t_token	        *s_get_token(t_scanner *scanner);
+t_scanner	    *s_init(t_double_list *token_list);
+bool	        s_token_type_matches(t_token_type match_type, t_scanner *s);
+
+/* parse_redir */
+t_ast	        *parse_redir(t_scanner *s);
+t_ast	        *parse_redir_in(t_scanner *s);
+t_ast	        *parse_redir_out(t_scanner *s);
+t_ast	        *redir_in_pattern_1_heredoc(t_scanner *s);
+t_ast	        *redir_in_pattern_2_infile(t_scanner *s);
+t_ast	        *redir_out_pattern_1_append(t_scanner *s);
+t_ast	        *redir_out_pattern_2_outfile(t_scanner *s);
+
+t_ast	*cmd_ast(t_ast *node);
+/* parse_tokenlist */
+t_ast	*tokenlist_pattern_1_cmd_name(t_scanner *s);
+t_ast	*tokenlist_pattern_2_redir(t_scanner *s);
+t_ast	*tokenlist_pattern_3_args(t_scanner *s);
+t_ast	*parse_tokenlist(t_scanner *s);
+
+void	ast_settype(t_ast *node, t_asttype type);
+void	ast_setdata(t_ast *node, char *data);
+void	ast_attach(t_ast *root, t_ast *left, t_ast *right);
+void	cmd_ast_insert_right(t_ast *root, t_ast *node);
+int	ast_gettype(t_ast *node);
+void	cmd_ast_insert_left(t_ast *root, t_ast *node);
+void	ast_delete(t_ast **node);
+
+/* pattern_searcher */
+t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_scanner *), t_scanner *s);
 
 /* ********** PARSER2 ********** */
 t_ast	*parse_tokenlist(t_scanner *s);
