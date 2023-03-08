@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 08:59:51 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 09:57:25 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 10:32:07 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,26 @@ t_ast	*tokenlist_pattern_2_redir(t_scanner *s)
 t_ast	*tokenlist_pattern_3_args(t_scanner *s)
 {
 	char	*arg;
-	t_ast	*node;
+	t_ast	*arg_node;
 
 	if (s_token_type_matches(LITERAL, s))
 	{
 		arg = ft_strdup(s_get_token(s)->value);
-		node = ft_calloc(1, sizeof(t_ast));
-		ast_settype(node, AST_ARG);
-		ast_setdata(node, arg);
+		arg_node = ft_calloc(1, sizeof(t_ast));
+		ast_settype(arg_node, AST_ARG);
+		ast_setdata(arg_node, arg);
 		s_next(s);
 		parse_tokenlist(s);
-		cmd_ast_insert_right(cmd_ast(NULL), node);
-		return (node);
+		cmd_ast_insert_right(cmd_ast(NULL), arg_node);
+		return (arg_node);
 	}
 	return (NULL);
 }
 
 /*
+	@return Return an array of functions that check for
+	tokenlist matching pattern.
 	@note Must search the patterns in the following order.
-	@return Return an array of functions that
-	@return check for tokenlist matching pattern.
  */
 t_ast *(**tokenlist_pattern_array(void))(t_scanner *)
 {

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 09:46:54 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:23:05 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	main(int ac, char **av, char **envp)
 	t_double_list	*token_list;
 	t_scanner		*scanner;
 
-	input = "echo a >b > c";
+	input = "echo a >c|| echo b > d";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
 	scanner = s_init(token_list);

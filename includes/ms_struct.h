@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 09:55:54 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:07:18 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,18 @@ typedef struct s_token
  */
 typedef struct	s_scanner
 {
+	// t_ast			*cmd_ast;
+	// t_double_list	*token_list;
+	// t_double_list	*token_list_cursor;
 	t_double_list	*cursor;
 	t_double_list	*token_list;
-	t_double_list	*save_point;
 }	t_scanner;
+
+typedef struct s_mini_sh
+{
+	t_ast			*cmd_ast;
+	t_ast			*and_or_ast;
+	t_double_list	*token_list;
+	t_double_list	*token_list_cursor;
+}	t_mini_sh;
 #endif
