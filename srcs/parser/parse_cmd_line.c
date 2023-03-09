@@ -21,6 +21,7 @@ t_ast	*cmd_line_pattern_1_andor_cmdline(t_parser *p)
 	t_ast	*cmd_line_node;
 	t_ast	*seq_node;
 
+	*(p->and_or_ast) = NULL;
 	parse_and_or(p);
 	and_or_node = *(p->and_or_ast);
 	if (and_or_node)
@@ -50,6 +51,7 @@ t_ast	*cmd_line_pattern_2_andor_seq(t_parser *p)
 	t_ast	*seq_node;
 
 	// *and_or_ast(NULL) = NULL;
+	*(p->and_or_ast) = NULL;
 	parse_and_or(p);
 	and_or_node = *(p->and_or_ast);
 	if (and_or_node)
@@ -74,10 +76,11 @@ t_ast	*cmd_line_pattern_3_andor(t_parser *p)
 	t_ast	*and_or_node;
 
 	// *and_or_ast(NULL) = NULL
-	// p->and_or_ast = NULL;
+	*(p->and_or_ast) = NULL;
 	parse_and_or(p);
 	//
 	and_or_node = *(p->and_or_ast);
+	// print_ast(and_or_node, 0);
 // printf("sdfsd\n");
 	if (and_or_node == NULL)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 17:49:28 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:52:38 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	main(int ac, char **av, char **envp)
 	t_parser			*p;
 	// t_scanner		*scanner;
 
-	input = "(echo a|)";
+	input = "(echo a| eco b)";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
 	p = ft_calloc(1, sizeof(t_parser));
