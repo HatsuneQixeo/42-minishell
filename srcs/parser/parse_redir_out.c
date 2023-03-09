@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 08:38:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 15:51:06 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:46:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /* 
 	@brief Check for pattern [ '>>' <file_name> ]
  */
-t_ast	*redir_out_pattern_1_append(t_sh *sh)
+t_ast	*redir_out_pattern_1_append(t_parser *p)
 {
 	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = sh->scanner;
+	s = p->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(DGREAT, s))
 	{
@@ -42,13 +42,13 @@ t_ast	*redir_out_pattern_1_append(t_sh *sh)
 /* 
 	@brief Check for pattern [ '>' <file_name> ]
  */
-t_ast	*redir_out_pattern_2_outfile(t_sh *sh)
+t_ast	*redir_out_pattern_2_outfile(t_parser *p)
 {
 	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = sh->scanner;
+	s = p->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(GREAT, s))
 	{
@@ -71,9 +71,9 @@ t_ast	*redir_out_pattern_2_outfile(t_sh *sh)
 	@return Return an array of functions that
 	@return check for redir out matching pattern.
  */
-t_ast *(**redir_out_pattern_array(void))(t_sh *)
+t_ast *(**redir_out_pattern_array(void))(t_parser *)
 {
-	static t_ast *(*pattern_func[])(t_sh *) = {
+	static t_ast *(*pattern_func[])(t_parser *) = {
 		redir_out_pattern_1_append,
 		redir_out_pattern_2_outfile,
 		NULL
@@ -86,7 +86,7 @@ return (pattern_func);
 /* 
 	@return t_ast * is returned upon success, else return NULL.
  */
-t_ast	*parse_redir_out(t_sh *sh)
+t_ast	*parse_redir_out(t_parser *p)
 {
-	return (pattern_searcher(redir_out_pattern_array(), sh));
+	return (pattern_searcher(redir_out_pattern_array(), p));
 }

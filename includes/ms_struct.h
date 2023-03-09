@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 15:51:06 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:47:10 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ typedef struct	s_scanner
 	t_double_list	*cursor;
 }	t_scanner;
 
-typedef struct s_mini_sh
+typedef struct s_parser
 {
 	t_scanner	*scanner;
 	t_ast		*cmd_ast;
 	t_ast		*and_or_ast;
-}	t_sh;
+}	t_parser;
 
 #endif

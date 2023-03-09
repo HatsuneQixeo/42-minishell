@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 11:39:44 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:08:11 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,53 +106,47 @@ void	print_ast(t_ast *root, int indent)
 
 void	parse_token_list2(t_double_list **list);
 
-// t_sh	*mini_sh_init()
+// t_parser	*mini_sh_init()
 // {
-// 	t_sh	*mini_sh;
+// 	t_parser	*mini_sh;
 
 // 	mini_sh->scanner = s_init();
-// 	mini_sh = malloc(sizeof(t_sh));
+// 	mini_sh = malloc(sizeof(t_parser));
 // 	mini_sh->cmd_ast = ft_calloc(1, sizeof(t_ast));
 // 	mini_sh->and_or_ast = ft_calloc(1, sizeof(t_ast));
 // 	return (mini_sh);
 // }
 
+// need to fix cmd_ast and_or_ast calloc
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
 	t_double_list	*token_list;
-	t_sh			*sh;
+	t_parser			*p;
 	// t_scanner		*scanner;
 
-	input = "echo <a <b c d";
+	input = "echo a && ls";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
-	// scanner = s_init(token_list);
-	sh = ft_calloc(1, sizeof(t_sh));
-	sh->scanner = s_init(token_list);
+	p = ft_calloc(1, sizeof(t_parser));
+	p->scanner = s_init(token_list);
+	//
+	// p->and_or_ast = ft_calloc(1, sizeof(t_ast));
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
 	t_ast	*node;
 	
-	// node = parse_redir_in(scanner);
-
-	// node = parse_redir_out(scanner);
-
-	// node = parse_redir(sh);
-	node = parse_tokenlist(sh);
-	// node = token_list_test_1(scanner);
-	// node = token_list_test_2(scanner);
-	// node = parse_tokenlist(scanner);
-	// node = parse_cmd(scanner);
-	// node = parse_tokenlist(scanner);
-	// node = parse_job(scanner);
-	// node = parse_cmdline(mini_sh);
+	// node = parse_tokenlist(p);
+	// node = parse_cmd(p);
+	// node = parse_job(p);
+	node = parse_and_or(p);
 	print_ast(node, 0);
+	// print_ast(p->cmd_ast, 0);
 	// print_ast(cmd_ast(NULL), 0);
 	// print_ast(*and_or_ast(NULL), 0);
-	if (sh->scanner->cursor)
-		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(sh->scanner->cursor->content));
+	if (p->scanner->cursor)
+		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(p->scanner->cursor->content));
 	// s_free(&mini_sh->scanner);
 	return (0);
 }

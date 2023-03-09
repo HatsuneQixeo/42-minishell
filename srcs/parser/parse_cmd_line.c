@@ -15,20 +15,20 @@
 /* 
     @brief Check for pattern [ <and_or> ';' <command_line> ]
  */
-t_ast	*cmd_line_pattern_1_andor_cmdline(t_sh *sh)
+t_ast	*cmd_line_pattern_1_andor_cmdline(t_parser *p)
 {
 	t_ast	*and_or_node;
 	t_ast	*cmd_line_node;
 	t_ast	*seq_node;
 
-    // sh->and_or_ast = NULL;
-	parse_and_or(sh);
-	and_or_node = sh->and_or_ast;
+    // p->and_or_ast = NULL;
+	parse_and_or(p);
+	and_or_node = p->and_or_ast;
 	if (and_or_node)
 	{
-        if (s_match_and_consume_token(SEMICOLON, sh->scanner))
+        if (s_match_and_consume_token(SEMICOLON, p->scanner))
 		{
-			cmd_line_node = parse_cmdline(sh);
+			cmd_line_node = parse_cmdline(p);
 			if (cmd_line_node)
 			{
 				seq_node = ft_calloc(1, sizeof(t_ast));
@@ -45,18 +45,18 @@ t_ast	*cmd_line_pattern_1_andor_cmdline(t_sh *sh)
 /* 
     @brief Check for pattern [ <and_or> ';' ]
  */
-t_ast	*cmd_line_pattern_2_andor_seq(t_sh *sh)
+t_ast	*cmd_line_pattern_2_andor_seq(t_parser *p)
 {
 	t_ast	*and_or_node;
 	t_ast	*seq_node;
 
 	// *and_or_ast(NULL) = NULL;
-	parse_and_or(sh);
-	and_or_node = sh->and_or_ast;
+	parse_and_or(p);
+	and_or_node = p->and_or_ast;
 	if (and_or_node)
 	{
 		// if (s_token_type_matches(SEMICOLON, s))
-        if (s_match_and_consume_token(SEMICOLON, sh->scanner))
+        if (s_match_and_consume_token(SEMICOLON, p->scanner))
 		{
 			seq_node = ft_calloc(1, sizeof(t_ast));
 			ast_settype(seq_node, AST_SEQ);
@@ -70,18 +70,18 @@ t_ast	*cmd_line_pattern_2_andor_seq(t_sh *sh)
 /* 
     @brief Check for pattern [ <and_or> ]
  */
-t_ast	*cmd_line_pattern_3_andor(t_sh *sh)
+t_ast	*cmd_line_pattern_3_andor(t_parser *p)
 {
 	t_ast	*and_or_node;
 
 	// and_or_node = NULL;
 	// *and_or_ast(NULL) = NULL
-	parse_and_or(sh);
-	// and_or_node = sh->and_or_ast;
+	parse_and_or(p);
+	// and_or_node = p->and_or_ast;
 	// if (and_or_node == NULL)
 		// return (NULL);
 	// return (and_or_node);
-    return (sh->and_or_ast);
+    return (p->and_or_ast);
 }
 
 /*
@@ -89,9 +89,9 @@ t_ast	*cmd_line_pattern_3_andor(t_sh *sh)
 	@return check for cmdline matching pattern.
     @note Must search the patterns in the following order.
  */
-t_ast *(**cmdline_pattern_array(void))(t_sh *)
+t_ast *(**cmdline_pattern_array(void))(t_parser *)
 {
-	static t_ast *(*pattern_func[])(t_sh *) = {
+	static t_ast *(*pattern_func[])(t_parser *) = {
         cmd_line_pattern_1_andor_cmdline,
         cmd_line_pattern_2_andor_seq,
         cmd_line_pattern_3_andor,
@@ -105,7 +105,7 @@ return (pattern_func);
 /* 
 	@return t_ast * is returned upon success, else return NULL.
  */
-t_ast	*parse_cmdline(t_sh *sh)
+t_ast	*parse_cmdline(t_parser *p)
 {
-	return (pattern_searcher(cmdline_pattern_array(), sh));
+	return (pattern_searcher(cmdline_pattern_array(), p));
 }

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 02:24:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 10:04:35 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:46:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /* 
     @brief Check for pattern [ '<<' <file_name> ]
  */
-t_ast	*redir_in_pattern_1_heredoc(t_sh *sh)
+t_ast	*redir_in_pattern_1_heredoc(t_parser *p)
 {
 	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = sh->scanner;
+	s = p->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(DLESS, s))
 	{
@@ -42,13 +42,13 @@ t_ast	*redir_in_pattern_1_heredoc(t_sh *sh)
 /* 
 	@brief Check for pattern [ '<' <file_name> ]
  */
-t_ast	*redir_in_pattern_2_infile(t_sh *sh)
+t_ast	*redir_in_pattern_2_infile(t_parser *p)
 {
 	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = sh->scanner;
+	s = p->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(LESS, s))
 	{
@@ -71,9 +71,9 @@ t_ast	*redir_in_pattern_2_infile(t_sh *sh)
 	@return check for redir in matching pattern.
     @note Must search the patterns in the following order.
  */
-t_ast *(**redir_in_pattern_array(void))(t_sh *)
+t_ast *(**redir_in_pattern_array(void))(t_parser *)
 {
-	static t_ast *(*pattern_func[])(t_sh *) = {
+	static t_ast *(*pattern_func[])(t_parser *) = {
 		redir_in_pattern_1_heredoc,
 		redir_in_pattern_2_infile,
 		NULL
@@ -86,7 +86,7 @@ return (pattern_func);
 /* 
 	@return t_ast * is returned upon success, else return NULL.
  */
-t_ast	*parse_redir_in(t_sh *sh)
+t_ast	*parse_redir_in(t_parser *p)
 {
-	return (pattern_searcher(redir_in_pattern_array(), sh));
+	return (pattern_searcher(redir_in_pattern_array(), p));
 }

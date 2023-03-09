@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 01:53:32 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 15:51:06 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:46:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 	@param scanner stores the token list.
 	@return t_ast * is returned upon success, else return NULL.
  */
-t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_sh *), t_sh *sh)
+t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_parser *), t_parser *p)
 {
 	// int		i;
 	// t_ast	*new_node;
@@ -27,7 +27,7 @@ t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_sh *), t_sh *sh)
 	// i = -1;
 	// new_node = NULL;
 	// while (!new_node && pattern_func[++i])
-	// 	new_node = (pattern_func[i])(sh);
+	// 	new_node = (pattern_func[i])(p);
 	// return (new_node);
 	
 	int				i;
@@ -36,12 +36,12 @@ t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_sh *), t_sh *sh)
 
 	i = -1;
 	new_node = NULL;
-	initial_cursor = sh->scanner->cursor;
+	initial_cursor = p->scanner->cursor;
 	while (!new_node && pattern_func[++i])
 	{
-		new_node = (pattern_func[i])(sh);
+		new_node = (pattern_func[i])(p);
 		if (!new_node)
-			sh->scanner->cursor = initial_cursor;
+			p->scanner->cursor = initial_cursor;
 	}
 	return (new_node);
 }
