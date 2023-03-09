@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 16:08:11 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:20:57 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ void	parse_token_list2(t_double_list **list);
 // }
 
 // need to fix cmd_ast and_or_ast calloc
+// line 212 parse_and_or
+// line 121 parse_and_or , **and_or_ast
+// parse_cmdline_pattern_3
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
@@ -125,13 +128,14 @@ int	main(int ac, char **av, char **envp)
 	t_parser			*p;
 	// t_scanner		*scanner;
 
-	input = "echo a && ls";
+	input = "echo";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
 	p = ft_calloc(1, sizeof(t_parser));
 	p->scanner = s_init(token_list);
 	//
 	// p->and_or_ast = ft_calloc(1, sizeof(t_ast));
+	p->and_or_ast = (t_ast **)ft_calloc(1, sizeof(t_ast *));
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
