@@ -74,9 +74,11 @@ t_ast	*cmd_line_pattern_3_andor(t_parser *p)
 	t_ast	*and_or_node;
 
 	// *and_or_ast(NULL) = NULL
-	p->and_or_ast = NULL;
+	// p->and_or_ast = NULL;
 	parse_and_or(p);
+	//
 	and_or_node = *(p->and_or_ast);
+// printf("sdfsd\n");
 	if (and_or_node == NULL)
 		return (NULL);
 	return (and_or_node);

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 17:22:40 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:49:15 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_ast	*and_or_pattern_4_cmd_line_and(t_parser *p)
 	save = *(p->and_or_ast);
 	if (s_match_and_consume_token(OPEN_PAREN, p->scanner))
 	{
+		//
 		cmdline_node = parse_cmdline(p);
 		if (cmdline_node && s_match_and_consume_token(CLOSE_PAREN, p->scanner))
 		{
@@ -240,12 +241,12 @@ t_ast	*and_or_pattern_6_cmd_line(t_parser *p)
 t_ast *(**and_or_pattern_array(void))(t_parser *)
 {
 	static t_ast *(*pattern_func[])(t_parser *) = {
-		// and_or_pattern_1_and,
-		// and_or_pattern_2_or,
+		and_or_pattern_1_and,
+		and_or_pattern_2_or,
 		and_or_pattern_3_job,
-		// and_or_pattern_4_cmd_line_and,
-		// and_or_pattern_5_cmd_line_or,
-		// and_or_pattern_6_cmd_line,
+		and_or_pattern_4_cmd_line_and,
+		and_or_pattern_5_cmd_line_or,
+		and_or_pattern_6_cmd_line,
 		NULL
 	};
 

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:43:14 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 16:35:32 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:34:15 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_ast	*job_pattern_2_cmd_pipe(t_parser *p)
 		if (s_match_and_consume_token(PIPELINE, p->scanner))
 		{
 			job_node = parse_job(p);
+			// print_ast(job_node, 0);
 			if (job_node)
 			{
 				parent_node = ft_calloc(1, sizeof(t_ast));
