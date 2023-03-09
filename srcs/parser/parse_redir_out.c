@@ -6,18 +6,22 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 08:38:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 09:34:29 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:51:06 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* '>> [file_name] */
-t_ast	*redir_out_pattern_1_append(t_scanner *s)
+/* 
+	@brief Check for pattern [ '>>' <file_name> ]
+ */
+t_ast	*redir_out_pattern_1_append(t_sh *sh)
 {
-	char	*file_name;
-	t_ast	*parent_node;
+	t_scanner	*s;
+	char		*file_name;
+	t_ast		*parent_node;
 
+	s = sh->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(DGREAT, s))
 	{
@@ -35,12 +39,16 @@ t_ast	*redir_out_pattern_1_append(t_scanner *s)
 	return (NULL);
 }
 
-/* '>' [file_name] */
-t_ast	*redir_out_pattern_2_outfile(t_scanner *s)
+/* 
+	@brief Check for pattern [ '>' <file_name> ]
+ */
+t_ast	*redir_out_pattern_2_outfile(t_sh *sh)
 {
-	char	*file_name;
-	t_ast	*parent_node;
+	t_scanner	*s;
+	char		*file_name;
+	t_ast		*parent_node;
 
+	s = sh->scanner;
 	parent_node = NULL;
 	if (s_token_type_matches(GREAT, s))
 	{
@@ -63,9 +71,9 @@ t_ast	*redir_out_pattern_2_outfile(t_scanner *s)
 	@return Return an array of functions that
 	@return check for redir out matching pattern.
  */
-t_ast *(**redir_out_pattern_array(void))(t_scanner *)
+t_ast *(**redir_out_pattern_array(void))(t_sh *)
 {
-	static t_ast *(*pattern_func[])(t_scanner *) = {
+	static t_ast *(*pattern_func[])(t_sh *) = {
 		redir_out_pattern_1_append,
 		redir_out_pattern_2_outfile,
 		NULL
@@ -78,7 +86,7 @@ return (pattern_func);
 /* 
 	@return t_ast * is returned upon success, else return NULL.
  */
-t_ast	*parse_redir_out(t_scanner *s)
+t_ast	*parse_redir_out(t_sh *sh)
 {
-	return (pattern_searcher(redir_out_pattern_array(), s));
+	return (pattern_searcher(redir_out_pattern_array(), sh));
 }

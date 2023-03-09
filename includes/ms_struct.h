@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 12:07:18 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:51:06 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,24 +104,20 @@ typedef struct s_token
 /* ********** PARSER ********** */
 
 /*
-	cursor = Point to the current list.
 	token_list = Store tokens.
-	save_point = Save current list here when needed.
+	cursor = Point to the current token.
  */
 typedef struct	s_scanner
 {
-	// t_ast			*cmd_ast;
-	// t_double_list	*token_list;
-	// t_double_list	*token_list_cursor;
-	t_double_list	*cursor;
 	t_double_list	*token_list;
+	t_double_list	*cursor;
 }	t_scanner;
 
 typedef struct s_mini_sh
 {
-	t_ast			*cmd_ast;
-	t_ast			*and_or_ast;
-	t_double_list	*token_list;
-	t_double_list	*token_list_cursor;
-}	t_mini_sh;
+	t_scanner	*scanner;
+	t_ast		*cmd_ast;
+	t_ast		*and_or_ast;
+}	t_sh;
+
 #endif

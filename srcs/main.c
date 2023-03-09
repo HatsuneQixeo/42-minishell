@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 11:23:05 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:39:44 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,37 +102,34 @@ void	print_ast(t_ast *root, int indent)
 	print_ast(root->right, indent + 4);
 }
 
-t_ast	*redir_in_pattern_1_heredoc(t_scanner *s);
-t_ast	*redir_in_pattern_2_infile(t_scanner *s);
-t_ast	*parse_redir_in(t_scanner *s);
-t_ast	*parse_redir_out(t_scanner *s);
-t_ast	*parse_redir(t_scanner *s);
-t_ast	*token_list_test_1(t_scanner *s);
-t_ast	*token_list_test_2(t_scanner *s);
-t_ast	*parse_tokenlist(t_scanner *s);
 // t_ast	*cmd_ast(t_ast *node);
-t_ast	*parse_cmd(t_scanner *s);
 
 void	parse_token_list2(t_double_list **list);
-t_ast	*parse_tokenlist(t_scanner *s);
-t_ast	*parse_job(t_scanner *s);
-t_ast	*job_test_1(t_scanner *s);
-t_ast	*job_test_2(t_scanner *s);
-t_ast	*job_test_3(t_scanner *s);
-t_ast	*job_test_4(t_scanner *s);
-//remember to create a fucntion that generate a new list that doesnt contain token space
-t_ast	*parse_cmd_line(t_scanner *s);
-t_ast	**and_or_ast(t_ast *node);
+
+// t_sh	*mini_sh_init()
+// {
+// 	t_sh	*mini_sh;
+
+// 	mini_sh->scanner = s_init();
+// 	mini_sh = malloc(sizeof(t_sh));
+// 	mini_sh->cmd_ast = ft_calloc(1, sizeof(t_ast));
+// 	mini_sh->and_or_ast = ft_calloc(1, sizeof(t_ast));
+// 	return (mini_sh);
+// }
+
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
 	t_double_list	*token_list;
-	t_scanner		*scanner;
+	t_sh			*sh;
+	// t_scanner		*scanner;
 
-	input = "echo a >c|| echo b > d";
+	input = "echo <a <b c d";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
-	scanner = s_init(token_list);
+	// scanner = s_init(token_list);
+	sh = ft_calloc(1, sizeof(t_sh));
+	sh->scanner = s_init(token_list);
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
@@ -142,19 +139,20 @@ int	main(int ac, char **av, char **envp)
 
 	// node = parse_redir_out(scanner);
 
-	// node = parse_redir(scanner);
+	// node = parse_redir(sh);
+	node = parse_tokenlist(sh);
 	// node = token_list_test_1(scanner);
 	// node = token_list_test_2(scanner);
 	// node = parse_tokenlist(scanner);
 	// node = parse_cmd(scanner);
 	// node = parse_tokenlist(scanner);
 	// node = parse_job(scanner);
-	node = parse_cmd_line(scanner);
+	// node = parse_cmdline(mini_sh);
 	print_ast(node, 0);
 	// print_ast(cmd_ast(NULL), 0);
 	// print_ast(*and_or_ast(NULL), 0);
-	if (scanner->cursor)
-		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(scanner->cursor->content));
-	s_free(&scanner);
+	if (sh->scanner->cursor)
+		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(sh->scanner->cursor->content));
+	// s_free(&mini_sh->scanner);
 	return (0);
 }

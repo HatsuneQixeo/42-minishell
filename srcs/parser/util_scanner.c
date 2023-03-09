@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 01:06:54 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/08 08:59:37 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/08 22:03:48 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_scanner	*s_init(t_double_list *token_list)
 	{
 		scanner->token_list = token_list;
 		scanner->cursor = token_list;
-		scanner->save_point = token_list;
 	}
 	return (scanner);
 }
@@ -47,6 +46,17 @@ t_double_list	*s_next(t_scanner *scanner)
 	if (scanner->cursor)
 		scanner->cursor = scanner->cursor->next;
 	return (scanner->cursor);
+}
+
+bool	s_match_and_consume_token(t_token_type match_type, t_scanner *s)
+{
+	if (s_get_token(s) && s_get_token(s)->type == match_type)
+	{
+		s_next(s);
+		return (true);
+	}
+	else
+		return (false);
 }
 
 bool	s_token_type_matches(t_token_type match_type, t_scanner *s)
