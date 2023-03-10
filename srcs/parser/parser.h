@@ -16,6 +16,12 @@
 # include "ms_common.h"
 # include "ctrl.h"
 
+int		parse_default(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
+int		parse_rdrt(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
+int		parse_ctrl(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
+int		parse_subshbegin(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
+int		parse_subshend(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
+
 int		heredoc_limiter(char *limiter);
 t_list	*heredoc(const char *limiter);
 

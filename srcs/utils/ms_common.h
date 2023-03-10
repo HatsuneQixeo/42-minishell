@@ -44,6 +44,8 @@ void	ms_perror(const char *name);
 /* Forbidden */
 void	leakcheck(const char *str);
 void	leakfd(const char *str);
+
+/* Debug tools */
 void	debug_errno(const char *name);
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 			const char *tmpname, t_ftiterlst ft_debug);

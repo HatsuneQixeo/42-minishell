@@ -47,9 +47,23 @@ static void	wildcard_joinbuffer(t_list **lst_pattern,
 	{
 		lst_last->content = ft_strmodify(ft_strjoin,
 				lst_last->content, lst_wildcard->content);
-		ft_lstdelone(ft_lstextract_front(&lst_wildcard), free);
+		ft_lstdelone(ft_lstextract_front(&lst_wildcard), NULL);
 	}
 	ft_lstadd_back(lst_pattern, lst_wildcard);
+}
+
+static t_list	*ft_normslave(t_list *lst_pattern, char *buffer)
+{
+	t_list	*last;
+
+	if (lst_pattern == NULL)
+		free(buffer);
+	else if (buffer != NULL)
+	{
+		last = ft_lstlast(lst_pattern);
+		last->content = ft_strcombine(last->content, buffer);
+	}
+	return (lst_pattern);
 }
 
 t_list	*wildcard_lstpattern(t_list *lst_token)
@@ -69,13 +83,5 @@ t_list	*wildcard_lstpattern(t_list *lst_token)
 			buffer = ft_strmodify(ft_strjoin, buffer, token->value);
 		lst_token = lst_token->next;
 	}
-	if (lst_pattern == NULL)
-		free(buffer);
-	else if (buffer != NULL)
-	{
-		t_list	*last = ft_lstlast(lst_pattern);
-
-		last->content = ft_strcombine(last->content, buffer);
-	}
-	return (lst_pattern);
+	return (ft_normslave(lst_pattern, buffer));
 }

@@ -15,6 +15,7 @@
 static int	cd_updatepath(char **envp, const char *path)
 {
 	char	cwd[831];
+/* Should I export? or just update */
 
 	if (!getcwd(cwd, sizeof(cwd)))
 		ms_perror("getcwd in cd");

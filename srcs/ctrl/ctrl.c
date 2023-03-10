@@ -12,18 +12,6 @@
 
 #include "ctrl.h"
 
-t_ftctrl	ctrl_value(const char *value)
-{
-	if (!ft_strcmp(value, "&&"))
-		return (ctrl_success);
-	else if (!ft_strcmp(value, "||"))
-		return (ctrl_failure);
-	else if (!ft_strcmp(value, "|"))
-		return (ctrl_continue);
-	ft_dprintf(2, "ctrl_value does not recognize: %s\n", value);
-	return (NULL);
-}
-
 t_ctrl	*ctrl_new(t_ftctrl condition, t_ftexe exe, t_ftdel exedel_ft)
 {
 	t_ctrl	*ctrl;

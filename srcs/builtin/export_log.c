@@ -12,11 +12,11 @@
 
 #include "ms_common.h"
 
-static void	iteri_sortinsert_nameascend(unsigned int i, void *p_str)
+static void	iteri_sortinsert_nameascend(unsigned int i, void *strlist)
 {
 	char	**p_it;
 
-	p_it = p_str;
+	p_it = strlist;
 	while (i-- && cmp_strvarname(p_it[i], p_it[i + 1]) > 0)
 		ft_memswap(&p_it[i], &p_it[i + 1], sizeof(char *));
 }

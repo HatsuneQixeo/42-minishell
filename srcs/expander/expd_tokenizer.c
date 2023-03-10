@@ -22,8 +22,8 @@ void	lstshow_expandtoken(void *content)
 		ft_strlcat(str_type, CYAN"Expand", sizeof(str_type));
 	if (token->type & PARSE)
 		ft_strlcat(str_type, YELLOW"Parse", sizeof(str_type));
-	if (token->type & SPACE)
-		ft_strlcat(str_type, MAGENTA"Space", sizeof(str_type));
+	if (token->type & DELIMITER)
+		ft_strlcat(str_type, MAGENTA"Delimiter", sizeof(str_type));
 	if (token->type == LITERAL)
 		ft_strlcat(str_type, GREY"Literal", sizeof(str_type));
 	if (str_type[0] == '\0')

@@ -68,7 +68,7 @@ t_list	*expd_parse(t_list **lst)
 	{
 		node = ft_lstextract_front(lst);
 		token = node->content;
-		if (token->type & SPACE)
+		if (token->type & DELIMITER)
 		{
 			ft_lstadd_back(&lst_parsed, wildcard_parsing(lst_buffer));
 			ft_lstclear(&lst_buffer, del_token);

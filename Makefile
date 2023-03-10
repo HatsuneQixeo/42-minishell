@@ -1,11 +1,11 @@
 NAME		:=	minishell
-DPDLINK		:=	-lreadline -lncurses
+DPDLINK		:=	-lreadline -lncurses -L/usr/local/opt/readline/lib
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-Wall -Wextra -Werror -I/usr/local/opt/readline/include
 # CFLAGS		:=	-Wall -Werror
 CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
 # CFLAGS		+=	-fsanitize=address -g
-CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=0
+CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=1
 LIBFT		:=	libft/libft.a
 LIBFT_MAKE	:=	make -C libft
 
@@ -41,7 +41,7 @@ ${NAME}: ${OBJS}
 		&& ${CC} ${CFLAGS} $^ ${LIBFT} ${DPDLINK} -o $@ \
 		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"
 
-link: 
+link:
 	@${LIBFT_MAKE} \
 		&& ${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${DPDLINK} -o ${NAME} \
 		&& echo "$(CYAN)${NAME} done !$(DEFAULT)"

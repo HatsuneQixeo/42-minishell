@@ -38,13 +38,13 @@ typedef struct s_control
 int			exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt);
 int			exe_subsh(t_data *data, t_list *lst_args, t_list *lst_rdrt);
 
-t_ftctrl	ctrl_value(const char *value);
+t_ftctrl	ctrl_getft(const char *value);
+const char	*ctrl_getvalue(t_ftctrl ft_ctrl);
+
 void		del_ctrl(void *content);
 t_ctrl		*ctrl_new(t_ftctrl condition, t_ftexe exe, t_ftdel ft_del);
 
 /* Debug ctrl */
-const char	*ctrl_name(t_ftctrl condition);
 void		show_lstctrl(t_list *lst_ctrl);
-// void	show_ctrl(int i, void *content);
 
 #endif

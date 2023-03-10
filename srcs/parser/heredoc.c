@@ -31,6 +31,7 @@ int	heredoc_limiter(char *limiter)
 	return (hasquote);
 }
 
+/* Gonna have to handle signal, not exactly sure how to deal with ctrl-c */
 t_list	*heredoc(const char *limiter)
 {
 	t_list	*lst_buffer;
@@ -42,6 +43,8 @@ t_list	*heredoc(const char *limiter)
 		input = readline("heredoc> ");
 		if (input == NULL || !ft_strcmp(limiter, input))
 			break ;
+		// ft_lstadd_back(&lst_buffer, ft_lstnew(
+		// 		ft_strmodify(ft_strjoin, input, "\n")));
 		ft_lstadd_back(&lst_buffer, ft_lstnew(input));
 	}
 	free(input);

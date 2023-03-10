@@ -13,9 +13,41 @@
 #include <signal.h>
 #include "ms_common.h"
 
-void	signal_attibute(sig_t interrupt, sig_t eof, sig_t exit)
+void	sig_show(int idunno)
 {
-	signal(SIGINT, interrupt);
-	signal(SIGQUIT, exit);
-	(void)eof;
+	ft_dprintf(2, "sig: %d\n", idunno);
+}
+
+void	sig_discardline(int sig)
+{
+	ft_putchar_fd('\n', 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_lastexit = 1;
+	(void)sig;
+}
+
+void	mssig_readline(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_discardline);
+}
+
+void	mssig_parent(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
+void	mssig_heredoc(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_DFL);/* interrupt, return from executing the program */
+}
+
+void	mssig_default(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 }

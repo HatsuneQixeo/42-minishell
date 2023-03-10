@@ -12,18 +12,18 @@
 
 #include "rdrt.h"
 
-int	find_rdrtft(unsigned int i, const void *arr, const void *ref)
+int	find_rdrtvalue(unsigned int i, const void *arr, const void *value)
 {
 	const t_rdrt	rdrt = ((const t_rdrt *)arr)[i];
 
-	return (rdrt.ft_rdrt == ref);
+	return (!ft_strcmp(rdrt.str_arg, value));
 }
 
-int	find_rdrtvalue(unsigned int i, const void *arr, const void *ref)
+int	find_rdrtft(unsigned int i, const void *arr, const void *ft_rdrt)
 {
 	const t_rdrt	rdrt = ((const t_rdrt *)arr)[i];
 
-	return (!ft_strcmp(rdrt.str_arg, ref));
+	return (rdrt.ft_rdrt == ft_rdrt);
 }
 
 static const t_rdrt	*rdrt_search(t_ftfind ft_find, const void *ref)

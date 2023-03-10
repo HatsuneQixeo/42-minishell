@@ -14,17 +14,41 @@
 #include "lexer.h"
 #include "parser.h"
 #include "executor.h"
+#include "signal.h"
 
-void	sig_show(int idunno)
-{
-	ft_dprintf(2, "sig: %d\n", idunno);
-}
+// t_rdrt	*parse_rdrt_new(t_token *token_rdrt, t_token *token_arg)
+// {
+// 	t_rdrt	*rdrt;
 
-void	ms_signals_handler(void)
-{
-	signal(SIGQUIT, sig_show);
-	// signal(SIGINT, sig_show);
-}
+// 	rdrt = rdrt_new(rdrt_getft(token_rdrt->value), token_arg->value);
+// 	if (rdrt->ft_rdrt == rdrt_heredoc)
+// 	{
+// 		if (heredoc_limiter(rdrt->str_arg))
+// 			rdrt->ft_rdrt = rdrt_quotedheredoc;
+// 		rdrt->lst_value = heredoc(rdrt->str_arg);
+// 	}
+// 	return (rdrt);
+// }
+
+// void	ms_heredoc(t_list *lst_token)
+// {
+// 	t_token	*token;
+
+// 	while (lst_token != NULL)
+// 	{
+// 		token = lst_token->content;
+// 		lst_token = lst_token->next;
+// 		if (!(token->type == RDRT && rdrt_getft(token->value) != rdrt_heredoc))
+// 			continue ;
+// 		t_token	*token_arg;
+// 		token_arg = lst_token->content;
+// 		if (heredoc_limiter(token_arg->value))
+// 			token->value = ft_strmodify(strmod_replace,
+// 				token->value, ft_strdup("\"<<\""));
+// 		rdrt->lst_value = heredoc(token_arg->value);
+// 		lst_token = lst_token->next;
+// 	}
+// }
 
 void	ms_interpretor(t_data *data, const char *raw)
 {
@@ -49,9 +73,9 @@ void	minishell(char **src_envp)
 	char	*input;
 
 	data.envp = ft_strlistdup(src_envp);
-	ms_signals_handler();
 	while (1)
 	{
+		mssig_readline();
 		input = readline(MINISHELL"$ ");
 		if (input == NULL)
 			break ;
@@ -60,4 +84,5 @@ void	minishell(char **src_envp)
 		free(input);
 	}
 	ft_strlistclear(data.envp);
+	ft_putendl_fd("exit", 2);
 }

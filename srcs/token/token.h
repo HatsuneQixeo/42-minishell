@@ -13,7 +13,7 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "ms_common.h"
+# include <stdlib.h>
 
 typedef struct s_token
 {

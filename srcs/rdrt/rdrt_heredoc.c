@@ -17,7 +17,7 @@ static int	write_here_doc(t_list *lst_value)
 {
 	int	fd_here;
 
-	fd_here = open(HEREDOC_TXT, O_RDWR | O_TRUNC | O_CREAT, 0644);
+	fd_here = open(HEREDOC_TXT, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd_here == -1)
 	{
 		ms_perror(HEREDOC_TXT);
@@ -26,6 +26,7 @@ static int	write_here_doc(t_list *lst_value)
 	while (lst_value != NULL)
 	{
 		ft_putendl_fd(lst_value->content, fd_here);
+		// ft_putstr_fd(lst_value->content, fd_here);
 		lst_value = lst_value->next;
 	}
 	close(fd_here);

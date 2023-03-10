@@ -88,11 +88,6 @@ static void	iteri_sortinsert_strascend(unsigned int i, void *p_str)
 		ft_memswap(&p_it[i], &p_it[i + 1], sizeof(char *));
 }
 
-/*
-	This should not be called when there's only one arguments?
-	Nope, I can't evaluate '*' itself then
-	'*' itself actually generate two argument from the lexer, funnily enough
-*/
 char	**wildcard_expand(t_list *lst_pattern)
 {
 	char	**strlist_content;
@@ -101,16 +96,6 @@ char	**wildcard_expand(t_list *lst_pattern)
 	strlist_content = dir_content(".");
 	if (((const char *)lst_pattern->content)[0] != '.')
 		ft_aaremove((void **)strlist_content, cmp_strprefix, ".", free);
-	// for (unsigned int i = 0; strlist_content[i] != NULL; i++)
-	// {
-	// 	const char	*colour;
-
-	// 	if (wildcard_substitution(lst_pattern, strlist_content[i]) == -1)
-	// 		colour = RED;
-	// 	else
-	// 		colour = GREEN;
-	// 	ft_dprintf(2, "%s%-18s\n"DEF, colour, strlist_content[i]);
-	// }
 	wildcard_matching(lst_pattern, strlist_content);
 	ft_strlistiteri(strlist_content, iteri_sortinsert_strascend);
 	return (strlist_content);

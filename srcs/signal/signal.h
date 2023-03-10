@@ -16,4 +16,10 @@
 # include "ms_common.h"
 # include <signal.h>
 
+void	sig_show(int idunno);
+void	sig_discardline(int sig);
+
+void	mssig_readline(void);
+void	mssig_default(void);
+
 #endif

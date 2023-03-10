@@ -34,7 +34,6 @@ static int	pipe_process(t_data *data, t_ctrl *ctrl, pid_t *pid)
 
 static void	pipe_connection(t_data *data, t_list *lst_exe, pid_t *arr_pid)
 {
-	/* This flow is quite confusing, main shouldn't be duping the fdin for child */
 	t_ctrl	*ctrl;
 	int		fd_stdin;
 

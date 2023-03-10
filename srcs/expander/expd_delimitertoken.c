@@ -26,7 +26,7 @@ static t_list	*delimiter_split(const char *value)
 						ft_substr(start, 0, delimiter - start), PARSE)));
 		start = ft_strskip_is(delimiter, ft_isspace);
 		ft_lstadd_back(&lst_new, ft_lstnew(token_new(
-					ft_substr(delimiter, 0, start - delimiter), SPACE)));
+					ft_substr(delimiter, 0, start - delimiter), DELIMITER)));
 		delimiter = ft_strchr_is(start, ft_isspace);
 	}
 	if (start[0] != '\0')

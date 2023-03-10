@@ -12,7 +12,7 @@
 
 #include "ctrl.h"
 
-const char	*ctrl_name(t_ftctrl condition)
+static const char	*ctrl_hue(t_ftctrl condition)
 {
 	if (condition == ctrl_continue)
 		return (GREY"?? ctrl_continue");
@@ -46,17 +46,15 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 	{
 		ctrl = lst_ctrl->content;
 		ft_dprintf(2, "%*sctrl[%d]: %s\n"DEF, padding * 4, "",
-			i, ctrl_name(ctrl->condition));
+			i, ctrl_hue(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
-			pad_debuglst(ctrl->lst_args, padding,
-				lstname_token, lstshow_lexertoken);
+			pad_debuglst(ctrl->lst_args, padding, lstname_token, lstshow_str);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else
 			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n",
 				ctrl->ft_exe);
-		pad_debuglst(ctrl->lst_rdrt, padding,
-			lstname_rdrt, lstshow_rdrt);
+		pad_debuglst(ctrl->lst_rdrt, padding, lstname_rdrt, lstshow_rdrt);
 		lst_ctrl = lst_ctrl->next;
 		i++;
 	}

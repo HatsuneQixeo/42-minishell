@@ -44,14 +44,6 @@ static t_list	*exectrl_getlstpipe(t_list **lst_ctrl)
 	return (lst_exe);
 }
 
-/**
- * @brief
- * (echo $MIKU && (echo is && echo cute) || echo $MIKU is cute) | tr [:lower:] [:upper:]
- * echo $MIKU | (echo cat1 && cat && (echo cat2 && cat))
- * 
- * @param envp 
- * @param lst_ctrl 
- */
 void	ms_executor(t_data *data, t_list **lst_ctrl)
 {
 	t_list	*lst_exe;
