@@ -6,24 +6,24 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 17:52:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 09:52:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	resources_free(char **input, t_double_list **lst, t_node **ast)
-{
-	if (*input)
-	{
-		free(*input);
-		*input = NULL;
-	}
-	if (*lst)
-		token_list_free(lst);
-	if (*ast)
-		ast_free(ast);
-}
+// void	resources_free(char **input, t_double_list **lst, t_node **ast)
+// {
+// 	if (*input)
+// 	{
+// 		free(*input);
+// 		*input = NULL;
+// 	}
+// 	if (*lst)
+// 		token_list_free(lst);
+// 	if (*ast)
+// 		ast_free(ast);
+// }
 
 // haven't handle signal
 // int main(int ac, char **av, char **envp)
@@ -61,6 +61,11 @@ void	resources_free(char **input, t_double_list **lst, t_node **ast)
 // 	env_free(&env);
 
 // }
+
+int	ast_gettype(t_ast *node)
+{
+	return (node->type & (~AST_DATA));
+}
 
 void	print_ast(t_ast *root, int indent)
 {
@@ -123,6 +128,7 @@ void	parse_token_list2(t_double_list **list);
 // parse_cmdline_pattern_3
 // line 80 parse_cmd_line
 // line 148 parse_and_or
+// line 143 parse_and_or
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
@@ -130,7 +136,7 @@ int	main(int ac, char **av, char **envp)
 	t_parser			*p;
 	// t_scanner		*scanner;
 
-	input = "(echo a| eco b)";
+	input = "(echo a | echo b) || hello && b";
 	token_list = ms_tokenizer(input);
 	parse_token_list2(&token_list);
 	p = ft_calloc(1, sizeof(t_parser));
@@ -146,13 +152,23 @@ int	main(int ac, char **av, char **envp)
 	// node = parse_tokenlist(p);
 	// node = parse_cmd(p);
 	// node = parse_job(p);
-	node = parse_and_or(p);
+	// node = parse_and_or(p);
+	// node = parse_redir(p);
+	// node = parse_and_or(p);
+	node = parse_cmdline(p);
 	print_ast(node, 0);
+	// print_ast(*(p->and_or_ast), 0);
+
 	// print_ast(p->cmd_ast, 0);
 	// print_ast(cmd_ast(NULL), 0);
 	// print_ast(*and_or_ast(NULL), 0);
 	if (p->scanner->cursor)
 		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(p->scanner->cursor->content));
-	// s_free(&mini_sh->scanner);
+	ast_free(&node);
+	// ast_free(p->and_or_ast);
+	s_free(&p->scanner);
+	// free(*(p->and_or_ast));
+	free(p->and_or_ast);
+	free(p);
 	return (0);
 }

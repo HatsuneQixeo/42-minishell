@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 15:31:54 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 09:56:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,6 @@ void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
 
-/* scanner */
-void	        s_free(t_scanner **scanner);
-t_double_list	*s_next(t_scanner *scanner);
-t_token	        *s_get_token(t_scanner *scanner);
-t_scanner	    *s_init(t_double_list *token_list);
-bool	        s_token_type_matches(t_token_type match_type, t_scanner *s);
-bool			s_match_and_consume_token(t_token_type match_type, t_scanner *s);
 
 /* parse_redir */
 t_ast	        *parse_redir(t_parser *p);
@@ -100,8 +93,8 @@ t_ast			*redir_out_pattern_1_append(t_parser *p);
 t_ast			*redir_out_pattern_2_outfile(t_parser *p);
 t_ast			*parse_redir_out(t_parser *p);
 
-t_ast	        *node_init(t_asttype node_type);
 /* parse_tokenlist */
+t_ast	        *node_init(t_asttype node_type);
 t_ast			*parse_tokenlist(t_parser *p);
 t_ast			*tokenlist_pattern_3_args(t_parser *p);
 t_ast			*tokenlist_pattern_2_redir(t_parser *p);
@@ -121,19 +114,37 @@ t_ast			*job_pattern_4_cmd(t_parser *p);
 
 /* parse_and_or */
 t_ast			*parse_and_or(t_parser *p);
+t_ast	        *and_or_node_init(int node_type, t_ast *attach_left_node);
+t_ast	        *and_or_pattern_1_and(t_parser *p);
+t_ast	        *and_or_pattern_2_or(t_parser *p);
+t_ast	        *and_or_pattern_3_job(t_parser *p);
+t_ast	        *and_or_pattern_4_cmd_line_and(t_parser *p);
+t_ast	        *and_or_pattern_5_cmd_line_or(t_parser *p);
+t_ast	        *and_or_pattern_6_cmd_line(t_parser *p);
 
 /* parse_cmdline */
-t_ast	*parse_cmdline(t_parser *p);
+t_ast	        *parse_cmdline(t_parser *p);
 
-void	ast_settype(t_ast *node, t_asttype type);
-void	ast_setdata(t_ast *node, char *data);
-void	ast_attach(t_ast *root, t_ast *left, t_ast *right);
-void	cmd_ast_insert_right(t_ast *root, t_ast *node);
-int	ast_gettype(t_ast *node);
-void	cmd_ast_insert_left(t_ast *root, t_ast *node);
-void	ast_delete(t_ast **node);
+/* util_scanner */
+void	        s_free(t_scanner **scanner);
+t_double_list	*s_next(t_scanner *scanner);
+t_token	        *s_get_token(t_scanner *scanner);
+t_scanner	    *s_init(t_double_list *token_list);
+bool	        s_token_type_matches(t_token_type match_type, t_scanner *s);
+bool			s_match_and_consume_token(t_token_type match_type, t_scanner *s);
 
-/* pattern_searcher */
+/* util_ast */
+void	        ast_free(t_ast **node);
+int	            ast_gettype(t_ast *node);
+void	        ast_setdata(t_ast *node, char *data);
+void	        ast_settype(t_ast *node, t_asttype type);
+void	        cmd_ast_insert_left(t_ast *root, t_ast *node);
+void	        cmd_ast_insert_right(t_ast *root, t_ast *node);
+void	        ast_attach(t_ast *root, t_ast *left, t_ast *right);
+void	        and_or_ast_insert_top(t_ast **ast_root, t_ast *new_node);
+void	        and_or_ast_insert_last(t_ast **ast_root, t_ast *new_node);
+
+/* util_pattern_searcher */
 t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_parser *), t_parser *p);
 
 
@@ -163,11 +174,8 @@ void			double_lstclear(t_double_list **lst, void (*del)(void *));
 void			ast_create(t_node **root, t_double_list *token_list);
 void			ast_add_token_operator(t_node **root, t_token *token);
 void			ast_add_token_literal(t_node **root, t_double_list *list);
-void			ast_free(t_node **root);
+// void			ast_free(t_node **root);
 void			ast_del_content_token(void *token);
-
-/* Abstract Syntax Tree 2*/
-int				ast_gettype(t_ast *node);
 
 /* Binary Tree */
 t_node			*btree_node_init(void *content);

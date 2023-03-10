@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 02:24:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 11:46:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:23:29 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,19 @@
  */
 t_ast	*redir_in_pattern_1_heredoc(t_parser *p)
 {
-	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = p->scanner;
 	parent_node = NULL;
-	if (s_token_type_matches(DLESS, s))
+	if (s_match_and_consume_token(DLESS, p->scanner))
 	{
-		s_next(s);
-		if (s_token_type_matches(LITERAL, s))
+		if (s_token_type_matches(LITERAL, p->scanner))
 		{
-			file_name = ft_strdup(s_get_token(s)->value);
+			file_name = ft_strdup(s_get_token(p->scanner)->value);
 			parent_node = ft_calloc(1, sizeof(t_ast));
 			ast_settype(parent_node, AST_RD_HDOC);
 			ast_setdata(parent_node, file_name);
-			s_next(s);
+			s_next(p->scanner);
 			return (parent_node);
 		}
 	}
@@ -44,49 +41,37 @@ t_ast	*redir_in_pattern_1_heredoc(t_parser *p)
  */
 t_ast	*redir_in_pattern_2_infile(t_parser *p)
 {
-	t_scanner	*s;
 	char		*file_name;
 	t_ast		*parent_node;
 
-	s = p->scanner;
 	parent_node = NULL;
-	if (s_token_type_matches(LESS, s))
+	if (s_match_and_consume_token(LESS, p->scanner))
 	{
-		s_next(s);
-		if (s_token_type_matches(LITERAL, s))
+		if (s_token_type_matches(LITERAL, p->scanner))
 		{
-			file_name = ft_strdup(s_get_token(s)->value);
+			file_name = ft_strdup(s_get_token(p->scanner)->value);
 			parent_node = ft_calloc(1, sizeof(t_ast));
 			ast_settype(parent_node, AST_RD_INFILE);
 			ast_setdata(parent_node, file_name);
-			s_next(s);
+			s_next(p->scanner);
 			return (parent_node);
 		}
 	}
 	return (NULL);
 }
 
-/*
-	@return Return an array of functions that
-	@return check for redir in matching pattern.
-    @note Must search the patterns in the following order.
+/* 
+	@return t_ast * is returned upon success, else return NULL.
+	@note Pass array of pattern functions to pattern_searcher()
+	@note  for finding matching pattern.
  */
-t_ast *(**redir_in_pattern_array(void))(t_parser *)
+t_ast	*parse_redir_in(t_parser *p)
 {
-	static t_ast *(*pattern_func[])(t_parser *) = {
+	static t_ast	*(*redir_in_pattern_funcs[])(t_parser *) = {
 		redir_in_pattern_1_heredoc,
 		redir_in_pattern_2_infile,
 		NULL
 	};
 
-return (pattern_func);
-
-}
-
-/* 
-	@return t_ast * is returned upon success, else return NULL.
- */
-t_ast	*parse_redir_in(t_parser *p)
-{
-	return (pattern_searcher(redir_in_pattern_array(), p));
+	return (pattern_searcher(redir_in_pattern_funcs, p));
 }

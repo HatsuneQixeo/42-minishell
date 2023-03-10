@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 08:59:51 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 14:01:52 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:36:09 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ t_ast	*node_init(t_asttype node_type)
 {
 	t_ast	*node;
 
-    node = ft_calloc(1, sizeof(t_ast));
+	node = ft_calloc(1, sizeof(t_ast));
 	ast_settype(node, node_type);
 	return (node);
 }
+
 /* 
 	@brief Check for pattern [ <cmd_name> <token_list> ]
  */
@@ -27,8 +28,6 @@ t_ast	*tokenlist_pattern_1_cmd_name(t_parser *p)
 {
 	char		*cmd_name;
 
-    // if (!p->cmd_ast)
-		// p->cmd_ast = node_init(AST_CMD);
 	if (!p->cmd_ast->data)
 	{
 		if (s_token_type_matches(LITERAL, p->scanner))
@@ -81,29 +80,19 @@ t_ast	*tokenlist_pattern_3_args(t_parser *p)
 	return (NULL);
 }
 
-/*
-	@return Return an array of functions that check for
-	tokenlist matching pattern.
-	@note Must search the patterns in the following order.
+/* 
+	@return t_ast * is returned upon success, else return NULL.
+	@note Pass array of tokenlist pattern functions to pattern_searcher()
+	@note for finding matching pattern.
  */
-t_ast *(**tokenlist_pattern_array(void))(t_parser *)
+t_ast	*parse_tokenlist(t_parser *p)
 {
-	static t_ast *(*pattern_func[])(t_parser *) = {
+	static t_ast	*(*tokenlist_pattern_funcs[])(t_parser *) = {
 		tokenlist_pattern_1_cmd_name,
 		tokenlist_pattern_2_redir,
 		tokenlist_pattern_3_args,
 		NULL
 	};
 
-return (pattern_func);
-
-}
-
-/* 
-	@brief Parse tokenlist.
-	@return t_ast * is returned upon success, else return NULL.
- */
-t_ast	*parse_tokenlist(t_parser *p)
-{
-	return (pattern_searcher(tokenlist_pattern_array(), p));
+	return (pattern_searcher(tokenlist_pattern_funcs, p));
 }

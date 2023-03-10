@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser3.c                                       :+:      :+:    :+:   */
+/*   util_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/04 10:31:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 11:04:57 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/03/10 09:39:39 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/03/10 09:45:41 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ void	cmd_ast_insert_right(t_ast *root, t_ast *node)
 	node->left = NULL;
 }
 
-int	ast_gettype(t_ast *node)
-{
-	return (node->type & (~AST_DATA));
-}
-
 void	cmd_ast_insert_left(t_ast *root, t_ast *node)
 {
 	t_ast	*tmp;
@@ -64,40 +59,38 @@ void	cmd_ast_insert_left(t_ast *root, t_ast *node)
 	node->right = NULL;
 }
 
-void	ast_delete(t_ast **node)
+void	and_or_ast_insert_top(t_ast **ast_root, t_ast *new_node)
+{
+	if (!ast_root || !new_node)
+		return ;
+	if (!*ast_root)
+		*ast_root = new_node;
+	else
+	{
+		(*ast_root)->right = new_node->left;
+		new_node->left = *ast_root;
+		*ast_root = new_node;
+	}
+}
+
+void	and_or_ast_insert_last(t_ast **ast_root, t_ast *new_node)
+{
+	if (!ast_root || !new_node)
+		return ;
+	if (!*ast_root)
+		*ast_root = new_node;
+	else
+		(*ast_root)->right = new_node;
+}
+
+void	ast_free(t_ast **node)
 {
 	if (!*node)
 		return ;
 	if ((*node)->type & AST_DATA)
 		free((*node)->data);
-	ast_delete(&(*node)->left);
-	ast_delete(&(*node)->right);
+	ast_free(&(*node)->left);
+	ast_free(&(*node)->right);
 	free(*node);
 	*node = NULL;
 }
-
-/* ********** PARSER ********** */
-
-t_ast	*cmd_ast(t_ast *node)
-{
-	static t_ast	*cmd_ast;
-
-	if (!cmd_ast)
-		cmd_ast = ft_calloc(1, sizeof(t_ast));
-	if (node)
-		cmd_ast = node;
-	return (cmd_ast);
-}
-
-
-
-// t_ast	**and_or_ast(t_ast *node)
-// {
-// 	static t_ast	**and_or_ast;
-
-// 	if (!and_or_ast)
-// 		and_or_ast = ft_calloc(1, sizeof(t_ast *));
-// 	if (node)
-// 		*and_or_ast = node;
-// 	return (and_or_ast);
-// }

@@ -37,7 +37,7 @@ t_ast	*cmd_line_pattern_1_andor_cmdline(t_parser *p)
 				return (seq_node);
 			}
 		}
-		ast_delete(&and_or_node);
+		ast_free(&and_or_node);
 	}
 	return (NULL);
 }
@@ -50,13 +50,11 @@ t_ast	*cmd_line_pattern_2_andor_seq(t_parser *p)
 	t_ast	*and_or_node;
 	t_ast	*seq_node;
 
-	// *and_or_ast(NULL) = NULL;
 	*(p->and_or_ast) = NULL;
 	parse_and_or(p);
 	and_or_node = *(p->and_or_ast);
 	if (and_or_node)
 	{
-		// if (s_token_type_matches(SEMICOLON, s))
         if (s_match_and_consume_token(SEMICOLON, p->scanner))
 		{
 			seq_node = ft_calloc(1, sizeof(t_ast));
@@ -64,7 +62,7 @@ t_ast	*cmd_line_pattern_2_andor_seq(t_parser *p)
 			ast_attach(seq_node, and_or_node, NULL);
 			return (seq_node);
 		}
-		ast_delete(&and_or_node);
+		ast_free(&and_or_node);
 	}
 	return (NULL);
 }
