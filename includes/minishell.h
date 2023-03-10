@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 09:56:00 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 11:33:48 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ t_token			*concat_2_tokens(t_token *t1, t_token *t2, t_token_type type);
 
 /* ********** PARSER ********** */
 
-t_node			*ms_parser(t_double_list *token_list);
-void			parse_token_list(t_double_list *token_list);
 void			parse_token_type_reassign(t_double_list *token_list);
 void			parse_token_type_same_concat(t_double_list *token_list);
 void			handle_quote(t_double_list *quote);
@@ -124,6 +122,9 @@ t_ast	        *and_or_pattern_6_cmd_line(t_parser *p);
 
 /* parse_cmdline */
 t_ast	        *parse_cmdline(t_parser *p);
+t_ast	        *cmd_line_pattern_1_andor_cmdline(t_parser *p);
+t_ast	        *cmd_line_pattern_2_andor_seq(t_parser *p);
+t_ast	        *cmd_line_pattern_3_andor(t_parser *p);
 
 /* util_scanner */
 void	        s_free(t_scanner **scanner);
@@ -134,7 +135,7 @@ bool	        s_token_type_matches(t_token_type match_type, t_scanner *s);
 bool			s_match_and_consume_token(t_token_type match_type, t_scanner *s);
 
 /* util_ast */
-void	        ast_free(t_ast **node);
+void	        ast_delete(t_ast **node);
 int	            ast_gettype(t_ast *node);
 void	        ast_setdata(t_ast *node, char *data);
 void	        ast_settype(t_ast *node, t_asttype type);
@@ -174,7 +175,7 @@ void			double_lstclear(t_double_list **lst, void (*del)(void *));
 void			ast_create(t_node **root, t_double_list *token_list);
 void			ast_add_token_operator(t_node **root, t_token *token);
 void			ast_add_token_literal(t_node **root, t_double_list *list);
-// void			ast_free(t_node **root);
+// void			ast_delete(t_node **root);
 void			ast_del_content_token(void *token);
 
 /* Binary Tree */

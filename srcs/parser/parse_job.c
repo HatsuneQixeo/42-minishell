@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:43:14 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 09:45:18 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 10:01:30 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_ast	*job_pattern_1_subshell_pipe(t_parser *p)
 					return (parent_node);
 				}
 			}
-			ast_free(&cmd_node);
+			ast_delete(&cmd_node);
 		}
 	}
 	return (NULL);
@@ -68,7 +68,7 @@ t_ast	*job_pattern_2_cmd_pipe(t_parser *p)
 				return (parent_node);
 			}
 		}
-		ast_free(&cmd_node);
+		ast_delete(&cmd_node);
 	}
 	return (NULL);
 }
@@ -88,7 +88,7 @@ t_ast	*job_pattern_3_subshell(t_parser *p)
 			if (s_match_and_consume_token(CLOSE_PAREN, p->scanner))
 				return (cmd_node);
 			else
-				ast_free(&cmd_node);
+				ast_delete(&cmd_node);
 		}
 	}
 	return (NULL);
