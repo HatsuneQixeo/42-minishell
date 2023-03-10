@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 11:33:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 12:59:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,57 +60,42 @@ void	parse_token_type_reassign(t_double_list *token_list)
 	}
 }
 
-t_token	*token_dup(t_token *token)
+t_parser	*parser_init(t_double_list *token_list)
 {
-	t_token	*new_token;
+	t_parser	*p;
 
-	if (!token)
-		return (NULL);
-	new_token = ft_calloc(1, sizeof(t_token));
-	new_token->value = ft_strdup(token->value);
-	new_token->type = token->type;
-	return (new_token);
+	p = ft_calloc(1, sizeof(t_parser));
+	if (p)
+	{
+		p->scanner = s_init(token_list);
+		p->and_or_ast = ft_calloc(1, sizeof(t_ast *));
+	}
+	return (p);
 }
 
-t_double_list	*token_list_filter(t_double_list *list, t_token_type type)
+void	parser_free(t_parser **p)
 {
-	t_token			*token;
-	t_double_list	*old_list;
-	t_double_list	*new_list;
-
-	old_list = list;
-	new_list = NULL;
-	while (list)
-	{
-		token = list->content;
-		if (token->type != type)
-			double_lstadd_back(&new_list, double_lstnew(token_dup(token)));
-		list = list->next;
-	}
-	double_lstclear(&old_list, token_free);
-	return (new_list);
+	s_free(&(*p)->scanner);
+	free((*p)->and_or_ast);
+	free((*p));
+	*p = NULL;
 }
 
-void	parse_token_list2(t_double_list **token_list)
+t_ast	*ms_parser(t_double_list *token_list)
 {
-	t_token			*token;
-	t_token_type	type;
-	t_double_list	*list;
+	t_parser		*p;
+	t_ast			*ast;
+	t_double_list	*filtered_token_list;
 
-	list = *token_list;
-	while (list)
+	tokenlist_regroup(token_list);
+	filtered_token_list = tokenlist_filter(token_list, SPACES);
+	p = parser_init(filtered_token_list);
+	ast = parse_cmdline(p);
+	if (p->scanner->cursor)
 	{
-		token = list->content;
-		type = token->type;
-		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
-			handle_quote(list);
-		else if (type == BACKSLASH)
-			handle_backslash(list);
-		else if (type == VARIABLE)
-			handle_variable(list);
-		parse_token_type_same_concat(list);
-		parse_token_type_reassign(list);
-		list = list->next;
+		util_perror("syntax error: ", s_get_token(p->scanner)->value);
+		ast_delete(&ast);
 	}
-	*token_list = token_list_filter(*token_list, SPACES);
+	parser_free(&p);
+	return (ast);
 }

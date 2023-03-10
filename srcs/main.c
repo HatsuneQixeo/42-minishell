@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 11:43:49 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 13:00:52 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,56 +107,21 @@ void	print_ast(t_ast *root, int indent)
 	print_ast(root->right, indent + 4);
 }
 
-// t_ast	*cmd_ast(t_ast *node);
+t_double_list	*tokenlist_regroup(t_double_list *token_list);;
 
-void	parse_token_list2(t_double_list **list);
-
-// need to fix cmd_ast and_or_ast calloc
-// line 212 parse_and_or
-// line 121 parse_and_or , **and_or_ast
-// parse_cmdline_pattern_3
-// line 80 parse_cmd_line
-// line 148 parse_and_or
-// line 143 parse_and_or
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
 	t_double_list	*token_list;
-	t_parser			*p;
+	t_ast			*ast;
 
-	// input = "(echo a) && (echo b | echo c) || echo hello && echo";
-	input = "";
+	input = "(echo helo | echo hi)";
 	token_list = ms_tokenizer(input);
-	parse_token_list2(&token_list);
-	p = ft_calloc(1, sizeof(t_parser));
-	p->scanner = s_init(token_list);
-	//
-	// p->and_or_ast = ft_calloc(1, sizeof(t_ast));
-	p->and_or_ast = (t_ast **)ft_calloc(1, sizeof(t_ast *));
+	ast = ms_parser(token_list);
 
 	// debug_list_content_print(token_list, debug_token_content_print);
 
-	t_ast	*node;
-	
-	// node = parse_tokenlist(p);
-	// node = parse_cmd(p);
-	// node = parse_job(p);
-	// node = parse_and_or(p);
-	// node = parse_redir(p);
-	// node = parse_and_or(p);
-	node = parse_cmdline(p);
-	print_ast(node, 0);
-	// print_ast(*(p->and_or_ast), 0);
-
-	// print_ast(p->cmd_ast, 0);
-	// print_ast(cmd_ast(NULL), 0);
-	// print_ast(*and_or_ast(NULL), 0);
-	if (p->scanner->cursor)
-		printf("syntax error near unexpexcted token '%s'\n", (char *)token_value_get(p->scanner->cursor->content));
-	ast_delete(&node);
-	// ast_delete(p->and_or_ast);
-	s_free(&p->scanner);
-	free(p->and_or_ast);
-	free(p);
+	print_ast(ast, 0);
+	ast_delete(&ast);
 	return (0);
 }

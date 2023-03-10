@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:10:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/23 00:04:35 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 12:54:28 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,16 @@ void	list_token_type_set(t_double_list *list, t_token_type set_type)
 		token_type_set(list->content, set_type);
 		list = list->next;
 	}
+}
+
+t_token	*token_dup(t_token *token)
+{
+	t_token	*new_token;
+
+	if (!token)
+		return (NULL);
+	new_token = ft_calloc(1, sizeof(t_token));
+	new_token->value = ft_strdup(token->value);
+	new_token->type = token->type;
+	return (new_token);
 }

@@ -6,11 +6,54 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 01:16:00 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/23 00:03:06 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 12:54:36 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_double_list	*tokenlist_regroup(t_double_list *token_list)
+{
+	t_token			*token;
+	t_token_type	type;
+	t_double_list	*list;
+
+	list = token_list;
+	while (list)
+	{
+		token = list->content;
+		type = token->type;
+		if (type == SINGLE_QUOTE || type == DOUBLE_QUOTE)
+			handle_quote(list);
+		else if (type == BACKSLASH)
+			handle_backslash(list);
+		else if (type == VARIABLE)
+			handle_variable(list);
+		parse_token_type_same_concat(list);
+		parse_token_type_reassign(list);
+		list = list->next;
+	}
+	return (token_list);
+}
+
+t_double_list	*tokenlist_filter(t_double_list *list, t_token_type type)
+{
+	t_token			*token;
+	t_double_list	*old_list;
+	t_double_list	*new_list;
+
+	old_list = list;
+	new_list = NULL;
+	while (list)
+	{
+		token = list->content;
+		if (token->type != type)
+			double_lstadd_back(&new_list, double_lstnew(token_dup(token)));
+		list = list->next;
+	}
+	double_lstclear(&old_list, token_free);
+	return (new_list);
+}
 
 void	handle_backslash(t_double_list *backslash)
 {

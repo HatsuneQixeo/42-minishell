@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 11:33:48 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 12:54:53 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 
 /* ********** TOKENIZER ********** */
 
+/* ms_tokenizer */
 t_double_list	*ms_tokenizer(char *input);
 t_token_type	token_type_identify(char c);
 t_token			*token_create(void *value, t_token_type type);
@@ -69,18 +70,23 @@ void			*token_value_get(t_token *token);
 void			token_type_set(t_token *token, t_token_type type);
 
 /* utils_token_others */
+t_token	        *token_dup(t_token *token);
 void			rm_token_value(t_token *token);
-void			list_token_type_set(t_double_list *list, t_token_type set_type);
 t_token			*concat_2_tokens(t_token *t1, t_token *t2, t_token_type type);
+void			list_token_type_set(t_double_list *list, t_token_type set_type);
 
 /* ********** PARSER ********** */
 
+/* ms_parser */
+void	        parser_free(t_parser **p);
+t_ast	        *ms_parser(t_double_list *token_list);
 void			parse_token_type_reassign(t_double_list *token_list);
 void			parse_token_type_same_concat(t_double_list *token_list);
 void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
-
+t_double_list	*tokenlist_regroup(t_double_list *token_list);
+t_double_list	*tokenlist_filter(t_double_list *list, t_token_type type);
 
 /* parse_redir */
 t_ast	        *parse_redir(t_parser *p);
