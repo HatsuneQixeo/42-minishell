@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ char	*simpleexpand(char **envp, const char *arg)
 	if (var != arg)
 		ft_lstadd_back(&lst_buffer, ft_lstnew(ft_strdup(arg)));
 	return (ft_lsttostr_clear(&lst_buffer));
-}
-
-void	heredoc_expand(char **envp, t_list *lst)
-{
-	while (lst != NULL)
-	{
-		lst->content = ft_strmodify(strmod_replace, lst->content,
-				simpleexpand(envp, lst->content));
-		lst = lst->next;
-	}
 }
 
 char	**expand_lst_argv(char **envp, t_list *lst)

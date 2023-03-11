@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	heredoc_limiter(char *limiter)
 	return (hasquote);
 }
 
-/* Gonna have to handle signal, not exactly sure how to deal with ctrl-c */
-t_list	*heredoc(const char *limiter)
+char	*heredoc(const char *limiter)
 {
 	t_list	*lst_buffer;
 	char	*input;
@@ -43,10 +42,8 @@ t_list	*heredoc(const char *limiter)
 		input = readline("heredoc> ");
 		if (input == NULL || !ft_strcmp(limiter, input))
 			break ;
-		// ft_lstadd_back(&lst_buffer, ft_lstnew(
-		// 		ft_strmodify(ft_strjoin, input, "\n")));
 		ft_lstadd_back(&lst_buffer, ft_lstnew(input));
 	}
 	free(input);
-	return (lst_buffer);
+	return (ft_lsttostr_delimiter_clear(&lst_buffer, "\n"));
 }

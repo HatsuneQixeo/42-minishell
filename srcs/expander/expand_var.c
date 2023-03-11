@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ char	*expand_var(char **envp, const char **p_it)
 {
 	const char	chr = (*p_it)[1];
 
-	// ft_dprintf(2, "expandchr: %c\n", chr);
-	// ft_dprintf(2, "expandptr: %s\n", *p_it);
 	if ((*p_it)[0] != '$')
 	{
 		ft_dprintf(2, "expand_var is called"

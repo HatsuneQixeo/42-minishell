@@ -6,27 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-
-static void	exectrl_exe(t_data *data, t_list *lst_exe)
-{
-	t_ctrl	*ctrl;
-
-	ctrl = lst_exe->content;
-	if (!ctrl->condition())
-		return ;
-	else if (lst_exe->next != NULL)
-		exectrl_piping(data, lst_exe);
-	else
-		g_lastexit = ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
-	debug_errno("execute end");
-	if (!access(HEREDOC_TXT, F_OK))
-		unlink(HEREDOC_TXT);
-}
 
 static t_list	*exectrl_getlstpipe(t_list **lst_ctrl)
 {
@@ -42,6 +26,22 @@ static t_list	*exectrl_getlstpipe(t_list **lst_ctrl)
 		ft_lstadd_back(&lst_exe, ft_lstextract_front(lst_ctrl));
 	}
 	return (lst_exe);
+}
+
+static void	exectrl_exe(t_data *data, t_list *lst_exe)
+{
+	t_ctrl	*ctrl;
+
+	ctrl = lst_exe->content;
+	if (!ctrl->condition())
+		return ;
+	else if (lst_exe->next != NULL)
+		exectrl_piping(data, lst_exe);
+	else
+		g_lastexit = ctrl->ft_exe(data, ctrl->lst_args, ctrl->lst_rdrt);
+	debug_errno("execute end");
+	if (!access(HEREDOC_TXT, F_OK))
+		unlink(HEREDOC_TXT);
 }
 
 void	ms_executor(t_data *data, t_list **lst_ctrl)

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:17 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	leakfd(const char *dummy2)
 // 		return ;
 // 	ft_dprintf(2, "\nleakcheck: %s\n", str);
 // 	snprintf(buffer, sizeof(buffer), "leaks -q %d >&2", getpid());
+// 	/* Forbidden */
 // 	system(buffer);
 // }
 
@@ -82,7 +83,7 @@ void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
 
 void	debug_errno(const char *name)
 {
-	if (!DBG_ERRNO || !DEBUG)
+	if (!(DEBUG && DBG_ERRNO))
 		return ;
 	ft_dprintf(2, "%s errno: %d\n", name, g_lastexit);
 }

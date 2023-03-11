@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,25 @@ static char	*ft_findcommand(char **envp, const char *command)
 	if (strlist_path == NULL)
 		return (NULL);
 	y = -1;
+	abspath_command = NULL;
 	while (strlist_path[++y] != NULL)
 	{
 		abspath_command = ft_strmerge("%s/%s", strlist_path[y], command);
 		if (!access(abspath_command, F_OK))
-		{
-			ft_strlistclear(strlist_path);
-			return (abspath_command);
-		}
+			break ;
 		free(abspath_command);
+		abspath_command = NULL;
 	}
 	ft_strlistclear(strlist_path);
-	return (NULL);
+	return (abspath_command);
 }
 
 static void	exec_program(char **envp, char **argv)
 {
 	char	*prgpath;
 
+	termios_ctrl(TERMSHOW);
+	mssig_default();
 	prgpath = ft_findcommand(envp, argv[0]);
 	if (prgpath == NULL)
 		ms_errlog("%s: command not found\n", argv[0]);
@@ -73,5 +74,7 @@ int	execution(t_data *data, char **argv)
 		exec_program(data->envp, argv);
 	else
 		waitpid(pid, &status, 0);
+	if (!WIFEXITED(status))
+		return (128 + WTERMSIG(status));
 	return (WEXITSTATUS(status));
 }

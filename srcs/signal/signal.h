@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:22:18 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:18 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:27 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 
 # include "ms_common.h"
 # include <signal.h>
+# include <termios.h>
+
+# define TERMHIDE	0
+# define TERMSHOW	1
 
 void	sig_show(int idunno);
 void	sig_discardline(int sig);
 
-void	mssig_readline(void);
+void	termios_ctrl(int showctrl);
+
 void	mssig_default(void);
 
 #endif

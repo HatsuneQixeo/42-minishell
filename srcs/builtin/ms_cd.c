@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:15 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:24 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	cd_updatepath(char **envp, const char *path)
 {
-	char	cwd[831];
+	char	cwd[PATH_MAX];
 /* Should I export? or just update */
 
 	if (!getcwd(cwd, sizeof(cwd)))

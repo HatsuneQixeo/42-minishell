@@ -1,0 +1,2 @@
+(echo $MIKU && (echo is && echo cute) || echo $MIKU is cute) | tr [:lower:] [:upper:]
+echo $MIKU | (echo cat1 && cat && (echo cat2 && cat))

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void	exectrl_piping(t_data *data, t_list *lst_exe)
 		return ;
 	pipe_connection(data, lst_exe, arr_pid);
 	pipe_wait(arr_pid, arr_pid + size);
-	debug_errno("exectrl_piping");
+	debug_errno("exectrl_piping end");
 	free(arr_pid);
 }

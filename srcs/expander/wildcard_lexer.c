@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:22:16 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static t_list	*wildcard_lexer(const char *str)
 	t_list		*lst_pattern;
 
 	lst_pattern = NULL;
-	ft_dprintf(2, "lexer lexing: [%s]\n", str);
 	while (wildcard != NULL)
 	{
 		ft_lstadd_back(&lst_pattern, ft_lstnew(
@@ -27,9 +26,6 @@ static t_list	*wildcard_lexer(const char *str)
 		wildcard = ft_strchr(str, '*');
 	}
 	ft_lstadd_back(&lst_pattern, ft_lstnew(ft_strdup(str)));
-	lstshow_name("lst_pattern");
-	ft_lstiter(lst_pattern, lstshow_str);
-	lstshow_name(LSTNAME_DEFAULT);
 	return (lst_pattern);
 }
 

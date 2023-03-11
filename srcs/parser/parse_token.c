@@ -1,17 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_token.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/11 23:21:26 by hqixeo            #+#    #+#             */
+/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static t_rdrt	*parse_rdrt_new(t_token *token_rdrt, t_token *token_arg)
 {
-	t_rdrt	*rdrt;
-
-	rdrt = rdrt_new(rdrt_getft(token_rdrt->value), token_arg->value);
-	if (rdrt->ft_rdrt == rdrt_heredoc)
-	{
-		if (heredoc_limiter(rdrt->str_arg))
-			rdrt->ft_rdrt = rdrt_quotedheredoc;
-		rdrt->lst_value = heredoc(rdrt->str_arg);
-	}
-	return (rdrt);
+	return (rdrt_new(rdrt_getft(token_rdrt->value), token_arg->value));
 }
 
 int	parse_rdrt(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition)

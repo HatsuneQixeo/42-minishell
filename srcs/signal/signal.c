@@ -6,44 +6,38 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:52:49 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:17 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include "ms_common.h"
+#include "signal.h"
+#define TCFD	0
 
 void	sig_show(int idunno)
 {
 	ft_dprintf(2, "sig: %d\n", idunno);
 }
 
+void	termios_ctrl(int showctrl)
+{
+	struct termios	term;
+
+	tcgetattr(TCFD, &term);
+	if (showctrl)
+		term.c_lflag |= ECHOCTL;
+	else
+		term.c_lflag &= ~ECHOCTL;
+	tcsetattr(TCFD, TCSANOW, &term);
+}
+
 void	sig_discardline(int sig)
 {
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_lastexit = 1;
 	(void)sig;
-}
-
-void	mssig_readline(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_discardline);
-}
-
-void	mssig_parent(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
-}
-
-void	mssig_heredoc(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_DFL);/* interrupt, return from executing the program */
 }
 
 void	mssig_default(void)

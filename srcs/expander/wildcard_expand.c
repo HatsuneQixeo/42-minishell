@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:22:16 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:16 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	**wildcard_expand(t_list *lst_pattern)
 {
 	char	**strlist_content;
 
-	ft_lstiter(lst_pattern, lstshow_str);
 	strlist_content = dir_content(".");
 	if (((const char *)lst_pattern->content)[0] != '.')
 		ft_aaremove((void **)strlist_content, cmp_strprefix, ".", free);

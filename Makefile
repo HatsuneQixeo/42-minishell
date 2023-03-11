@@ -1,11 +1,17 @@
 NAME		:=	minishell
-DPDLINK		:=	-lreadline -lncurses -L/usr/local/opt/readline/lib
+
+DPDLINK		:=	-lreadline -lncurses
+DPDLINK		+=	-L/usr/local/opt/readline/lib
+
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -Werror -I/usr/local/opt/readline/include
+CFLAGS		:=	-Wall -Wextra -Werror
 # CFLAGS		:=	-Wall -Werror
 CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
-# CFLAGS		+=	-fsanitize=address -g
-CFLAGS		+=	-D DBG_ERRNO=1 -D DEBUG=1
+ifndef DEBUG
+	DEBUG=0
+endif
+CFLAGS		+=	-D DEBUG=${DEBUG} -D DBG_ERRNO=1
+
 LIBFT		:=	libft/libft.a
 LIBFT_MAKE	:=	make -C libft
 
@@ -14,10 +20,12 @@ SRCS		:=	$(shell find ${SRC_DIR} -name "*.c")
 
 HEADER		:=	$(shell find ${SRC_DIR} -name "*.h")
 INCLUDE		:=	$(addprefix -I, $(sort $(dir ${HEADER}) libft/include))
+INCLUDE		+=	-I/usr/local/opt/readline/include
 
 OBJ_DIR		:=	objs
 OBJS		:=	$(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRCS})
 RM			:=	rm -rf
+
 #text_color
 DEFAULT		:=	\033[0m
 RED			:=	\033[0;31m

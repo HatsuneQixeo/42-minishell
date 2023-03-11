@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/07 15:22:18 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:21:27 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "ctrl.h"
 # include "expander.h"
 # include "builtin.h"
+# include "signal.h"
 
 int		exec_builtin(t_data *data, char **argv);
 int		execution(t_data *data, char **argv);
