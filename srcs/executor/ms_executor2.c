@@ -219,23 +219,42 @@ void	execute_cmd(t_ast *cmd_node)
 	execute_processes(cmd_node);
 }
 
-void	execution_wait(void)
+void	execution_pipe_wait(t_double_list *pid_list)
 {
 	pid_t	pid;
 	int		status;
 
+	// while (pid_list)
+	// {
+	// 	pid = *((pid_t *)pid_list->content);
+	// 	printf("wait %d\n", pid);
+	// 	waitpid(pid, NULL, 0);
+	// 	// printf("ok\n");
+	// 	pid_list = pid_list->next;
+	// }
+
 	while (true)
 	{
-		pid = waitpid(-1, &status, 0);
-		if (pid <= 0)
+		if (waitpid(-1, NULL, 0) <= 0)
 			break ;
 	}
+	// while (true)
+	// {
+		//
+		// printf("fdsfsdfd\n");
+		// printf("%d\n", pid);
+		// perror("test");
+		// pid = waitpid(-1, &status, 0);
+		// printf("%d\n", pid);
+		// if (pid <= 0)
+			// break ;
+	// }
 }
 
 void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd)
 {
-	pid_t	pid;
-	int		pipe_fd[2];
+	pid_t					pid;
+	int						pipe_fd[2];
 
 	if (!pipe_node)
 		return ;
@@ -249,22 +268,53 @@ void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd)
 		{
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			child_process(pipe_node->left);
+			close(pipe_fd[1]);
 		}
 		else if (pipe_stage == 2)
 		 	child_process(pipe_node);
 	}
 	close(pipe_fd[1]);
-	waitpid(-1, NULL, 0);
 	if (pipe_node->right && ast_gettype(pipe_node->right) == AST_PIPE)
 		execute_pipe(pipe_node->right, 1, pipe_fd[0]);
 	else if (pipe_node->right && ast_gettype(pipe_node->right) == AST_CMD)
 		execute_pipe(pipe_node->right, 2, pipe_fd[0]);
+	close(pipe_fd[0]);
+	waitpid(-1, NULL, 0);
+}
+
+void	execute_pipe2(t_ast *pipe_node)
+{
+	int		pipe_fd[2];
+	t_ast	*tmp_node;
+	pid_t	pid;
+
+	if (pipe(pipe_fd) == -1)
+		perror("pipe");
+	// child_process(pipe_node->left);
+	tmp_node = pipe_node;
+	while (tmp_node)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			
+			child_process(tmp_node->left);
+		}
+		tmp_node = tmp_node->right;
+	}
+	child_process(tmp_node);
 }
 
 void	execute_job(t_ast *job_node)
 {
+	// t_double_list	*pid_list;
+
 	if (ast_gettype(job_node) == AST_PIPE)
+	{
+		// pid_list = execute_pipe(job_node, 1, 0);
 		execute_pipe(job_node, 1, 0);
+		// execution_pipe_wait(pid_list);
+	}
 	else
 		execute_cmd(job_node);
 }
