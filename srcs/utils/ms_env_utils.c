@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:47:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/24 07:52:56 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:57:23 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	@brief Duplicate all strings in envp.
 	@note Duplicated strings are stored in double linked list.
  */
-t_double_list	*env_init(char **envp)
+t_double_list	*envp_init(char **envp)
 {
 	int				i;
 	char			*value;
@@ -32,17 +32,18 @@ t_double_list	*env_init(char **envp)
 	return (env_list);
 }
 
-/* 
-	@brief Store env_list in static pointer or get env_list.
-	@note pass NULL to get env_list and not override the static pointer.
- */
-t_double_list	*env_set_or_get(t_double_list *env_head)
+t_double_list	*envp_set(t_double_list *envp)
 {
-	static t_double_list	*env_list = NULL;
+	static t_double_list	*envp_list = NULL;
 
-	if (env_head)
-		env_list = env_head;
-	return (env_list);
+	if (envp)
+		envp_list = envp;
+	return (envp_list);
+}
+
+t_double_list	*envp_get(void)
+{
+	return (envp_set(NULL));
 }
 
 /* 
@@ -56,7 +57,8 @@ char	*env_value_get(char *env_var)
 	int				env_var_len;
 
 	env_var_len = ft_strlen(env_var);
-	env_list = env_set_or_get(NULL);
+	// env_list = envp_set_or_get(NULL);
+	env_list = envp_get();
 	while (env_list)
 	{
 			env_str = env_list->content;
@@ -67,7 +69,7 @@ char	*env_value_get(char *env_var)
 	return (NULL);
 }
 
-void	env_free(t_double_list **env_list)
+void	envp_free(t_double_list **env_list)
 {
 	double_lstclear(env_list, free);
 }

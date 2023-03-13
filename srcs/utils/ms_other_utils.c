@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/24 14:17:08 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:04:29 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	util_arr_str_free(void *arr_str)
 	int		i;
 	char	**arr;
 
+	if (!arr_str)
+		return ;
 	i = -1;
 	arr = arr_str;
 	while (arr[++i])

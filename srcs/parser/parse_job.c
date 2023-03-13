@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:43:14 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 10:01:30 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/11 13:14:43 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ast	*job_pattern_1_subshell_pipe(t_parser *p)
 {
 	t_ast		*cmd_node;
 	t_ast		*job_node;
-	t_ast		*parent_node;
+	t_ast		*pipe_node;
 
 	if (s_match_and_consume_token(OPEN_PAREN, p->scanner))
 	{
@@ -32,10 +32,10 @@ t_ast	*job_pattern_1_subshell_pipe(t_parser *p)
 				job_node = parse_job(p);
 				if (job_node)
 				{
-					parent_node = ft_calloc(1, sizeof(t_ast));
-					ast_settype(parent_node, AST_PIPE);
-					ast_attach(parent_node, cmd_node, job_node);
-					return (parent_node);
+					pipe_node = ft_calloc(1, sizeof(t_ast));
+					ast_settype(pipe_node, AST_PIPE);
+					ast_attach(pipe_node, cmd_node, job_node);
+					return (pipe_node);
 				}
 			}
 			ast_delete(&cmd_node);
@@ -52,7 +52,7 @@ t_ast	*job_pattern_2_cmd_pipe(t_parser *p)
 {
 	t_ast		*cmd_node;
 	t_ast		*job_node;
-	t_ast		*parent_node;
+	t_ast		*pipe_node;
 
 	cmd_node = parse_cmd(p);
 	if (cmd_node)
@@ -62,10 +62,10 @@ t_ast	*job_pattern_2_cmd_pipe(t_parser *p)
 			job_node = parse_job(p);
 			if (job_node)
 			{
-				parent_node = ft_calloc(1, sizeof(t_ast));
-				ast_settype(parent_node, AST_PIPE);
-				ast_attach(parent_node, cmd_node, job_node);
-				return (parent_node);
+				pipe_node = ft_calloc(1, sizeof(t_ast));
+				ast_settype(pipe_node, AST_PIPE);
+				ast_attach(pipe_node, cmd_node, job_node);
+				return (pipe_node);
 			}
 		}
 		ast_delete(&cmd_node);

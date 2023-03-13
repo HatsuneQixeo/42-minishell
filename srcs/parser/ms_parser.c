@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 12:59:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 16:43:38 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,11 @@ t_ast	*ms_parser(t_double_list *token_list)
 {
 	t_parser		*p;
 	t_ast			*ast;
-	t_double_list	*filtered_token_list;
 
 	tokenlist_regroup(token_list);
-	filtered_token_list = tokenlist_filter(token_list, SPACES);
-	p = parser_init(filtered_token_list);
+	p = parser_init(tokenlist_filter(token_list, SPACES));
 	ast = parse_cmdline(p);
-	if (p->scanner->cursor)
+	if (p->scanner->cursor != NULL)
 	{
 		util_perror("syntax error: ", s_get_token(p->scanner)->value);
 		ast_delete(&ast);

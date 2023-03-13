@@ -6,11 +6,16 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 10:44:14 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 11:02:20 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/10 16:50:36 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ast_gettype(t_ast *node)
+{
+	return (node->type & (~AST_DATA));
+}
 
 void	ast_settype(t_ast *node, t_asttype type)
 {

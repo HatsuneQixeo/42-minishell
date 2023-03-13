@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 09:36:33 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/28 09:33:56 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:50:12 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_executable(char *path_to_file)
 	ft_bzero(&file_stat, sizeof(struct stat));
 	if (stat(path_to_file, &file_stat) == -1)
 	{
-		util_perror(path_to_file, ": No such file or directory");
+		util_perror(path_to_file, ": command not found");
 		return (false);
 	}
 	else if ((file_stat.st_mode & S_IFMT) == S_IFDIR)

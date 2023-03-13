@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 17:21:01 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/13 06:56:54 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_stack
 }	t_stack;
 
 /* Abstract Syntax Tree */
-typedef struct	s_ast
+typedef struct s_ast
 {
 	int				type;
 	char			*data;
@@ -48,7 +48,8 @@ typedef struct	s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-typedef enum	e_asttype{
+typedef enum e_asttype
+{
 	AST_PIPE =		(1 << 0),
 	AST_SEQ =		(1 << 1),
 	AST_AND =		(1 << 2),
@@ -107,7 +108,7 @@ typedef struct s_token
 	token_list = Store tokens.
 	cursor = Point to the current token.
  */
-typedef struct	s_scanner
+typedef struct s_scanner
 {
 	t_double_list	*token_list;
 	t_double_list	*cursor;
@@ -118,7 +119,21 @@ typedef struct s_parser
 	t_scanner	*scanner;
 	t_ast		*cmd_ast;
 	t_ast		**and_or_ast;
-	// t_ast		*and_or_ast;
 }	t_parser;
 
+/* ********** EXECUTOR ********* */
+
+typedef struct s_cmd
+{
+	int		argc;
+	char	**argv;
+}	t_cmd;
+
+/* ********** DEBUG ********** */
+
+typedef struct s_key_value
+{
+	t_asttype	key;
+	void		*value;
+}	t_key_value;
 #endif

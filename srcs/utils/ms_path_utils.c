@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:18:22 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/24 15:36:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:13:35 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char	*absolute_path_find(char *file_name)
 {
 	int		i;
 	char	*tmp;
-	char	*absolute_path;
 	char	**paths;
+	char	*absolute_path;
 
 	i = -1;
 	absolute_path = NULL;
@@ -76,6 +76,8 @@ char	*absolute_path_find(char *file_name)
 			break ;
 		}
 	}
+	if (file_name && !absolute_path)
+		absolute_path = ft_strdup(file_name);
 	util_arr_str_free(paths);
 	return (absolute_path);
 }

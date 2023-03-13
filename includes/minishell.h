@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 12:54:53 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/13 06:58:42 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define SUCCESS 0
 # define ERROR 1
-# define EMPTY 2
 # define ERR_SYNTAX 0x0000DEAD
 
 /* Readline function */
@@ -37,13 +36,16 @@
 /* open() */
 # include <fcntl.h>
 
+/* self-defined headers */
+# include "libft.h"
+# include "ms_struct.h"
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
 # include <unistd.h>
 
-# include "libft.h"
-# include "ms_struct.h"
+int g_exit_status;
 
 /* ********** TOKENIZER ********** */
 
@@ -70,7 +72,7 @@ void			*token_value_get(t_token *token);
 void			token_type_set(t_token *token, t_token_type type);
 
 /* utils_token_others */
-t_token	        *token_dup(t_token *token);
+t_token			*token_dup(t_token *token);
 void			rm_token_value(t_token *token);
 t_token			*concat_2_tokens(t_token *t1, t_token *t2, t_token_type type);
 void			list_token_type_set(t_double_list *list, t_token_type set_type);
@@ -78,8 +80,8 @@ void			list_token_type_set(t_double_list *list, t_token_type set_type);
 /* ********** PARSER ********** */
 
 /* ms_parser */
-void	        parser_free(t_parser **p);
-t_ast	        *ms_parser(t_double_list *token_list);
+void			parser_free(t_parser **p);
+t_ast			*ms_parser(t_double_list *token_list);
 void			parse_token_type_reassign(t_double_list *token_list);
 void			parse_token_type_same_concat(t_double_list *token_list);
 void			handle_quote(t_double_list *quote);
@@ -89,16 +91,16 @@ t_double_list	*tokenlist_regroup(t_double_list *token_list);
 t_double_list	*tokenlist_filter(t_double_list *list, t_token_type type);
 
 /* parse_redir */
-t_ast	        *parse_redir(t_parser *p);
-t_ast	        *parse_redir_in(t_parser *p);
-t_ast	        *redir_in_pattern_1_heredoc(t_parser *p);
+t_ast			*parse_redir(t_parser *p);
+t_ast			*parse_redir_in(t_parser *p);
+t_ast			*redir_in_pattern_1_heredoc(t_parser *p);
 t_ast			*redir_in_pattern_2_infile(t_parser *p);
 t_ast			*redir_out_pattern_1_append(t_parser *p);
 t_ast			*redir_out_pattern_2_outfile(t_parser *p);
 t_ast			*parse_redir_out(t_parser *p);
 
 /* parse_tokenlist */
-t_ast	        *node_init(t_asttype node_type);
+t_ast			*node_init(t_asttype node_type);
 t_ast			*parse_tokenlist(t_parser *p);
 t_ast			*tokenlist_pattern_3_args(t_parser *p);
 t_ast			*tokenlist_pattern_2_redir(t_parser *p);
@@ -108,7 +110,7 @@ t_ast			*tokenlist_pattern_1_cmd_name(t_parser *p);
 t_ast			*parse_cmd(t_parser *p);
 t_ast			*cmd_pattern_1_tokenlist(t_parser *p);
 
-void	print_ast(t_ast *root, int indent);
+void			debug_print_ast(t_ast *root, int indent);
 /* parse_job */
 t_ast			*parse_job(t_parser *p);
 t_ast			*job_pattern_1_subshell_pipe(t_parser *p);
@@ -118,42 +120,41 @@ t_ast			*job_pattern_4_cmd(t_parser *p);
 
 /* parse_and_or */
 t_ast			*parse_and_or(t_parser *p);
-t_ast	        *and_or_node_init(int node_type, t_ast *attach_left_node);
-t_ast	        *and_or_pattern_1_and(t_parser *p);
-t_ast	        *and_or_pattern_2_or(t_parser *p);
-t_ast	        *and_or_pattern_3_job(t_parser *p);
-t_ast	        *and_or_pattern_4_cmd_line_and(t_parser *p);
-t_ast	        *and_or_pattern_5_cmd_line_or(t_parser *p);
-t_ast	        *and_or_pattern_6_cmd_line(t_parser *p);
+t_ast			*and_or_node_init(int node_type, t_ast *attach_left_node);
+t_ast			*and_or_pattern_1_and(t_parser *p);
+t_ast			*and_or_pattern_2_or(t_parser *p);
+t_ast			*and_or_pattern_3_job(t_parser *p);
+t_ast			*and_or_pattern_4_cmd_line_and(t_parser *p);
+t_ast			*and_or_pattern_5_cmd_line_or(t_parser *p);
+t_ast			*and_or_pattern_6_cmd_line(t_parser *p);
 
 /* parse_cmdline */
-t_ast	        *parse_cmdline(t_parser *p);
-t_ast	        *cmd_line_pattern_1_andor_cmdline(t_parser *p);
-t_ast	        *cmd_line_pattern_2_andor_seq(t_parser *p);
-t_ast	        *cmd_line_pattern_3_andor(t_parser *p);
+t_ast			*parse_cmdline(t_parser *p);
+t_ast			*cmd_line_pattern_1_andor_cmdline(t_parser *p);
+t_ast			*cmd_line_pattern_2_andor_seq(t_parser *p);
+t_ast			*cmd_line_pattern_3_andor(t_parser *p);
 
 /* util_scanner */
-void	        s_free(t_scanner **scanner);
+void			s_free(t_scanner **scanner);
 t_double_list	*s_next(t_scanner *scanner);
-t_token	        *s_get_token(t_scanner *scanner);
-t_scanner	    *s_init(t_double_list *token_list);
-bool	        s_token_type_matches(t_token_type match_type, t_scanner *s);
-bool			s_match_and_consume_token(t_token_type match_type, t_scanner *s);
+t_token			*s_get_token(t_scanner *scanner);
+t_scanner		*s_init(t_double_list *token_list);
+bool			s_token_type_matches(t_token_type type, t_scanner *s);
+bool			s_match_and_consume_token(t_token_type type, t_scanner *s);
 
 /* util_ast */
-void	        ast_delete(t_ast **node);
-int	            ast_gettype(t_ast *node);
-void	        ast_setdata(t_ast *node, char *data);
-void	        ast_settype(t_ast *node, t_asttype type);
-void	        cmd_ast_insert_left(t_ast *root, t_ast *node);
-void	        cmd_ast_insert_right(t_ast *root, t_ast *node);
-void	        ast_attach(t_ast *root, t_ast *left, t_ast *right);
-void	        and_or_ast_insert_top(t_ast **ast_root, t_ast *new_node);
-void	        and_or_ast_insert_last(t_ast **ast_root, t_ast *new_node);
+void			ast_delete(t_ast **node);
+int				ast_gettype(t_ast *node);
+void			ast_setdata(t_ast *node, char *data);
+void			ast_settype(t_ast *node, t_asttype type);
+void			cmd_ast_insert_left(t_ast *root, t_ast *node);
+void			cmd_ast_insert_right(t_ast *root, t_ast *node);
+void			ast_attach(t_ast *root, t_ast *left, t_ast *right);
+void			and_or_ast_insert_top(t_ast **ast_root, t_ast *new_node);
+void			and_or_ast_insert_last(t_ast **ast_root, t_ast *new_node);
 
 /* util_pattern_searcher */
-t_ast	*pattern_searcher(t_ast *(*pattern_func[])(t_parser *), t_parser *p);
-
+t_ast			*pattern_searcher(t_ast *(*pattern[])(t_parser *), t_parser *p);
 
 /* ********** EXECUTOR ********** */
 
@@ -165,6 +166,9 @@ void			execute_token_literal(t_token *token);
 void			run_parent_process_literal(void);
 void			run_process_literal(char *path_name, char **cmd_line);
 void			run_child_process_literal(char *path_name, char **cmd_line);
+
+/* ms_executor */
+void	        ms_executor_prototype(t_ast *root);
 
 /* ********** DATA STRUCTURE ********** */
 
@@ -181,7 +185,6 @@ void			double_lstclear(t_double_list **lst, void (*del)(void *));
 void			ast_create(t_node **root, t_double_list *token_list);
 void			ast_add_token_operator(t_node **root, t_token *token);
 void			ast_add_token_literal(t_node **root, t_double_list *list);
-// void			ast_delete(t_node **root);
 void			ast_del_content_token(void *token);
 
 /* Binary Tree */
@@ -199,10 +202,11 @@ void			stack_push(t_stack *stack, char item);
 
 /* ********** ENVIRONMENT VARIABLE POINTER ********** */
 
-t_double_list	*env_init(char **envp);
+t_double_list	*envp_get(void);
+t_double_list	*envp_init(char **envp);
 char			*env_value_get(char *env_var);
-t_double_list	*env_set_or_get(t_double_list *env_head);
-void			env_free(t_double_list **env_list);
+void			envp_free(t_double_list **env_list);
+t_double_list	*envp_set(t_double_list *envp);
 
 /* ********** PATH ********** */
 
@@ -219,6 +223,7 @@ char			**util_list_to_arr_str(t_double_list *list);
 /* ********** DEBUG ********** */
 
 void			debug_env_content_print(void *content);
+void	        debug_print_ast(t_ast *root, int indent);
 void			debug_token_content_print(void *content);
 void			debug_ast_content_print(t_node *root, int depth);
 void			debug_list_content_print(t_double_list *lst, void (*f)(void *));
