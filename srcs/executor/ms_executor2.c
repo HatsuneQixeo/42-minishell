@@ -194,7 +194,7 @@ void	parent_process(pid_t child_pid)
 		}
 	}
 	//
-	printf("exit_status = %d\n", g_exit_status);
+	// printf("exit_status = %d\n", g_exit_status);
 }
 
 pid_t	execute_processes(t_ast *cmd_node)
@@ -232,36 +232,12 @@ void	execution_wait(void)
 	}
 }
 
-// void				the_pipelines(t_btree *root, int count, int backup_fd)
-// {
-// 	int				fd[2];
-// 	int				pid;
-
-// 	if (!root)
-// 		return ;
-// 	pipe(fd);
-// 	if ((pid = fork()) == 0)
-// 	{
-// 		dup2(backup_fd, 0);
-// 		if (count)
-// 			dup2(fd[1], 1);
-// 		close(fd[0]);
-// 		if (count)
-// 			dealt_exec_cmd(root->left);
-// 		else
-// 			dealt_exec_cmd(root);
-// 		exit(g_info.ret);
-// 	}
-// 	close(fd[1]);
-// 	the_pipelines(root->right, count - 1, fd[0]);
-// 	pid = wait(NULL);
-// }
 void	execute_job(t_ast *job_node);
 
 void	execute_pipe(t_ast *pipe_node, int pipe_stage, int in_fd)
 {
-	int		pipe_fd[2];
 	pid_t	pid;
+	int		pipe_fd[2];
 
 	if (!pipe_node)
 		return ;
@@ -270,38 +246,22 @@ void	execute_pipe(t_ast *pipe_node, int pipe_stage, int in_fd)
 	if (pid == 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
-		if (pipe_stage == 1)
-			dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
-		if (pipe_stage == 1)	
-			execute_cmd(pipe_node->left);
-		else if (pipe_stage == 2)
-			execute_job(pipe_node);
-			// execute_cmd(pipe_node);
-		// else
-			// execute_pipe(pipe_node, 1, 0);
-		// exit(0);
-		// else if (ast_gettype(pipe_node) == AST_PIPE)
-			// execute_pipe(pipe_node, 1, 0);
+		if (pipe_stage == 1)
+		{
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			child_process(pipe_node->left);
+		}
+		// else if (pipe_stage == 2 && ast_gettype(pipe_node) != AST_PIPE)
+		else if (pipe_stage == 2 && ast_gettype(pipe_node) != AST_ARG)
+		 	child_process(pipe_node);
 	}
 	close(pipe_fd[1]);
-	execute_pipe(pipe_node->right, 2, pipe_fd[0]);
-	// exit(0);
-	// waitpid(-1, NULL, 0);
-	// while (true)	
-	// {
-	// 	pid = waitpid(-1, NULL, 0);
-	// 	if (pid <= 0)
-	// 		break ;
-	// 	// else if (pid == child_pid)
-	// 	// {
-	// 	// 	if (WIFEXITED(child_status))
-	// 	// 		g_exit_status = WEXITSTATUS(child_status);
-	// 	// 	//WIFSIGNALED...
-	// 	// }
-	// }
-	// exit(0);
-
+	waitpid(-1, NULL, 0);
+	if (pipe_node->right && ast_gettype(pipe_node->right) == AST_PIPE)
+		execute_pipe(pipe_node->right, 1, pipe_fd[0]);
+	else
+		execute_pipe(pipe_node->right, 2, pipe_fd[0]);
 }
 
 void	execute_job(t_ast *job_node)
