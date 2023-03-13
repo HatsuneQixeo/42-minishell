@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/13 20:08:14 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:40:56 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	main(int ac, char **av, char **envp)
 	t_double_list	*envp_list;
 	t_double_list	*token_list;
 
-	// input = "echo a | echo b | echo c";
-	// input = "cat Makefile";
-	input = "ls | cat | wc | wc";
+	input = "echo a ; echo b";
+	// input = "ls | cat | a";
+	// input = "ls | cat | wc | wc";
 	g_exit_status = 0;
 	envp_list = envp_init(envp);
 	token_list = ms_tokenizer(input);

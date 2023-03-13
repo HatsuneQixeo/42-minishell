@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:01:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/13 06:58:18 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:41:37 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	debug_print_ast(t_ast *root, int indent)
 		{AST_PIPE, "|"},
 		{AST_AND, "&&"},
 		{AST_OR, "||"},
+		{AST_SEQ, ";"},
 		{0, 0}
 	};
 

@@ -232,9 +232,7 @@ void	execution_wait(void)
 	}
 }
 
-void	execute_job(t_ast *job_node);
-
-void	execute_pipe(t_ast *pipe_node, int pipe_stage, int in_fd)
+void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
@@ -245,33 +243,30 @@ void	execute_pipe(t_ast *pipe_node, int pipe_stage, int in_fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(in_fd, STDIN_FILENO);
+		dup2(read_end_fd, STDIN_FILENO);
 		close(pipe_fd[0]);
 		if (pipe_stage == 1)
 		{
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			child_process(pipe_node->left);
 		}
-		// else if (pipe_stage == 2 && ast_gettype(pipe_node) != AST_PIPE)
-		else if (pipe_stage == 2 && ast_gettype(pipe_node) != AST_ARG)
+		else if (pipe_stage == 2)
 		 	child_process(pipe_node);
 	}
 	close(pipe_fd[1]);
 	waitpid(-1, NULL, 0);
 	if (pipe_node->right && ast_gettype(pipe_node->right) == AST_PIPE)
 		execute_pipe(pipe_node->right, 1, pipe_fd[0]);
-	else
+	else if (pipe_node->right && ast_gettype(pipe_node->right) == AST_CMD)
 		execute_pipe(pipe_node->right, 2, pipe_fd[0]);
 }
 
 void	execute_job(t_ast *job_node)
 {
-
-	if (ast_gettype(job_node) == AST_CMD)
-		execute_cmd(job_node);
-	else
+	if (ast_gettype(job_node) == AST_PIPE)
 		execute_pipe(job_node, 1, 0);
-	// execution_wait();
+	else
+		execute_cmd(job_node);
 }
 
 void	execute_and_or(t_ast *and_or_node)
@@ -280,25 +275,25 @@ void	execute_and_or(t_ast *and_or_node)
 
 	if (!and_or_node)
 		return ;
-	// root_type = ast_gettype(and_or_node);
-	// if (root_type == AST_AND)
-	// {
-	// 	execute_and_or(and_or_node->left);
-	// 	if (g_exit_status == 0)
-	// 		execute_and_or(and_or_node->right);
-	// }
-	// else if (root_type == AST_OR)
-	// {
-	// 	execute_and_or(and_or_node->left);
-	// 	if (g_exit_status != 0)
-	// 		execute_and_or(and_or_node->right);
-	// }
-	// else if (root_type == AST_SEQ)
-	// {
-	// 	execute_and_or(and_or_node->left);
-	// 	execute_and_or(and_or_node->right);
-	// }
-	// else
+	root_type = ast_gettype(and_or_node);
+	if (root_type == AST_AND)
+	{
+		execute_and_or(and_or_node->left);
+		if (g_exit_status == 0)
+			execute_and_or(and_or_node->right);
+	}
+	else if (root_type == AST_OR)
+	{
+		execute_and_or(and_or_node->left);
+		if (g_exit_status != 0)
+			execute_and_or(and_or_node->right);
+	}
+	else if (root_type == AST_SEQ)
+	{
+		execute_and_or(and_or_node->left);
+		execute_and_or(and_or_node->right);
+	}
+	else
 		execute_job(and_or_node);
 }
 
@@ -306,17 +301,16 @@ void	execute_cmdline(t_ast *cmdline_node)
 {
 	if (!cmdline_node)
 		return ;
-	// if (ast_gettype(cmdline_node) == AST_SEQ)
-	// {
-	// 	execute_and_or(cmdline_node->left);
-	// 	execute_cmdline(cmdline_node->right);
-	// }
-	// else
+	if (ast_gettype(cmdline_node) == AST_SEQ)
+	{
+		execute_and_or(cmdline_node->left);
+		execute_cmdline(cmdline_node->right);
+	}
+	else
 		execute_and_or(cmdline_node);
 }
 
 void	ms_executor_prototype(t_ast *root)
 {
-	// printf("%d\n", g_exit_status);
 	execute_cmdline(root);
 }
