@@ -62,11 +62,10 @@ static const char	*missing(void)
 		"subsh quote> ",
 		"subsh dquote> "
 	};
-	char				quote;
+	const char			quote = closing_quote(NULL);
 	int					index;
 
-	quote = closing_quote(NULL);
-	index = ((quote == '\'') || ((quote == '\"') * 2));
+	index = (quote == '\'') + ((quote == '\"') * 2);
 	index += ((closing_parenthesis(NULL) != 0) * 3);
 	return (missing[index]);
 }
@@ -94,17 +93,17 @@ char	*ms_closequote(const char *input_raw)
 {
 	char		*input;
 	char		*read;
-	const char	*ret;
+	const char	*prompt;
 
 	input = ft_strdup(input_raw);
 	while (1)
 	{
-		ret = missing_closing_character(input);
-		if (ret == ERR)
-			break ;
-		else if (ret == NULL)
+		prompt = missing_closing_character(input);
+		if (prompt == NULL)
 			return (input);
-		read = readline(ret);
+		else if (prompt == ERR)
+			break ;
+		read = readline(prompt);
 		if (read == NULL)
 			break ;
 		input = ft_strmodify(ft_strjoin, input, "\n");

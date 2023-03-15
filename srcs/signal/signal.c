@@ -21,7 +21,8 @@ void	termios_ctrl(int showctrl)
 {
 	struct termios	term;
 
-	tcgetattr(0, &term);
+	if (tcgetattr(0, &term) == -1)
+		return ;
 	if (showctrl == TERMSHOW)
 		term.c_lflag |= ECHOCTL;
 	else if (showctrl == TERMHIDE)
