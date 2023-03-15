@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int	exec_builtin(t_data *data, char **argv)
 	exe_amt = (sizeof(builtinlst) / sizeof(builtinlst[0]));
 	while (exe_amt--)
 	{
-		if (ft_strcmp(argv[0], builtinlst[exe_amt].name))
-			continue ;
-		return (builtinlst[exe_amt].ft(argv, data));
+		if (!ft_strcmp(argv[0], builtinlst[exe_amt].name))
+			return (builtinlst[exe_amt].ft(argv, data));
 	}
 	return (-1);
 }

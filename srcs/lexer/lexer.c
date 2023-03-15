@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ void	lstshow_lexertoken(void *content)
 	ft_dprintf(2, "%s: %-8s: %b\n"DEF,
 		lstname_token(NULL), str_type, token->value);
 }
-
-// int	find_tokenisstr(unsigned int i, const void *arr_token, const void *str)
-// {
-// 	const char	*value = ((const t_token *)arr_token)[i].value;
-
-// 	return (cmp_strprefix(str, value));
-// }
-
-// static const size_t		length = (sizeof(operators) / sizeof(operators[0]));
-// size_t	find = ft_arrfind(operators, length, find_tokenisstr, it);
-
-// return (&operators[find]);
 
 static const t_token	*tokentype(const char *it)
 {

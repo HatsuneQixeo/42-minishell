@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 12:16:10 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ typedef struct s_parselst
 	int			type;
 	t_ftparse	ft_parse;
 }			t_parselst;
-
-int	find_ftparse(unsigned int i, const void *parselst, const void *p_type)
-{
-	const int	lsttype = ((t_parselst *)parselst)[i].type;
-
-	return (lsttype == *(int *)p_type);
-}
 
 static int	parser_tokentype(t_ctrl *ctrl, t_list **lst_token,
 			t_ftctrl *condition)

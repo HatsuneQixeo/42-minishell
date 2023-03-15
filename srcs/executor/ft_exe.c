@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:26:22 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	exe_argv(t_data *data, t_list *lst_args, t_list *lst_rdrt)
 		status = argv_lstargs(data, lst_args);
 	if ((ft_dup3(fd_std[0], 0) == -1) + (ft_dup3(fd_std[1], 1) == -1))
 		return (831);
+	leakcheck("exe_argv");
 	return (status);
 }
 

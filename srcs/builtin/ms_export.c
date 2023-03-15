@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:24 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	ms_export(char **argv, t_data *data)
 	t_list	*lst_buffer;
 	int		retval;
 
-	lst_buffer = NULL;
 	if (argv[1] == NULL)
 	{
 		export_log(data->envp);
 		return (0);
 	}
+	lst_buffer = NULL;
 	retval = 0;
 	while (*++argv != NULL)
 	{

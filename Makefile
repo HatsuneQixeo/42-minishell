@@ -5,12 +5,10 @@ DPDLINK		+=	-L/usr/local/opt/readline/lib
 
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror
-# CFLAGS		:=	-Wall -Werror
-CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
-ifndef DEBUG
-	DEBUG=0
+# CFLAGS		+=	-Wno-unused-parameter -Wno-unused-function -Wno-unused-variable
+ifdef DEBUG
+CFLAGS		+=	-D DEBUG=1
 endif
-CFLAGS		+=	-D DEBUG=${DEBUG} -D DBG_ERRNO=1
 
 LIBFT		:=	libft/libft.a
 LIBFT_MAKE	:=	make -C libft
@@ -26,7 +24,7 @@ OBJ_DIR		:=	objs
 OBJS		:=	$(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRCS})
 RM			:=	rm -rf
 
-#text_color
+# text_color
 DEFAULT		:=	\033[0m
 RED			:=	\033[0;31m
 GREEN		:=	\033[0;32m
@@ -36,7 +34,7 @@ MAGENTA 	:=	\033[95m
 
 all: ${NAME}
 
-${OBJ_DIR} :
+${OBJ_DIR}:
 	mkdir $@
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c ${HEADER} | ${OBJ_DIR}
@@ -73,13 +71,13 @@ thisre:
 	${RM} ${NAME}
 	make
 
-kill :
+kill:
 	@killall -9 ${NAME}
 
-valgrind :
+valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${NAME}
 
 norm:
-	norminette ${HEADER} ${SRCS}
+	@norminette ${HEADER} ${SRCS}
 
-.PHONY: clean fclean all re ${LIBFT}
+.PHONY: clean fclean all re

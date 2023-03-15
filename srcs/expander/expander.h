@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:07 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:27 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:42 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ enum e_expandtoken
 void	lstshow_expandtoken(void *content);
 t_list	*expd_tokenizer(const char *arg);
 
-t_list	*wildcard_lstpattern(t_list *lst_token);
-char	**wildcard_expand(t_list *lst_pattern);
+t_list	*wc_lexer(t_list *lst_token);
+char	**wc_expand(t_list *lst_pattern);
 
 void	expd_delimitertoken(t_list **lst);
-t_list	*expd_parse(t_list **lst);
+void	expd_parse(t_list **lst);
 
 char	*simpleexpand(char **envp, const char *arg);
-
 char	*expand_var(char **envp, const char **p_it);
 t_list	*expand_arg(char **envp, char *value);
 
-void	heredoc_expand(char **envp, t_list *lst);
 char	**expand_lst_argv(char **envp, t_list *lst);
 
 #endif

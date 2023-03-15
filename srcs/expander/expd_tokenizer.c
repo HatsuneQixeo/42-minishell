@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:22:16 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	lstshow_expandtoken(void *content)
 {
 	const t_token	*token = content;
-	char			str_type[39];
+	char			str_type[831];
 
 	str_type[0] = '\0';
 	if (token->type & EXPAND)

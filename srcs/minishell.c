@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:52:48 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,6 @@
 #include "parser.h"
 #include "executor.h"
 #include "signal.h"
-
-int	heretoken(t_token *token_operator, t_token *token_arg)
-{
-	char	*herestr;
-
-	if (heredoc_limiter(token_arg->value))
-		token_operator->value = ft_strmodify(strmod_replace,
-				token_operator->value, ft_strdup("\"<<\""));
-	herestr = heredoc(token_arg->value);
-	if (herestr == NULL)
-		return (-1);
-	token_arg->value = ft_strmodify(strmod_replace, token_arg->value, herestr);
-	return (0);
-}
-
-int	ms_heredoc(t_list *lst_token)
-{
-	t_token	*token;
-
-	while (lst_token != NULL)
-	{
-		token = lst_token->content;
-		lst_token = lst_token->next;
-		if (!(token->type == RDRT && rdrt_getft(token->value) == rdrt_heredoc))
-			continue ;
-		if (heretoken(token, lst_token->content) == -1)
-			return (-1);
-		lst_token = lst_token->next;
-	}
-	return (0);
-}
 
 static void	ms_interpretor(t_data *data, const char *raw)
 {
@@ -79,11 +48,12 @@ void	minishell(char **src_envp)
 		signal(SIGINT, SIG_IGN);
 		if (input == NULL)
 			break ;
-		else if (!stris_only(input, ft_isspace))
+		else if (input[0] != '\0')
 			ms_interpretor(&data, input);
 		free(input);
 	}
 	termios_ctrl(TERMSHOW);
 	ft_strlistclear(data.envp);
 	ft_putendl_fd("exit", 2);
+	leakcheck("Main end");
 }

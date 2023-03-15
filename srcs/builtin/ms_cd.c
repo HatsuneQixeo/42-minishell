@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:05 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:24 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:39 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	cd_updatepath(char **envp, const char *path)
 {
 	char	cwd[PATH_MAX];
-/* Should I export? or just update */
 
 	if (!getcwd(cwd, sizeof(cwd)))
 		ms_perror("getcwd in cd");
@@ -46,7 +45,11 @@ int	ms_cd(char **argv, t_data *data)
 	if (path == NULL)
 		path = cd_getpath(data->envp, "HOME");
 	else if (!ft_strcmp(path, "-"))
+	{
 		path = cd_getpath(data->envp, "OLDPWD");
+		if (path != NULL)
+			ft_putendl_fd(path, 1);
+	}
 	if (path == NULL)
 		return (1);
 	return (cd_updatepath(data->envp, path));

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 23:21:26 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_ctrl(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition)
 	*condition = ctrl_getft(token->value);
 	ft_lstdelone(node, del_token);
 	return (-1);
+	(void)ctrl;
 }
 
 int	parse_subshbegin(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_expand.c                                  :+:      :+:    :+:   */
+/*   wc_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:22:16 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**dir_content(const char *path)
 	return ((char **)ft_lsttoaa_clear(&lst_buffer));
 }
 
-static int	wildcard_substitution(t_list *lst_pattern, const char *str)
+static int	ft_patsubst(t_list *lst_pattern, const char *str)
 {
 	const char	*find;
 
@@ -59,14 +59,14 @@ static int	wildcard_substitution(t_list *lst_pattern, const char *str)
 	return (0);
 }
 
-static void	wildcard_matching(t_list *lst_pattern, char **strlist)
+static void	wc_patsubst(t_list *lst_pattern, char **strlist)
 {
 	char	**end;
 
 	while (*strlist != NULL)
 	{
 		end = strlist;
-		while (*end != NULL && wildcard_substitution(lst_pattern, *end) == -1)
+		while (*end != NULL && ft_patsubst(lst_pattern, *end) == -1)
 		{
 			free(*end);
 			end++;
@@ -88,23 +88,14 @@ static void	iteri_sortinsert_strascend(unsigned int i, void *p_str)
 		ft_memswap(&p_it[i], &p_it[i + 1], sizeof(char *));
 }
 
-char	**wildcard_expand(t_list *lst_pattern)
+char	**wc_expand(t_list *lst_pattern)
 {
 	char	**strlist_content;
 
 	strlist_content = dir_content(".");
 	if (((const char *)lst_pattern->content)[0] != '.')
 		ft_aaremove((void **)strlist_content, cmp_strprefix, ".", free);
-	wildcard_matching(lst_pattern, strlist_content);
+	wc_patsubst(lst_pattern, strlist_content);
 	ft_strlistiteri(strlist_content, iteri_sortinsert_strascend);
 	return (strlist_content);
 }
-
-/*
-	Period test
-		.*.
-		.*
-		*.
-		*.*
-
-*/

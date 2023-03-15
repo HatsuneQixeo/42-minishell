@@ -17,8 +17,8 @@ do
 	if [ "$varbash" == "$varminishell" ]
 	then
 		echo -e "${Green}No difference${Reset}"
-		continue
+	else
+		diff -y <(echo "$varbash") <(echo "$varminishell")
 	fi
-	diff -y <(echo "$varbash") <(echo "$varminishell")
 
 done

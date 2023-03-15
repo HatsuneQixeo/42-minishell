@@ -6,12 +6,11 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:52:49 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:26 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal.h"
-#define TCFD	0
 
 void	sig_show(int idunno)
 {
@@ -22,12 +21,14 @@ void	termios_ctrl(int showctrl)
 {
 	struct termios	term;
 
-	tcgetattr(TCFD, &term);
-	if (showctrl)
+	tcgetattr(0, &term);
+	if (showctrl == TERMSHOW)
 		term.c_lflag |= ECHOCTL;
-	else
+	else if (showctrl == TERMHIDE)
 		term.c_lflag &= ~ECHOCTL;
-	tcsetattr(TCFD, TCSANOW, &term);
+	else
+		ft_dprintf(2, "Invalid value in termios_ctrl: %d\n", showctrl);
+	tcsetattr(0, TCSANOW, &term);
 }
 
 void	sig_discardline(int sig)

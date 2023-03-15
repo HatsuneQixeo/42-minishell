@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:26:23 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:27 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:42 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ int		parse_ctrl(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
 int		parse_subshbegin(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
 int		parse_subshend(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition);
 
-int		heredoc_limiter(char *limiter);
-char	*heredoc(const char *limiter);
-
 int		parser_syntax(t_list *lst_token);
+int		ms_heredoc(t_list *lst_token);
 
 t_list	*ms_parser(t_list **lst_token);
 

@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_findcommand(char **envp, const char *command)
 	char	**strlist_path;
 	int		y;
 
-	if (ft_strchr(command, '/'))
+	if (ft_strchr(command, '/') || !ft_strcmp(command, ""))
 		return (ft_strdup(command));
 	strlist_path = ft_split(env_getvalue(envp, "PATH"), ':');
 	if (strlist_path == NULL)

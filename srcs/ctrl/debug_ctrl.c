@@ -6,7 +6,7 @@
 /*   By: hqixeo <hqixeo@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 10:21:06 by hqixeo            #+#    #+#             */
-/*   Updated: 2023/03/11 23:21:25 by hqixeo           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 		ft_dprintf(2, "%*sctrl[%d]: %s\n"DEF, padding * 4, "",
 			i, ctrl_hue(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
-			pad_debuglst(ctrl->lst_args, padding, lstname_token, lstshow_str);
+			pad_debuglst(ctrl->lst_args, padding, lstshow_name, lstshow_str);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else
