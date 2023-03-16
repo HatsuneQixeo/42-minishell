@@ -391,12 +391,12 @@ bool	heredoc_in_cmd(t_ast *cmd_node)
 	{
 		if (ast_gettype(redir_node) & AST_RD_HDOC)	
 		{
-			if (execute_heredoc(redir_node) == SUCCESS)
-				return (true);
+			if (execute_heredoc(redir_node) == ERROR)
+				return (false);
 		}
 		redir_node = redir_node->left;
 	}
-	return (false);
+	return (true);
 }
 
 bool	heredoc_in_pipe(t_ast *pipe_node)
