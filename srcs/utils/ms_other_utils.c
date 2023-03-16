@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/12 22:04:29 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/16 19:10:43 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ char	**util_list_to_arr_str(t_double_list *list)
 	}
 	arr[size_arr] = NULL;
 	return (arr);
+}
+
+bool	util_is_same_str(char *str1, char *str2)
+{
+	int	str_len1;
+	int	str_len2;
+	int	longer_len;
+
+	str_len1 = ft_strlen(str1);
+	str_len2 = ft_strlen(str2);
+	if (str_len1 > str_len2)
+		longer_len = str_len1;
+	else
+		longer_len = str_len2;
+	return (ft_strncmp(str1, str2, longer_len) == 0);
 }

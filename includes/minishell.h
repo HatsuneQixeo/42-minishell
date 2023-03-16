@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/13 06:58:42 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/16 19:46:07 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 
 /* open() */
 # include <fcntl.h>
+
+/* define INT_MAX  */
+# include <limits.h>
+
+/* signal() */
+# include <signal.h>
 
 /* self-defined headers */
 # include "libft.h"
@@ -170,6 +176,10 @@ void			run_child_process_literal(char *path_name, char **cmd_line);
 /* ms_executor */
 void	        ms_executor_prototype(t_ast *root);
 
+/* util_tmp_filename_generator */
+char	        *tmp_filename_generator(void);
+char	        *tmp_filename_create(int file_num);
+
 /* ********** DATA STRUCTURE ********** */
 
 /* Double Linked List */
@@ -218,6 +228,7 @@ bool			file_in_path(char *dir_path, char *file);
 void			util_clear_screen(void);
 void			util_arr_str_free(void *arr_str);
 void			util_perror(char *title, char *msg);
+bool	        util_is_same_str(char *str1, char *str2);
 char			**util_list_to_arr_str(t_double_list *list);
 
 /* ********** DEBUG ********** */

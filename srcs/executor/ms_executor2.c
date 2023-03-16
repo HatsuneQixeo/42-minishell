@@ -219,42 +219,10 @@ void	execute_cmd(t_ast *cmd_node)
 	execute_processes(cmd_node);
 }
 
-void	execution_pipe_wait(t_double_list *pid_list)
-{
-	pid_t	pid;
-	int		status;
-
-	// while (pid_list)
-	// {
-	// 	pid = *((pid_t *)pid_list->content);
-	// 	printf("wait %d\n", pid);
-	// 	waitpid(pid, NULL, 0);
-	// 	// printf("ok\n");
-	// 	pid_list = pid_list->next;
-	// }
-
-	while (true)
-	{
-		if (waitpid(-1, NULL, 0) <= 0)
-			break ;
-	}
-	// while (true)
-	// {
-		//
-		// printf("fdsfsdfd\n");
-		// printf("%d\n", pid);
-		// perror("test");
-		// pid = waitpid(-1, &status, 0);
-		// printf("%d\n", pid);
-		// if (pid <= 0)
-			// break ;
-	// }
-}
-
 void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd)
 {
-	pid_t					pid;
-	int						pipe_fd[2];
+	pid_t	pid;
+	int		pipe_fd[2];
 
 	if (!pipe_node)
 		return ;
@@ -282,39 +250,11 @@ void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd)
 	waitpid(-1, NULL, 0);
 }
 
-void	execute_pipe2(t_ast *pipe_node)
-{
-	int		pipe_fd[2];
-	t_ast	*tmp_node;
-	pid_t	pid;
-
-	if (pipe(pipe_fd) == -1)
-		perror("pipe");
-	// child_process(pipe_node->left);
-	tmp_node = pipe_node;
-	while (tmp_node)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			
-			child_process(tmp_node->left);
-		}
-		tmp_node = tmp_node->right;
-	}
-	child_process(tmp_node);
-}
-
 void	execute_job(t_ast *job_node)
 {
-	// t_double_list	*pid_list;
 
 	if (ast_gettype(job_node) == AST_PIPE)
-	{
-		// pid_list = execute_pipe(job_node, 1, 0);
 		execute_pipe(job_node, 1, 0);
-		// execution_pipe_wait(pid_list);
-	}
 	else
 		execute_cmd(job_node);
 }
@@ -360,7 +300,179 @@ void	execute_cmdline(t_ast *cmdline_node)
 		execute_and_or(cmdline_node);
 }
 
+
+void	read_input_to_file(char *delimiter, char *tmp_file_name)
+{
+	char	*line;
+	int		tmp_file_fd;
+
+	tmp_file_fd = open(tmp_file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("> ");
+		if (util_is_same_str(delimiter, line))
+			break ;
+		ft_putstr_fd(line, tmp_file_fd);
+		ft_putstr_fd("\n", tmp_file_fd);
+		free(line);
+	}
+	free(line);
+	close(tmp_file_fd);
+}
+
+void	signal_handler_heredoc()
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	handle_sig_parent(int signal)
+{
+	if (signal == SIGINT)
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	signal_handler_parent_process()
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sig_parent);
+}
+
+void	signal_ignore()
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	heredoc_process(char *delimiter, char *tmp_filename)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		signal_handler_heredoc();
+		read_input_to_file(delimiter, tmp_filename);
+		exit(EXIT_SUCCESS);
+	}
+	else if (pid > 0)
+	{
+		signal_ignore();
+		waitpid(pid, NULL, 0);
+		// signal_handler_parent_process();
+	}
+}
+
+int		execute_heredoc(t_ast *heredoc_node)
+{
+	char	*delimiter;
+	char	*tmp_filename;
+
+	if (!heredoc_node)
+		return (ERROR);
+	delimiter = heredoc_node->data;
+	tmp_filename = tmp_filename_generator();
+	heredoc_process(delimiter, tmp_filename);
+	heredoc_node->data = tmp_filename;
+	return (SUCCESS);
+}
+
+bool	heredoc_in_cmd(t_ast *cmd_node)
+{
+	t_ast	*redir_node;
+
+	redir_node = cmd_node->left;
+	while (redir_node)
+	{
+		if (ast_gettype(redir_node) & AST_RD_HDOC)	
+		{
+			if (execute_heredoc(redir_node) == SUCCESS)
+				return (true);
+		}
+		redir_node = redir_node->left;
+	}
+	return (false);
+}
+
+bool	heredoc_in_pipe(t_ast *pipe_node)
+{
+	t_ast	*job_node;
+
+	if (heredoc_in_cmd(pipe_node->left))
+		return (true);
+	job_node = pipe_node->right;	
+	while (job_node && ast_gettype(job_node) == AST_PIPE)
+	{
+		if (heredoc_in_cmd(job_node->left))
+			return (true);
+		job_node = job_node->right;
+	}
+	if (heredoc_in_cmd(job_node))
+		return (true);
+	return (false);
+}
+
+bool	heredoc_in_job(t_ast *job_node)
+{
+	if (!job_node)
+		return (false);
+	if (ast_gettype(job_node) == AST_PIPE)
+	{
+		if (heredoc_in_pipe(job_node))
+			return (true);
+	}
+	else if (heredoc_in_cmd(job_node))
+		return (true);
+	return (false);
+}
+
+bool	heredoc_in_and_or(t_ast *and_or_node)
+{
+	int	node_type;
+
+	if (!and_or_node)
+		return (false);
+	node_type = ast_gettype(and_or_node);
+	if (node_type == AST_AND  || node_type == AST_OR || node_type == AST_SEQ)
+	{
+		if (heredoc_in_and_or(and_or_node->left) || heredoc_in_and_or(and_or_node->right))
+			return (true);
+	}
+	else if (heredoc_in_job(and_or_node))
+		return (true);
+	return (false);
+}
+
+bool	heredoc_in_cmdline(t_ast *root)
+{
+	if (!root)
+		return (false);
+	if (ast_gettype(root) == AST_SEQ)
+	{
+		if (heredoc_in_and_or(root->left) || heredoc_in_cmdline(root->right))
+			return (true);
+	}
+	else
+	{
+		if (heredoc_in_and_or(root))
+			return (true);
+	}
+	return (false);
+}
+
+bool	handle_heredoc(t_ast *root)
+{
+	return (heredoc_in_cmdline(root));
+}
+
 void	ms_executor_prototype(t_ast *root)
 {
+	// printf("%d\n",handle_heredoc(root));
+	handle_heredoc(root);
 	execute_cmdline(root);
 }

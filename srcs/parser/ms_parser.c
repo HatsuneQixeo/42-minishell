@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 16:43:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/14 07:13:10 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	parser_free(t_parser **p)
 
 t_ast	*ms_parser(t_double_list *token_list)
 {
-	t_parser		*p;
-	t_ast			*ast;
+	t_parser	*p;
+	t_ast		*ast;
 
 	tokenlist_regroup(token_list);
 	p = parser_init(tokenlist_filter(token_list, SPACES));
