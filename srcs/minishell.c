@@ -54,6 +54,8 @@ void	minishell(char **src_envp)
 	}
 	termios_ctrl(TERMSHOW);
 	ft_strlistclear(data.envp);
-	ft_putendl_fd("exit", 2);
+	if (isatty(1))
+		ft_putendl_fd("exit", 2);
 	leakcheck("Main end");
+	exit(g_lastexit);
 }

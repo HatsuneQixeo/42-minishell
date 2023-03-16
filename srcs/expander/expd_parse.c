@@ -35,6 +35,8 @@ static t_list	*wildcard(t_list *lst_token)
 	t_list	*lst_pattern;
 	char	**matched_filenames;
 
+	if (lst_token == NULL)
+		return (NULL);
 	lst_pattern = wc_lexer(lst_token);
 	if (lst_pattern == NULL)
 		return (ft_lstnew(ft_lsttoken_tostr(lst_token)));

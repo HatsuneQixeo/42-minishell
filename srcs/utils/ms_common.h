@@ -18,6 +18,7 @@
 # include <readline/history.h>
 
 # define MINISHELL	"🐚"
+// # define MINISHELL	"bash: line 1"
 
 int	g_lastexit;
 
