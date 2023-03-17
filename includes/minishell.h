@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/16 19:46:07 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:39:37 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,25 @@ void			run_child_process_literal(char *path_name, char **cmd_line);
 void	        ms_executor_prototype(t_ast *root);
 
 /* util_tmp_filename_generator */
-char	        *tmp_filename_generator(void);
-char	        *tmp_filename_create(int file_num);
+char	        *tmp_filename_generator PARAMS(());
+char	        *tmp_filename_create PARAMS((int));
+
+/* execute_redir */
+int	            execute_redir PARAMS((t_ast *));
+void	        redir_fd_get PARAMS((t_ast *, int [2]));
+int	            handle_redir_in PARAMS((int, char *));
+int	            handle_redir_out PARAMS((int, char *));
+
+/* execute_cmd */
+void	        execute_cmd PARAMS((t_ast *));
+int	            cmd_argc_get PARAMS((t_ast *));
+char	        **cmd_argv_init PARAMS ((t_ast *));
+void	        cmd_child_process PARAMS((t_ast *));
+void	        cmd_parent_process PARAMS((pid_t));
+void	        cmd_child_free PARAMS((t_ast *, char *, char **, char **));
+
+/* execute_pipe */
+void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd);
 
 /* ********** DATA STRUCTURE ********** */
 
@@ -210,7 +227,7 @@ bool			stack_is_full(t_stack *stack);
 bool			stack_is_empty(t_stack *stack);
 void			stack_push(t_stack *stack, char item);
 
-/* ********** ENVIRONMENT VARIABLE POINTER ********** */
+/* ********** ENVP ********** */
 
 t_double_list	*envp_get(void);
 t_double_list	*envp_init(char **envp);
@@ -223,7 +240,7 @@ t_double_list	*envp_set(t_double_list *envp);
 char			*absolute_path_find(char *file);
 bool			file_in_path(char *dir_path, char *file);
 
-/* ********** UTILS ********** */
+/* ********** OTHER_UTILS ********** */
 
 void			util_clear_screen(void);
 void			util_arr_str_free(void *arr_str);

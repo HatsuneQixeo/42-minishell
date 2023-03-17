@@ -12,7 +12,7 @@ MAGNETA =\033[95m
 EXTRA_LIBS = -lreadline -lncurses
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 

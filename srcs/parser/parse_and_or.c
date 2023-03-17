@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 10:19:20 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/17 08:47:47 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_ast	*and_or_pattern_3_job(t_parser *p)
 /* 
 	@return t_ast * is returned upon success, else return NULL.
 	@note Pass array of pattern functions to pattern_searcher()
-	@note  for finding matching pattern.
+	@note for finding matching pattern.
  */
 t_ast	*parse_and_or(t_parser *p)
 {

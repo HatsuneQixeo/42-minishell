@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/16 22:10:38 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:07:24 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	main(int ac, char **av, char **envp)
 	// input = "cat | cat | ls";
 	// input = "echo a ; echo b";
 	// input = "ls | cat | a";
-	// input = "ls | cat | wc | wc";
+	input = "ls | cat | wc | wc";
 	// input = "ls | cat";
-	input = "cat <<eof <<eof";
+	// input = "echo a && echo b | cat";
+	// input = "echo a | echo b ";
+	// input = "echo a | echo b";
 	g_exit_status = 0;
 	envp_list = envp_init(envp);
 	token_list = ms_tokenizer(input);
