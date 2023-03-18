@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 14:31:59 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 19:13:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,10 @@ char	        *tmp_filename_create(int file_num);
 
 /* ********** SIGNALS ********** */
 
-void	        signal_ignore();
-void	        signal_handler_heredoc();
+void	        signal_ignore_quit_int(void);
+void	        signal_handler_heredoc(void);
+void			signal_handler_parent_process(void);
+void			signal_handler_child_process(void);
 
 /* ********** DATA STRUCTURE ********** */
 
@@ -236,10 +238,10 @@ void			stack_push(t_stack *stack, char item);
 
 /* ********** ENVP ********** */
 
+void			envp_free(void);
 t_double_list	*envp_get(void);
 t_double_list	*envp_init(char **envp);
 char			*env_value_get(char *env_var);
-void			envp_free(t_double_list **env_list);
 t_double_list	*envp_set(t_double_list *envp);
 
 /* ********** PATH ********** */
@@ -259,6 +261,5 @@ char			**util_list_to_arr_str(t_double_list *list);
 void			debug_env_content_print(void *content);
 void	        debug_print_ast(t_ast *root, int indent);
 void			debug_token_content_print(void *content);
-void			debug_ast_content_print(t_node *root, int depth);
 void			debug_list_content_print(t_double_list *lst, void (*f)(void *));
 #endif

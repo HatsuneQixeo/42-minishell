@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 05:49:19 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 12:53:37 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 20:44:09 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	signal_handler_heredoc(void)
 {
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGTSTP, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
 }
 
-void	signal_ignore(void)
+void	signal_ignore_quit_int(void)
 {
-	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }
 
-void	handle_sig_parent(int signal)
+void	handle_signal_parent(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -32,11 +34,20 @@ void	handle_sig_parent(int signal)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_exit_status = 128 + SIGINT;
 	}
 }
 
-void	signal_handler_parent_process()
+void	signal_handler_child_process(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
+}
+
+void	signal_handler_parent_process(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sig_parent);
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGINT, handle_signal_parent);
 }

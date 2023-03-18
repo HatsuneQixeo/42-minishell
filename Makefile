@@ -34,10 +34,10 @@ $(LIBFT_LIB) :
 $(OBJS_DIR)%.o : %.c
 	@mkdir -p $(@D)
 	@printf "$(MAGNETA)Compiling: $<$(COLOR_OFF)\n"
-	@$(CC) $(CFLAGS) -o $@  -c $< $(HEADER)
+	@$(CC) -o $@  -c $< $(HEADER)
 
 $(NAME) : $(LIBFT_LIB) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
+	@$(CC) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
 fclean :

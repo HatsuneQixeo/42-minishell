@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:01:23 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/13 20:41:37 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 14:54:42 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,55 +34,42 @@ void	debug_list_content_print(t_double_list *list, void (*f)(void *))
 	double_lstiter(list, f);
 }
 
-void	debug_ast_content_print(t_node *root, int indent)
+t_key_value	*debug_grammar_get(void)
 {
-	int		i;
-	t_token	*token;
-	char	**token_value;
+	static t_key_value	debug_grammar[] = {
+	{AST_RD_HDOC, "<<"},
+	{AST_RD_INFILE, "<"},
+	{AST_RD_APPEND, ">>"},
+	{AST_RD_TRUNC, ">"},
+	{AST_ARG, "arg"},
+	{AST_CMD, "cmd"},
+	{AST_PIPE, "|"},
+	{AST_AND, "&&"},
+	{AST_OR, "||"},
+	{AST_SEQ, ";"},
+	{0, 0}
+	};
 
-	if (!root)
-		return ;
-	i = -1;
-	token = root->content;
-	token_value = token->value;
-	while (++i < indent)
-		printf(" ");
-	i = -1;
-	while (token_value[++i])
-		printf("%s ", token_value[i]);
-	printf("\n");
-	debug_ast_content_print(root->left, indent + 2);
-	debug_ast_content_print(root->right, indent + 2);
+	return (debug_grammar);
 }
 
 void	debug_print_ast(t_ast *root, int indent)
 {
-	int					i;
-	char				*node_type_str;
-	const t_key_value	key_value[] = {
-		{AST_RD_HDOC, "<<"},
-		{AST_RD_INFILE, "<"},
-		{AST_RD_APPEND, ">>"},
-		{AST_RD_TRUNC, ">"},
-		{AST_ARG, "arg"},
-		{AST_CMD, "cmd"},
-		{AST_PIPE, "|"},
-		{AST_AND, "&&"},
-		{AST_OR, "||"},
-		{AST_SEQ, ";"},
-		{0, 0}
-	};
+	int			i;
+	char		*node_type_str;
+	t_key_value	*debug_grammar;
 
 	if (!root)
 		return ;
 	i = -1;
+	debug_grammar = debug_grammar_get();
 	while (++i < indent)
 		printf(" ");
 	i = -1;
-	while (key_value[++i].key)
+	while (debug_grammar[++i].key)
 	{
-		if (ast_gettype(root) & key_value[i].key)
-			node_type_str = key_value[i].value;
+		if (ast_gettype(root) & debug_grammar[i].key)
+			node_type_str = debug_grammar[i].value;
 	}
 	if (root->type & AST_DATA)
 		printf("type: %s, data: %s\n", node_type_str, root->data);

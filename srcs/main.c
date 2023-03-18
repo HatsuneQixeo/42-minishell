@@ -6,13 +6,13 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 14:29:24 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 21:33:28 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	util_clear_screen(void)
+void	clear_screen(void)
 {
 	const char	*clear_screen;
 
@@ -31,6 +31,20 @@ void	minishell_init(int ac, char **argv, char **envp)
 	envp_set(envp_list);
 }
 
+void	run_minishell_process(char *input)
+{
+	t_ast			*ast;
+	t_double_list	*token_list;
+
+	if (!input)	
+		return ;
+	token_list = ms_tokenizer(input);
+	ast = ms_parser(token_list);
+	ms_executor(ast);
+	ast_delete(&ast);
+	token_list_free(&token_list);
+}
+
 // haven't handle subshell.
 // haven't handle expander.
 // haven't handle expander in heredoc.
@@ -38,28 +52,30 @@ void	minishell_init(int ac, char **argv, char **envp)
 // haven't handle builtin cmds.
 // haven't handle unclosed quote.
 // haven't handle print err message for g_exit_status_update.
+// check heredoc signal process.
 int	main(int ac, char **av, char **envp)
 {
-	t_ast			*ast;
-	char			*input;
-	t_double_list	*token_list;
+	char	*input;
 
-	util_clear_screen();
+	clear_screen();
+	signal_handler_parent_process();
 	minishell_init(ac, av, envp);
 	while (1)
 	{
+		// 
+		signal_handler_parent_process();
 		input = readline("🐚 $ ");
-		token_list = ms_tokenizer(input);
-		ast = ms_parser(token_list);
-		ms_executor(ast);
-		//
-		// debug_print_ast(ast, 0);
-		// debug_list_content_print(token_list, debug_token_content_print);
-		free(input);
-		ast_delete(&ast);
+		if (input)
+		{
+			run_minishell_process(input);
+			free(input);
+		}
+		else
+		{
+			envp_free();
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			exit(g_exit_status);
+		}
 	}
-	free(input);
-	//remember to free envp when necessary...
-	// envp_free(&envp_list);
 	return (0);
 }

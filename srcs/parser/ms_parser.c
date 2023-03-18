@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 08:55:12 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 21:33:52 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	parser_free(t_parser **p)
 
 /* 
 	@brief Parse tokenlist and convert it to Abstract Syntax Tree.
-	@note 1. tokenlist_regroup, eg: 'l','s' -> "ls".
-	@note 2. tokenlist_filter, eg: "echo", <spaces> , 'a' -> "ls", 'a'.
-	@note 3. parse_cmdline, parse tokenlist according to shell grammar.
+	@note 1. tokenlist_regroup(), eg: 'l','s' -> "ls".
+	@note 2. tokenlist_filter(), eg: "echo", <spaces> , 'a' -> "ls", 'a'.
+	@note 3. parse_cmdline(), parse tokenlist according to shell grammar.
  */
 t_ast	*ms_parser(t_double_list *token_list)
 {

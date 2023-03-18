@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:47:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/12 21:57:23 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 15:58:40 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ char	*env_value_get(char *env_var)
 	return (NULL);
 }
 
-void	envp_free(t_double_list **env_list)
+void	envp_free(void)
 {
-	double_lstclear(env_list, free);
+	t_double_list	*envp_list;
+
+	envp_list = envp_get();
+	double_lstclear(&envp_list, free);
 }

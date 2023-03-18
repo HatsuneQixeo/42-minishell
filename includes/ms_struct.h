@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 23:30:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/13 06:56:54 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 14:44:48 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 # define MS_STRUCT_H
 
 /* ********** DATA STRUCTURE ********** */
-
-/* Binary Tree */
-typedef struct s_node
-{
-	void			*content;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
 
 /* Double Linked List */
 typedef struct s_double_list
