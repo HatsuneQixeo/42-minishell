@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:04:45 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 09:50:43 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 07:38:22 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_ast	*cmd_pattern_1_tokenlist(t_parser *p)
 
 /* 
 	@return t_ast * is returned upon success, else return NULL.
+	@note Pass array of pattern functions to pattern_searcher()
+	@note for finding matching pattern.
  */
 t_ast	*parse_cmd(t_parser *p)
 {

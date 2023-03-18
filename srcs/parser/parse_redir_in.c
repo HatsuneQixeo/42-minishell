@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 02:24:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/09 20:23:29 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 07:37:11 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_ast	*redir_in_pattern_2_infile(t_parser *p)
 /* 
 	@return t_ast * is returned upon success, else return NULL.
 	@note Pass array of pattern functions to pattern_searcher()
-	@note  for finding matching pattern.
+	@note for finding matching pattern.
  */
 t_ast	*parse_redir_in(t_parser *p)
 {

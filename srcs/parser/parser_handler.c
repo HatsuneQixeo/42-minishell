@@ -6,12 +6,16 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 01:16:00 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 12:54:36 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 08:58:55 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* 
+	@brief Group token of same type together.
+	@note Eg: 'l','s' -> "ls".
+ */
 t_double_list	*tokenlist_regroup(t_double_list *token_list)
 {
 	t_token			*token;
@@ -36,7 +40,11 @@ t_double_list	*tokenlist_regroup(t_double_list *token_list)
 	return (token_list);
 }
 
-t_double_list	*tokenlist_filter(t_double_list *list, t_token_type type)
+/* 
+	@brief Filter out reject_type.
+	@note It will return a new list and free the old list.
+ */
+t_double_list	*tokenlist_filter(t_double_list *list, t_token_type reject_type)
 {
 	t_token			*token;
 	t_double_list	*old_list;
@@ -47,7 +55,7 @@ t_double_list	*tokenlist_filter(t_double_list *list, t_token_type type)
 	while (list)
 	{
 		token = list->content;
-		if (token->type != type)
+		if (token->type != reject_type)
 			double_lstadd_back(&new_list, double_lstnew(token_dup(token)));
 		list = list->next;
 	}

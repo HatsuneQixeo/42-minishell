@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:10:56 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 12:54:28 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 07:32:48 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ t_token	*concat_2_tokens(t_token *token1, t_token *token2, t_token_type type)
 	return (token_create(value, type));
 }
 
+/* 
+	@brief Set the token type of the following list as set_type.
+	@param set_type set the token type.
+ */
 void	list_token_type_set(t_double_list *list, t_token_type set_type)
 {
 	t_token_type	init_type;

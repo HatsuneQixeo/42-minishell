@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 21:35:59 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/16 19:10:43 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 07:17:56 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@ void	util_perror(char *title, char *msg)
 	ft_putstr_fd(title, 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\n", 2);
-}
-
-void	util_clear_screen(void)
-{
-	const char	*clear_screen;
-
-	clear_screen = "\e[1;1H\e[2J";
-	write(1, clear_screen, 10);
 }
 
 void	util_arr_str_free(void *arr_str)

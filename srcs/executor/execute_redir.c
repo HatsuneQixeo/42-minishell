@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:19:02 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/17 12:07:42 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 14:07:29 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ int	get_redir_fd_in(int redir_type, char *file_name)
 	return (fd);
 }
 
-void	get_redir_fd(t_ast *redir, int redir_fd[2])
+/* 
+	@brief Get the 2 fd that is to be redirected to.
+	@param redir_fd The fd will be stored in redir_fd[0]
+	and redir_fd[1].
+	@return Return SUCCESS if successful, else return ERROR.
+ */
+int	get_redir_fd(t_ast *redir, int redir_fd[2])
 {
 	int	redir_type;
 
@@ -54,8 +60,12 @@ void	get_redir_fd(t_ast *redir, int redir_fd[2])
 			close(redir_fd[STDOUT_FILENO]);
 		redir_fd[STDOUT_FILENO] = get_redir_fd_out(redir_type, redir->data);
 	}
+	return (redir_fd[STDIN_FILENO] == -1 || redir_fd[STDOUT_FILENO] == -1);
 }
 
+/* 
+	@brief Execute_redir_node.
+ */
 int	execute_redir(t_ast *redir_node)
 {
 	int	redir_fd[2];
@@ -64,8 +74,7 @@ int	execute_redir(t_ast *redir_node)
 	redir_fd[STDOUT_FILENO] = -2;
 	while (redir_node)
 	{
-		get_redir_fd(redir_node, redir_fd);
-		if (redir_fd[STDIN_FILENO] == -1 || redir_fd[STDOUT_FILENO] == -1)
+		if (get_redir_fd(redir_node, redir_fd) == ERROR)
 			return (ERROR);
 		redir_node = redir_node->left;
 	}

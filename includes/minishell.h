@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/17 13:39:37 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 14:31:59 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # define SUCCESS 0
 # define ERROR 1
-# define ERR_SYNTAX 0x0000DEAD
+
+# define PIPE_STAGE_1 1
+# define PIPE_STAGE_2 2
 
 /* Readline function */
 # include <readline/readline.h>
@@ -88,8 +90,11 @@ void			list_token_type_set(t_double_list *list, t_token_type set_type);
 /* ms_parser */
 void			parser_free(t_parser **p);
 t_ast			*ms_parser(t_double_list *token_list);
+t_parser		*parser_init(t_double_list *token_list);
 void			parse_token_type_reassign(t_double_list *token_list);
 void			parse_token_type_same_concat(t_double_list *token_list);
+
+/* parse_handler */
 void			handle_quote(t_double_list *quote);
 void			handle_variable(t_double_list *variable);
 void			handle_backslash(t_double_list *backslash);
@@ -157,45 +162,58 @@ void			cmd_ast_insert_left(t_ast *root, t_ast *node);
 void			cmd_ast_insert_right(t_ast *root, t_ast *node);
 void			ast_attach(t_ast *root, t_ast *left, t_ast *right);
 void			and_or_ast_insert_top(t_ast **ast_root, t_ast *new_node);
-void			and_or_ast_insert_last(t_ast **ast_root, t_ast *new_node);
+void			and_or_ast_attach_last(t_ast **ast_root, t_ast *new_node);
 
 /* util_pattern_searcher */
 t_ast			*pattern_searcher(t_ast *(*pattern[])(t_parser *), t_parser *p);
 
 /* ********** EXECUTOR ********** */
 
-void			ms_executor(t_node *root);
-bool			is_executable(char *path_to_file);
-void			execute_token_literal(t_token *token);
-
-/* executor process */
-void			run_parent_process_literal(void);
-void			run_process_literal(char *path_name, char **cmd_line);
-void			run_child_process_literal(char *path_name, char **cmd_line);
-
 /* ms_executor */
-void	        ms_executor_prototype(t_ast *root);
-
-/* util_tmp_filename_generator */
-char	        *tmp_filename_generator PARAMS(());
-char	        *tmp_filename_create PARAMS((int));
+void			ms_executor(t_ast *root);
+bool			is_executable(char *path_to_file);
 
 /* execute_redir */
-int	            execute_redir PARAMS((t_ast *));
-void	        redir_fd_get PARAMS((t_ast *, int [2]));
-int	            handle_redir_in PARAMS((int, char *));
-int	            handle_redir_out PARAMS((int, char *));
+int	            execute_redir(t_ast *redir_node);
+int				get_redir_fd(t_ast *redir_node, int redir_fd[2]);
+int	            get_redir_fd_in(int redir_type, char *filename);
+int	            get_redir_fd_out(int redir_type, char *filename);
+
+/* execute_heredoc */
+int	            execute_heredoc(t_ast *heredoc_node);
+void	        heredoc_process(char *delimiter, char *tmp_filename);
+void	        heredoc_read_input_to_file(char *delimiter, char *tmp_file_name);
 
 /* execute_cmd */
-void	        execute_cmd PARAMS((t_ast *));
-int	            cmd_argc_get PARAMS((t_ast *));
-char	        **cmd_argv_init PARAMS ((t_ast *));
-void	        cmd_child_process PARAMS((t_ast *));
-void	        cmd_parent_process PARAMS((pid_t));
-void	        cmd_child_free PARAMS((t_ast *, char *, char **, char **));
+void	        execute_cmd(t_ast *cmd_node);
+int	            cmd_argc_get(t_ast *cmd_node);
+char	        **cmd_argv_init(t_ast *cmd_node);
+
+/* execute_cmd_process */
+void	        cmd_child_process(t_ast *cmd_node);
+void	        cmd_parent_process(pid_t child_pid);
+void	        cmd_child_free(t_ast *cmd_node, char *cmd_path, char **argv, char **envp);
 
 /* execute_pipe */
-void	execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd);
+void	        execute_pipe(t_ast *pipe_node, int pipe_stage, int read_end_fd);
+
+/* execute_job */
+void	        execute_job(t_ast *job_node);
+
+/* execute_and_or */
+void	        execute_and_or(t_ast *and_or_node);
+
+/* execute_cmdline */
+void	        execute_cmdline(t_ast *cmdline_node);
+
+/* util_tmp_filename_generator */
+char	        *tmp_filename_generator(void);
+char	        *tmp_filename_create(int file_num);
+
+/* ********** SIGNALS ********** */
+
+void	        signal_ignore();
+void	        signal_handler_heredoc();
 
 /* ********** DATA STRUCTURE ********** */
 
@@ -207,17 +225,6 @@ void			double_lstiter(t_double_list *lst, void (*fj)(void *));
 void			double_lstadd_back(t_double_list **lst, t_double_list *new);
 void			double_lstdelone(t_double_list *lst, void (*del)(void *));
 void			double_lstclear(t_double_list **lst, void (*del)(void *));
-
-/* Abstract Syntax Tree*/
-void			ast_create(t_node **root, t_double_list *token_list);
-void			ast_add_token_operator(t_node **root, t_token *token);
-void			ast_add_token_literal(t_node **root, t_double_list *list);
-void			ast_del_content_token(void *token);
-
-/* Binary Tree */
-t_node			*btree_node_init(void *content);
-void			btree_node_add(t_node **parent, t_node *node);
-void			btree_free(t_node **node, void (*del)(void *));
 
 /* Stack */
 t_stack			*stack_create(int max);
@@ -242,7 +249,6 @@ bool			file_in_path(char *dir_path, char *file);
 
 /* ********** OTHER_UTILS ********** */
 
-void			util_clear_screen(void);
 void			util_arr_str_free(void *arr_str);
 void			util_perror(char *title, char *msg);
 bool	        util_is_same_str(char *str1, char *str2);

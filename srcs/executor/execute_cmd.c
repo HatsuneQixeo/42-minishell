@@ -5,46 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 10:38:57 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/17 13:15:44 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/03/18 13:15:49 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/03/18 13:26:19 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_argc_get(t_ast *cmd_node)
+void	g_exit_status_update(int child_status)
 {
-	int	count;
-
-	count = 0;
-	while (cmd_node)
-	{
-		count++;
-		cmd_node = cmd_node->right;
-	}
-	return (count);
-}
-
-char	**cmd_argv_init(t_ast *cmd_node)
-{
-	int		i;
-	int		argc;
-	char	**argv;
-
-	i = -1;
-	argv = NULL;
-	argc = cmd_argc_get(cmd_node);
-	while (cmd_node && cmd_node->data)
-	{
-		if (!argv)
-		{
-			argv = ft_calloc(argc + 1, sizeof(char *));
-			argv[argc] = NULL;
-		}
-		argv[++i] = ft_strdup(cmd_node->data);
-		cmd_node = cmd_node->right;
-	}
-	return (argv);
+	if (WIFEXITED(child_status))
+		g_exit_status = WEXITSTATUS(child_status);
+	else if (WIFSIGNALED(child_status))
+		g_exit_status = 128 + WTERMSIG(child_status);
+	// print_err_msg...
 }
 
 void	cmd_child_process(t_ast *cmd_node)
@@ -72,6 +46,10 @@ void	cmd_child_process(t_ast *cmd_node)
 	exit(EXIT_FAILURE);
 }
 
+/* 
+    @brief Wait all childs process to terminate.
+    @note This is to prevent zombie process from occuring.
+ */
 void	cmd_parent_process(pid_t child_pid)
 {
 	int	pid;
@@ -83,14 +61,8 @@ void	cmd_parent_process(pid_t child_pid)
 		if (pid <= 0)
 			break ;
 		else if (pid == child_pid)
-		{
-			if (WIFEXITED(child_status))
-				g_exit_status = WEXITSTATUS(child_status);
-			//WIFSIGNALED...
-		}
+			g_exit_status_update(child_status);
 	}
-	//
-	// printf("exit_status = %d\n", g_exit_status);
 }
 
 void	cmd_child_free(t_ast *cmd, char *cmd_path, char **argv, char **envp)

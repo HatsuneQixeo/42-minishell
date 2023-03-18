@@ -6,12 +6,16 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:54:55 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/14 07:13:10 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 08:55:12 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* 
+	@brief Concat token of same type.
+	@note Eg: 'c', 'a', 't', '<', '<', 'e', 'o', 'f' -> "cat", "<<", "eof".
+ */
 void	parse_token_type_same_concat(t_double_list *token_list)
 {
 	t_token	*token;
@@ -36,6 +40,10 @@ void	parse_token_type_same_concat(t_double_list *token_list)
 	}
 }
 
+/* 
+	@brief Reassign token type operator.
+	@note Eg: "||", PIPELINE -> "||", OR
+ */
 void	parse_token_type_reassign(t_double_list *token_list)
 {
 	t_token	*token;
@@ -81,6 +89,12 @@ void	parser_free(t_parser **p)
 	*p = NULL;
 }
 
+/* 
+	@brief Parse tokenlist and convert it to Abstract Syntax Tree.
+	@note 1. tokenlist_regroup, eg: 'l','s' -> "ls".
+	@note 2. tokenlist_filter, eg: "echo", <spaces> , 'a' -> "ls", 'a'.
+	@note 3. parse_cmdline, parse tokenlist according to shell grammar.
+ */
 t_ast	*ms_parser(t_double_list *token_list)
 {
 	t_parser	*p;

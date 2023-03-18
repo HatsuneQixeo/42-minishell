@@ -82,6 +82,8 @@ t_ast	*cmd_line_pattern_3_andor(t_parser *p)
 
 /* 
 	@return t_ast * is returned upon success, else return NULL.
+	@note Pass array of pattern functions to pattern_searcher()
+	@note for finding matching pattern.
  */
 t_ast	*parse_cmdline(t_parser *p)
 {

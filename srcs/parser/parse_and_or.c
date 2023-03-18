@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:01 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/17 08:47:47 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 09:19:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_ast	*and_or_pattern_3_job(t_parser *p)
 
 	job_node = parse_job(p);
 	if (job_node)
-		and_or_ast_insert_last(p->and_or_ast, job_node);
+		and_or_ast_attach_last(p->and_or_ast, job_node);
 	return (job_node);
 }
 

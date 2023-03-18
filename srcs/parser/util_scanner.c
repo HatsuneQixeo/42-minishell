@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 01:06:54 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/10 11:30:54 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 09:16:11 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ t_double_list	*s_next(t_scanner *scanner)
 	return (scanner->cursor);
 }
 
+/* 
+	@brief If current token matches match_type, advance scanner's cursor.
+ */
 bool	s_match_and_consume_token(t_token_type match_type, t_scanner *s)
 {
 	if (s_token_type_matches(match_type, s))
@@ -59,6 +62,9 @@ bool	s_match_and_consume_token(t_token_type match_type, t_scanner *s)
 		return (false);
 }
 
+/* 
+	@brief Check whether the current token matches match_type.
+ */
 bool	s_token_type_matches(t_token_type match_type, t_scanner *s)
 {
 	return (s_get_token(s) && s_get_token(s)->type == match_type);

@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 09:25:40 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/02/22 23:57:22 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 07:22:39 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_stack	*stack_create(int max)
 {
-	int		i;
 	t_stack	*new_stack;
 
 	new_stack = malloc(sizeof(t_stack));

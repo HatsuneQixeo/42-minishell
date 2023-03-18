@@ -12,7 +12,7 @@ MAGNETA =\033[95m
 EXTRA_LIBS = -lreadline -lncurses
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
@@ -34,10 +34,10 @@ $(LIBFT_LIB) :
 $(OBJS_DIR)%.o : %.c
 	@mkdir -p $(@D)
 	@printf "$(MAGNETA)Compiling: $<$(COLOR_OFF)\n"
-	@$(CC) -o $@  -c $< $(HEADER)
+	@$(CC) $(CFLAGS) -o $@  -c $< $(HEADER)
 
 $(NAME) : $(LIBFT_LIB) $(OBJS)
-	@$(CC) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(HEADER) $(LIBFT_LIB) $(EXTRA_LIBS) -o $(NAME)
 	@echo "$(CYAN)$(NAME) done !$(COLOR_OFF)"
 
 fclean :

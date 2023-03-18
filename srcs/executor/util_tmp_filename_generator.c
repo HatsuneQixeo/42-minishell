@@ -6,13 +6,19 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 16:15:24 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/16 16:20:28 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/18 14:19:26 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*file_name_create(char *file_name, char *file_num, char *file_ext)
+/* 
+	@brief init a filename. 
+	@param file_name Name of file.
+	@param file_num Unique file number.
+	@param file_ext File extension.
+ */
+static char	*filename_init(char *file_name, char *file_num, char *file_ext)
 {
 	char	*file;
 	char	*to_be_freed;
@@ -52,17 +58,25 @@ static bool	file_exists_in_cwd(char *file_name)
 	return (file_exists);
 }
 
+/* 
+	@brief Create tmp_filename by adding a num in between.
+ */
 char	*tmp_filename_create(int file_num)
 {
 	char	*file_num_str;
 	char	*tmp_filename;
 
 	file_num_str = ft_itoa(file_num);
-	tmp_filename = file_name_create("tmp_file", file_num_str, ".tmp");
+	tmp_filename = filename_init("tmp_file", file_num_str, ".tmp");
 	free(file_num_str);
 	return (tmp_filename);
 }
 
+/* 
+	@brief Generate tmp_filename.
+	@note If tmp_filename does not exists, it means tmp_filename is useable,
+	hence it will return this tmp_filename.
+ */
 char	*tmp_filename_generator(void)
 {
 	int		i;

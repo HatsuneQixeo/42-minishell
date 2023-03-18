@@ -5,12 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:36:33 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/12 18:50:12 by ntan-wan         ###   ########.fr       */
+/*   Created: 2023/03/10 14:15:54 by ntan-wan          #+#    #+#             */
+/*   Updated: 2023/03/18 14:28:14 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+	@brief One of the way to traverse binary tree.
+	@note This method is called inorder traversal.
+	@note The other 2 ways to traverse are: preorder traversal
+	and postorder traversal.
+ */
+void	traverse_tree_inorder(t_ast *root, int (*f)(t_ast *))
+{
+	if (!root)
+		return ;
+	traverse_tree_inorder(root->left, f);
+	f(root);
+	traverse_tree_inorder(root->right, f);
+}
 
 /* 
 	@brief Check whether the file is executable.
@@ -42,78 +57,11 @@ bool	is_executable(char *path_to_file)
 	return (true);
 }
 
-// haven't handle builtin commands
-void	execute_token_literal(t_token *token)
+/* 
+	@brief Execute heredoc first, then execute the rest.
+ */
+void	ms_executor(t_ast *root)
 {
-	char	**cmd_line;
-	char	*absolute_path;
-
-	cmd_line = token->value;
-	absolute_path = absolute_path_find(cmd_line[0]);
-	if (absolute_path && is_executable(absolute_path))
-	{
-		run_process_literal(absolute_path, cmd_line);
-		free(absolute_path);
-	}
-	else if (is_executable(cmd_line[0]))
-		run_process_literal(cmd_line[0], cmd_line);
-}
-
-// void	handle_redir_right(char *file_name)
-// {
-// 	int	fd;
-
-// 	fd = open(file_name, O_CREAT | O_REDWR | O_TRUNC, 0644);
-
-// }
-
-// void	run_process_redir()
-// {
-// 	pid_t	pid;
-// 	int		child_status;
-
-// 	child_status = 0;
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		dup2(fd, redir_fd);
-// 		close(fd);
-		//handle_exec_cmd()...
-// 		//exit(errno)...
-// 		exit();
-// 	}
-// 	else
-// 		wait(&child_status);
-// }
-
-// void	handle_redir_right(t_node *ast_root)
-// {
-// 	// if (ast_root->left && )
-
-// }
-
-// void	execute_token_redir(t_node *ast_root)
-// {
-// 	int		fd;
-// 	t_token	*token;
-
-// 	token = ast_root->content;
-// 	if (token->type == GREAT)
-// 		handle_redir_right();
-// 	// else if (token->type == DGREAT)
-// 		// handle_redir_right_double();
-// 	// run_process_redir();
-// }
-
-void	ms_executor(t_node *ast_root)
-{
-	t_token	*token;
-
-	if (!ast_root)
-		return ;
-	token = ast_root->content;
-	if (token->type == LITERAL)
-		execute_token_literal(token);
-	// else if (token_is_redir(token))
-		// execute_token_redir(ast_root);
+	traverse_tree_inorder(root, execute_heredoc);
+	execute_cmdline(root);
 }
