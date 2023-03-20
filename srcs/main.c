@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:14:42 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 21:33:28 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:46:28 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void	run_minishell_process(char *input)
 		return ;
 	token_list = ms_tokenizer(input);
 	ast = ms_parser(token_list);
-	ms_executor(ast);
+	// 
+	debug_print_ast(ast, 0);
+	// ms_executor(ast);
 	ast_delete(&ast);
 	token_list_free(&token_list);
 }
@@ -48,11 +50,9 @@ void	run_minishell_process(char *input)
 // haven't handle subshell.
 // haven't handle expander.
 // haven't handle expander in heredoc.
-// haven't handle signal.
 // haven't handle builtin cmds.
-// haven't handle unclosed quote.
+// haven't handle unclosed quote and with signal.
 // haven't handle print err message for g_exit_status_update.
-// check heredoc signal process.
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
@@ -62,11 +62,10 @@ int	main(int ac, char **av, char **envp)
 	minishell_init(ac, av, envp);
 	while (1)
 	{
-		// 
-		signal_handler_parent_process();
 		input = readline("🐚 $ ");
 		if (input)
 		{
+			add_history(input);
 			run_minishell_process(input);
 			free(input);
 		}

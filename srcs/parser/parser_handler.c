@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 01:16:00 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 21:31:57 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/19 03:00:00 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_double_list	*tokenlist_regroup(t_double_list *token_list)
 /* 
 	@brief Filter out reject_type.
 	@note Return a new memory allocated list.
+	@note Remember to free the old list manually.
  */
 t_double_list	*tokenlist_filter(t_double_list *list, t_token_type reject_type)
 {

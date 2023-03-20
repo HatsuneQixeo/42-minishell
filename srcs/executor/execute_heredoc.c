@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 05:39:49 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 21:26:58 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:24:53 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,16 @@ void	heredoc_process(char *delimiter, char *tmp_filename)
 	pid = fork();
 	if (pid == 0)
 	{
-		//
 		signal_handler_heredoc();
 		heredoc_read_input_to_file(delimiter, tmp_filename);
 		exit(EXIT_SUCCESS);
 	}
 	else if (pid > 0)
 	{
-		//
-		signal_ignore_quit_int();
+		signal_handler_parallel_process();
 		waitpid(pid, &child_status, 0);
 		if (is_interrupt_signal(child_status))
 			ft_putchar_fd('\n', STDOUT_FILENO);
-		//
 		signal_handler_parent_process();
 	}
 }

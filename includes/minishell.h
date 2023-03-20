@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:20 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 19:13:00 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:24:20 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,8 @@ char	        *tmp_filename_create(int file_num);
 
 /* ********** SIGNALS ********** */
 
-void	        signal_ignore_quit_int(void);
 void	        signal_handler_heredoc(void);
+void	        signal_handler_parallel_process(void);
 void			signal_handler_parent_process(void);
 void			signal_handler_child_process(void);
 

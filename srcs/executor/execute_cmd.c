@@ -6,7 +6,7 @@
 /*   By: ntan-wan <ntan-wan@42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:15:49 by ntan-wan          #+#    #+#             */
-/*   Updated: 2023/03/18 21:40:33 by ntan-wan         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:01:33 by ntan-wan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /* 
 	@brief Update g_exit_status.
-	@note Print a newline character if child process is terminated by signal.
+	@note Print a newline character if child process is
+	terminated or stopped by a signal.
  */
 void	g_exit_status_update(int child_status)
 {
@@ -25,7 +26,11 @@ void	g_exit_status_update(int child_status)
 		g_exit_status = 128 + WTERMSIG(child_status);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
-	// print_err_msg...
+	else if (WIFSTOPPED(child_status))
+	{
+		g_exit_status = 128 + WSTOPSIG(child_status);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
 }
 
 void	cmd_child_process(t_ast *cmd_node)
@@ -37,9 +42,7 @@ void	cmd_child_process(t_ast *cmd_node)
 	cmd_path = NULL;
 	envp_arr = util_list_to_arr_str(envp_get());
 	argv = cmd_argv_init(cmd_node);
-	//
 	signal_handler_child_process();
-	// signal(SIGTSTP, SIG_DFL);
 	if (argv)
 		cmd_path = absolute_path_find(argv[0]);
 	if (execute_redir(cmd_node->left) == SUCCESS)
@@ -65,18 +68,10 @@ void	cmd_parent_process(pid_t child_pid)
 	int	pid;
 	int	child_status;
 
-	//
-	signal_ignore_quit_int();
-	while (true)
-	{
-		pid = waitpid(-1, &child_status, 0);
-		if (pid <= 0)
-			break ;
-		else if (pid == child_pid)
-			g_exit_status_update(child_status);
-	}
-	//
-	// signal_handler_parent_process();
+	signal_handler_parallel_process();
+	pid = waitpid(-1, &child_status, WUNTRACED);
+	g_exit_status_update(child_status);
+	signal_handler_parent_process();
 }
 
 void	cmd_child_free(t_ast *cmd, char *cmd_path, char **argv, char **envp)
