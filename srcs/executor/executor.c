@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "executor.h"
 
 static t_list	*exectrl_getlstpipe(t_list **lst_ctrl)

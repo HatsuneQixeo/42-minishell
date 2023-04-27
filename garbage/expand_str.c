@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/07 15:22:08 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "expander.h"
 
 static char	*expand_dquote(char **envp, const char **p_it)

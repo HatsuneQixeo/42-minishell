@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "expander.h"
 
 static t_list	*delimiter_split(const char *value)

@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "rdrt.h"
 
 static int	rdrt_ambiguousfilename(const t_list *lst_value, const char *str_arg)

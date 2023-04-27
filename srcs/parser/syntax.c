@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "lexer.h"
 
 static int	valid_syntax(const t_token *token)

@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:39 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "ms_common.h"
 
 static int	cd_updatepath(char **envp, const char *path)

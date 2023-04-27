@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "parser.h"
 
 /* Return 0 is given limiter has no quote, 1 if has quote */

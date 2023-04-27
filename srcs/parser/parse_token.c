@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "parser.h"
 
 static t_rdrt	*parse_rdrt_new(t_token *token_rdrt, t_token *token_arg)

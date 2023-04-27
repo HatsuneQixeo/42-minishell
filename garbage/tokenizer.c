@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/07 15:22:08 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 char	*tokenizer_parse(char **src, const char *delimiters)

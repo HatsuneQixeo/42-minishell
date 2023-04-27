@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "rdrt.h"
 
 int	find_rdrtvalue(unsigned int i, const void *arr, const void *value)

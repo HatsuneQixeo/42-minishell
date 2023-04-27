@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "parser.h"
 
 int	parse_default(t_ctrl *ctrl, t_list **lst_token, t_ftctrl *condition)
