@@ -23,7 +23,10 @@ int	g_lastexit;
 
 typedef struct s_data
 {
-	char	**envp;
+	int			argc;
+	const char	**argv;
+	char		**envp;
+	int			isscript;
 }			t_data;
 
 /* Identifier */
