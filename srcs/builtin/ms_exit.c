@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "ms_common.h"
 #include "signal.h"
 
@@ -21,8 +20,8 @@ int	ms_exit(char **argv, t_data *data)
 		ft_putendl_fd("exit", 2);
 	termios_ctrl(TERMSHOW);
 	if (arg == NULL)
-		exit(0);
-	else if (!ft_strisnumeric(arg))
+		exit(g_lastexit);
+	else if (!stris_numeric(arg))
 	{
 		ms_errlog("exit: %s: numeric argument required\n", arg);
 		exit(255);

@@ -9,17 +9,16 @@
 /*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "ctrl.h"
 
 static const char	*ctrl_hue(t_ftctrl condition)
 {
 	if (condition == ctrl_continue)
-		return (GREY"?? ctrl_continue");
+		return (ANSI_GREY"?? ctrl_continue");
 	else if (condition == ctrl_success)
-		return (GREEN"&& ctrl_success");
+		return (ANSI_GREEN"&& ctrl_success");
 	else if (condition == ctrl_failure)
-		return (RED"|| ctrl_failure");
+		return (ANSI_RED"|| ctrl_failure");
 	else
 		return ("undefined function");
 }
@@ -45,7 +44,7 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 	while (lst_ctrl != NULL)
 	{
 		ctrl = lst_ctrl->content;
-		ft_dprintf(2, "%*sctrl[%d]: %s\n"DEF, padding * 4, "",
+		ft_dprintf(2, "%*sctrl[%d]: %s\n"ANSI_RESET, padding * 4, "",
 			i, ctrl_hue(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
 			pad_debuglst(ctrl->lst_args, padding, lstshow_name, lstshow_str);

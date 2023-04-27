@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "expander.h"
 
 void	lstshow_expandtoken(void *content)
@@ -19,16 +18,16 @@ void	lstshow_expandtoken(void *content)
 
 	str_type[0] = '\0';
 	if (token->type & EXPAND)
-		ft_strlcat(str_type, CYAN"Expand", sizeof(str_type));
+		ft_strlcat(str_type, ANSI_CYAN"Expand", sizeof(str_type));
 	if (token->type & PARSE)
-		ft_strlcat(str_type, YELLOW"Parse", sizeof(str_type));
+		ft_strlcat(str_type, ANSI_YELLOW"Parse", sizeof(str_type));
 	if (token->type & DELIMITER)
-		ft_strlcat(str_type, MAGENTA"Delimiter", sizeof(str_type));
+		ft_strlcat(str_type, ANSI_MAGENTA"Delimiter", sizeof(str_type));
 	if (token->type == LITERAL)
-		ft_strlcat(str_type, GREY"Literal", sizeof(str_type));
+		ft_strlcat(str_type, ANSI_GREY"Literal", sizeof(str_type));
 	if (str_type[0] == '\0')
-		ft_strlcat(str_type, RED"Unknown", sizeof(str_type));
-	ft_dprintf(2, "%s: %-8s: [%b]\n"DEF,
+		ft_strlcat(str_type, ANSI_RED"Unknown", sizeof(str_type));
+	ft_dprintf(2, "%s: %-8s: [%b]\n"ANSI_RESET,
 		lstname_token(NULL), str_type, token->value);
 }
 

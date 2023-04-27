@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:41 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "lexer.h"
 
 void	lstshow_lexertoken(void *content)
@@ -18,14 +17,14 @@ void	lstshow_lexertoken(void *content)
 	const char		*str_type;
 
 	if (token->type == RDRT)
-		str_type = CYAN"Redirect";
+		str_type = ANSI_CYAN"Redirect";
 	else if (token->type == CTRL)
-		str_type = YELLOW"Control";
+		str_type = ANSI_YELLOW"Control";
 	else if (token->type == SUBSH_BEGIN || token->type == SUBSH_END)
-		str_type = MAGENTA"Subshell";
+		str_type = ANSI_MAGENTA"Subshell";
 	else
-		str_type = GREY"Default";
-	ft_dprintf(2, "%s: %-8s: %b\n"DEF,
+		str_type = ANSI_GREY"Default";
+	ft_dprintf(2, "%s: %-8s: %b\n"ANSI_RESET,
 		lstname_token(NULL), str_type, token->value);
 }
 
