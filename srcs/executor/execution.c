@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/16 02:21:40 by hqixeo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "executor.h"
 
 static char	*ft_findcommand(char **envp, const char *command)
@@ -44,7 +43,7 @@ static void	exec_program(char **envp, char **argv)
 	termios_ctrl(TERMSHOW);
 	mssig_default();
 	prgpath = ft_findcommand(envp, argv[0]);
-	if (prgpath == NULL)
+	if (prgpath == NULL || !ft_strcmp(prgpath, ""))
 		ms_errlog("%s: command not found\n", argv[0]);
 	else if (ft_strchr(argv[0], '/') && access(prgpath, F_OK) == -1)
 		ms_perror(argv[0]);
