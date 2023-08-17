@@ -28,7 +28,7 @@ void	iter_showexpandtoken(void *content)
 	if (str_type[0] == '\0')
 		ft_strlcat(str_type, ANSI_RED"Unknown", sizeof(str_type));
 	ft_dprintf(2, "%s: %-8s: [%b]\n"ANSI_RESET,
-		lstname_token(NULL), str_type, token->value);
+		token_name(NULL), str_type, token->value);
 }
 
 static t_token	*expd_tokenquote(const char **it)

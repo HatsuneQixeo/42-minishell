@@ -22,6 +22,6 @@ typedef struct s_token
 
 t_token		*token_new(char *str, int type);
 void		del_token(void *content);
-const char	*lstname_token(const char *newname);
+const char	*token_name(const char *newname);
 
 #endif

@@ -32,7 +32,7 @@ void	del_token(void *content)
 	free(token);
 }
 
-const char	*lstname_token(const char *newname)
+const char	*token_name(const char *newname)
 {
 	static const char	*name = "token";
 

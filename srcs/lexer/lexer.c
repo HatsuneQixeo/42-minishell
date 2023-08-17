@@ -25,7 +25,7 @@ void	iter_showlexertoken(void *content)
 	else
 		str_type = ANSI_GREY"Default";
 	ft_dprintf(2, "%s: %-8s: %b\n"ANSI_RESET,
-		lstname_token(NULL), str_type, token->value);
+		token_name(NULL), str_type, token->value);
 }
 
 static const t_token	*tokentype(const char *it)

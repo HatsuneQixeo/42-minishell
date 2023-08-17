@@ -33,7 +33,7 @@ struct s_rdrt
 int			ft_dup3(int fd_attribute, int fd_value);
 int			rdrt_core(const char *path, int std_fd, int option, ...);
 
-const char	*lstname_rdrt(const char *newname);
+const char	*rdrt_name(const char *newname);
 void		iter_showrdrt(void *content);
 
 t_ftrdrt	rdrt_getft(const char *value);

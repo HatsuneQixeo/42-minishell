@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "rdrt.h"
 
-const char	*lstname_rdrt(const char *newname)
+const char	*rdrt_name(const char *newname)
 {
 	static const char	*name = "rdrt";
 
@@ -25,9 +25,9 @@ void	iter_showrdrt(void *content)
 	const t_rdrt	*rdrt = content;
 	char			*padname;
 
-	ft_dprintf(2, "%s: %s: %s\n", lstname_rdrt(NULL),
+	ft_dprintf(2, "%s: %s: %s\n", rdrt_name(NULL),
 		rdrt_getvalue(rdrt->ft_rdrt), rdrt->str_arg);
-	padname = ft_strmerge("    %s: %s", lstname_rdrt(NULL), iter_name(NULL));
+	padname = ft_strmerge("    %s: %s", rdrt_name(NULL), iter_name(NULL));
 	lstshow_tmpname(rdrt->lst_value, iter_name, padname, iter_showstr);
 	free(padname);
 }

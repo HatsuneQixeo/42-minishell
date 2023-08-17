@@ -51,7 +51,7 @@ static int	parser_tokentype(t_ctrl *ctrl, t_list **lst_token,
 		if (token->type == arr_ftparse[i].type)
 			return (arr_ftparse[i].ft_parse(ctrl, lst_token, condition));
 	}
-	lstname_token("Unknown token type");
+	token_name("Unknown token type");
 	iter_showlexertoken((void *)token);
 	exit(39);
 	return (-1);
