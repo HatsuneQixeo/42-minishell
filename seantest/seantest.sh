@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# What is script is missing:
+# Test cases other than expander
+
+# What this script is not capable of doing:
+# Executing multiple commands within single process
+
 Reset='\033[0m'
 Bold='\033[1m'
 Cyan='\033[36m'
