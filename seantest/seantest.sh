@@ -173,7 +173,7 @@ e"c"$B
 eof
 
 # Fourth test: Hohohohohohohohoho
-touch libft srcs minishell objs sxsxs $ "sp ce" testho testftho testft$C testft42 *s testftatest
+touch sxsxs $ "sp ce" testho testftho testft$C testft42 *s testftatest
 minidiff << "eof" "Fourth"
 echo * "*" '*'
 echo * *ft *s *s* s* s*s *P "* " " *" "* *" *$ $'*' $"*"
@@ -194,3 +194,5 @@ ec$B''*
 ec$B'*'
 ec$B"*"
 eof
+
+rm libft minishell $ "sp ce" testho testftho testft$C testft42 *s testftatest
