@@ -1,9 +1,6 @@
-*.vscode
+.vscode
 objs/
-minishell*
-!minishell.c
-interactive_mode
-test
+minishell
 expandtest/
-seantest/
 .DS_Store
+reference

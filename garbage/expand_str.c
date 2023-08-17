@@ -164,7 +164,7 @@ t_list	*expand_str(char **envp, const char *arg)
 		buffer = ft_strcombine(buffer, ft_substr(arg, 0, it - arg));
 	if (buffer != NULL)
 		ft_lstadd_back(&lst_argv, ft_lstnew(buffer));
-	// lstshow_name("buffer");
-	// ft_lstiter(lst_argv, lstshow_str);
+	// iter_name("buffer");
+	// ft_lstiter(lst_argv, iter_showstr);
 	return (lst_argv);
 }

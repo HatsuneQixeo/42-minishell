@@ -27,9 +27,9 @@ void	lstshow_rdrt(void *content)
 
 	ft_dprintf(2, "%s: %s: %s\n", lstname_rdrt(NULL),
 		rdrt_getvalue(rdrt->ft_rdrt), rdrt->str_arg);
-	padname = ft_strmerge("    %s: %s", lstname_rdrt(NULL), lstshow_name(NULL));
-	lstshow_tmpname(rdrt->lst_value, lstshow_name,
-		padname, lstshow_str);
+	padname = ft_strmerge("    %s: %s", lstname_rdrt(NULL), iter_name(NULL));
+	lstshow_tmpname(rdrt->lst_value, iter_name,
+		padname, iter_showstr);
 	free(padname);
 }
 

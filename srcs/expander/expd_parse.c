@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "expander.h"
 
-static void	*map_token_getstr(void *content)
+static void	*map_token_getstr(const void *content)
 {
 	const t_token	*token = content;
 
@@ -49,7 +49,7 @@ static t_list	*wildcard(t_list *lst_token)
 	return (ft_aatolst_clear((void **)matched_filenames));
 }
 
-void	expd_parse(t_list **lst)
+void	expd_parse(t_list **lst_token)
 {
 	t_list	*lst_parsed;
 	t_list	*lst_buffer;
@@ -58,9 +58,9 @@ void	expd_parse(t_list **lst)
 
 	lst_parsed = NULL;
 	lst_buffer = NULL;
-	while (*lst != NULL)
+	while (*lst_token != NULL)
 	{
-		node = ft_lstextract_front(lst);
+		node = ft_lstextract_front(lst_token);
 		token = node->content;
 		if (token->type & DELIMITER)
 		{
@@ -73,5 +73,5 @@ void	expd_parse(t_list **lst)
 	}
 	ft_lstadd_back(&lst_parsed, wildcard(lst_buffer));
 	ft_lstclear(&lst_buffer, del_token);
-	*lst = lst_parsed;
+	*lst_token = lst_parsed;
 }

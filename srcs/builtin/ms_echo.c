@@ -36,7 +36,7 @@ int	ms_echo(char **argv, t_data *data)
 	nl = 1;
 	while (*++argv != NULL && echo_isflag(*argv))
 		nl = 0;
-	ft_strlistiteri(argv, iteri_echo);
+	ft_aaiteri(argv, iteri_echo);
 	if (nl)
 		ft_putchar_fd('\n', 1);
 	return (0);

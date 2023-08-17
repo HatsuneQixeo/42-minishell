@@ -22,7 +22,7 @@ static void	iteri_putenv(unsigned int i, void *envp)
 
 int	ms_env(char **argv, t_data *data)
 {
-	ft_strlistiteri(data->envp, iteri_putenv);
+	ft_aaiteri(data->envp, iteri_putenv);
 	return (0);
 	(void)argv;
 }

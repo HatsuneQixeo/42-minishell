@@ -15,8 +15,9 @@
 int	ms_exit(char **argv, t_data *data)
 {
 	const char	*arg = argv[1];
+	int			nbr;
 
-	if (isatty(0) && isatty(1))
+	if (isatty(1))
 		ft_putendl_fd("exit", 2);
 	termios_ctrl(TERMSHOW);
 	if (arg == NULL)
@@ -29,7 +30,10 @@ int	ms_exit(char **argv, t_data *data)
 	else if (argv[2] != NULL)
 		ms_errlog("exit: too many arguments\n");
 	else
-		exit(ft_atoi(arg));
+	{
+		ft_atoi(arg, &nbr);
+		exit(nbr);
+	}
 	return (1);
 	(void)data;
 }

@@ -36,8 +36,8 @@ void	export_log(char **envp)
 {
 	char	**env_declaration;
 
-	env_declaration = (char **)ft_aamap((void **)envp, map_copy);
-	ft_strlistiteri(env_declaration, iteri_sortinsert_nameascend);
-	ft_strlistiteri(env_declaration, iteri_logexport);
+	env_declaration = (char **)ft_aamap((void **)envp, map_copy, NULL);
+	ft_aaiteri(env_declaration, iteri_sortinsert_nameascend);
+	ft_aaiteri(env_declaration, iteri_logexport);
 	free(env_declaration);
 }

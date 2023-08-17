@@ -17,16 +17,12 @@
 # include <readline/history.h>
 
 # define MINISHELL	"🐚"
-// # define MINISHELL	"bash: line 1"
 
 int	g_lastexit;
 
 typedef struct s_data
 {
-	int			argc;
-	const char	**argv;
-	char		**envp;
-	int			isscript;
+	char	**envp;
 }			t_data;
 
 /* Identifier */
@@ -51,6 +47,6 @@ void	leakfd(const char *str);
 /* Debug tools */
 void	debug_errno(const char *name);
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
-			const char *tmpname, t_ftiterlst ft_debug);
+			const char *tmpname, t_ftiter ft_debug);
 
 #endif

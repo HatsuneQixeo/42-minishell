@@ -24,7 +24,7 @@ static const char	*ctrl_hue(t_ftctrl condition)
 }
 
 static void	pad_debuglst(t_list *lst_args, int padding,
-			t_ftsetname ft_setname, t_ftiterlst ft_debug)
+			t_ftsetname ft_setname, t_ftiter ft_debug)
 {
 	char	*padded_name;
 
@@ -47,7 +47,7 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 		ft_dprintf(2, "%*sctrl[%d]: %s\n"ANSI_RESET, padding * 4, "",
 			i, ctrl_hue(ctrl->condition));
 		if (ctrl->ft_exe == exe_argv)
-			pad_debuglst(ctrl->lst_args, padding, lstshow_name, lstshow_str);
+			pad_debuglst(ctrl->lst_args, padding, iter_name, iter_showstr);
 		else if (ctrl->ft_exe == exe_subsh)
 			show_lstctrl_core(ctrl->lst_args, padding + 1);
 		else

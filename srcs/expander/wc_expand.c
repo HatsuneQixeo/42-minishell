@@ -95,6 +95,6 @@ char	**wc_expand(t_list *lst_pattern)
 	if (((const char *)lst_pattern->content)[0] != '.')
 		ft_aaremove((void **)strlist_content, cmp_strprefix, ".", free);
 	wc_patsubst(lst_pattern, strlist_content);
-	ft_strlistiteri(strlist_content, iteri_sortinsert_strascend);
+	ft_aaiteri(strlist_content, iteri_sortinsert_strascend);
 	return (strlist_content);
 }

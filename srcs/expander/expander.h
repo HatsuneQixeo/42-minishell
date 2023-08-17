@@ -30,7 +30,7 @@ t_list	*wc_lexer(t_list *lst_token);
 char	**wc_expand(t_list *lst_pattern);
 
 void	expd_delimitertoken(t_list **lst);
-void	expd_parse(t_list **lst);
+void	expd_parse(t_list **lst_token);
 
 char	*simpleexpand(char **envp, const char *arg);
 char	*expand_var(char **envp, const char **p_it);

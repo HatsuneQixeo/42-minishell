@@ -75,7 +75,7 @@ void	leakfd(const char *dummy2)
 // }
 
 void	lstshow_tmpname(t_list *lst, t_ftsetname ft_setname,
-			const char *tmpname, t_ftiterlst ft_debug)
+			const char *tmpname, t_ftiter ft_debug)
 {
 	const char	*name = ft_setname(NULL);
 
