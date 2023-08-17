@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "expander.h"
 
-void	lstshow_expandtoken(void *content)
+void	iter_showexpandtoken(void *content)
 {
 	const t_token	*token = content;
 	char			str_type[831];

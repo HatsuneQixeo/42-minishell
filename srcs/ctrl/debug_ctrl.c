@@ -53,7 +53,7 @@ static void	show_lstctrl_core(t_list *lst_ctrl, int padding)
 		else
 			ft_dprintf(2, "show_lstctrl: Unknown ft in ft_exe: %p\n",
 				ctrl->ft_exe);
-		pad_debuglst(ctrl->lst_rdrt, padding, lstname_rdrt, lstshow_rdrt);
+		pad_debuglst(ctrl->lst_rdrt, padding, lstname_rdrt, iter_showrdrt);
 		lst_ctrl = lst_ctrl->next;
 		i++;
 	}

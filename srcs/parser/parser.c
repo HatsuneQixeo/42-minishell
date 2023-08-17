@@ -52,7 +52,7 @@ static int	parser_tokentype(t_ctrl *ctrl, t_list **lst_token,
 			return (arr_ftparse[i].ft_parse(ctrl, lst_token, condition));
 	}
 	lstname_token("Unknown token type");
-	lstshow_lexertoken((void *)token);
+	iter_showlexertoken((void *)token);
 	exit(39);
 	return (-1);
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "lexer.h"
 
-void	lstshow_lexertoken(void *content)
+void	iter_showlexertoken(void *content)
 {
 	const t_token	*token = content;
 	const char		*str_type;

@@ -27,7 +27,7 @@ enum e_lexertoken
 
 char	*ms_closequote(const char *raw);
 
-void	lstshow_lexertoken(void *content);
+void	iter_showlexertoken(void *content);
 
 /* Lexer */
 t_list	*ms_lexer(const char *raw);

@@ -23,7 +23,7 @@ enum e_expandtoken
 	DELIMITER = 0b0100
 };
 
-void	lstshow_expandtoken(void *content);
+void	iter_showexpandtoken(void *content);
 t_list	*expd_tokenizer(const char *arg);
 
 t_list	*wc_lexer(t_list *lst_token);
